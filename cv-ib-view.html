@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Anastasia Lukach – CV</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  @page { size: A4; margin: 15mm 22mm 14mm 22mm; }
+
+  body {
+    font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    font-size: 9pt;
+    line-height: 1.4;
+    color: #1a1a1a;
+    background: #fff;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    width: 210mm;
+    margin: 0 auto;
+    padding: 15mm 22mm 14mm 22mm;
+    position: relative;
+  }
+
+  .header {
+    display: flex;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 8px;
+  }
+
+  .photo-container {
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 1.5px solid #ccc;
+    flex-shrink: 0;
+  }
+
+  .photo-container img {
+    width: 100%;
+    height: auto;
+    margin-top: -10%;
+    transform: scale(1.5);
+    transform-origin: center 28%;
+  }
+
+  .header-text { flex: 1; }
+
+  .name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 24pt;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #000;
+    line-height: 1.1;
+    margin-bottom: 3px;
+  }
+
+  .title {
+    font-size: 9.5pt;
+    font-weight: 500;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: #444;
+    margin-bottom: 7px;
+  }
+
+  .contact-line {
+    font-size: 8pt;
+    color: #555;
+  }
+  .contact-line a { color: #555; text-decoration: none; }
+  .sep { margin: 0 6px; color: #bbb; }
+
+  .header-rule {
+    border: none;
+    border-top: 1.5px solid #000;
+    margin: 6px 0 5px 0;
+  }
+
+  .profile-text {
+    font-size: 8.5pt;
+    line-height: 1.4;
+    color: #222;
+    text-align: justify;
+    margin-bottom: 8px;
+  }
+
+  .section { margin-bottom: 5px; }
+
+  .section-title {
+    font-size: 8.5pt;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #000;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #000;
+    margin-bottom: 4px;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px 10px;
+  }
+
+  .skill { font-size: 8.3pt; color: #222; padding: 1px 0; }
+
+  .entry { margin-bottom: 5px; }
+
+  .entry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .entry-role { font-size: 8.8pt; font-weight: 700; color: #000; }
+  .entry-date { font-size: 7.8pt; font-weight: 600; color: #333; white-space: nowrap; margin-left: 10px; }
+
+  .entry-org {
+    font-size: 8.3pt;
+    color: #444;
+    font-style: italic;
+    margin-bottom: 1px;
+  }
+
+  .entry-loc { font-style: normal; color: #777; }
+
+  .entry ul {
+    list-style: disc;
+    padding-left: 14px;
+    margin-top: 1px;
+  }
+
+  .entry ul li {
+    font-size: 8.3pt;
+    color: #222;
+    margin-bottom: 0.5px;
+    line-height: 1.35;
+  }
+
+  .entry-divider {
+    border: none;
+    border-top: 0.5px solid #ddd;
+    margin: 4px 0;
+  }
+
+  /* entries can split across pages to avoid 3-page overflow */
+
+  .edu-entry { margin-bottom: 2px; }
+  .edu-header { display: flex; justify-content: space-between; align-items: baseline; }
+  .edu-degree { font-size: 8.5pt; font-weight: 600; color: #000; }
+  .edu-date { font-size: 7.8pt; font-weight: 600; color: #333; margin-left: 10px; }
+  .edu-school { font-size: 8.1pt; color: #444; font-style: italic; }
+
+  .info-item { font-size: 8.3pt; margin-bottom: 1.5px; line-height: 1.3; }
+  .info-label { font-weight: 700; }
+
+  .achievement-label { font-weight: 700; }
+
+  .tx-table { width: 100%; border-collapse: collapse; margin-top: 3px; margin-bottom: 2px; }
+  .tx-table th { font-size: 7.8pt; font-weight: 700; text-align: left; border-bottom: 0.5px solid #999; padding: 2px 4px 2px 0; color: #000; }
+  .tx-table td { font-size: 7.8pt; padding: 2px 4px 2px 0; color: #222; border-bottom: 0.5px solid #eee; }
+
+  /* Page break control */
+  .page-break-before {
+    break-before: page;
+    page-break-before: always;
+  }
+
+  @media print {
+    body { margin: 0; }
+    .page { width: 100%; padding: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="photo-container">
+      <img src="photo.jpg" alt="Anastasia Lukach">
+    </div>
+    <div class="header-text">
+      <div class="name">Anastasia Lukach</div>
+      <div class="title">Investment &amp; Capital Strategy</div>
+      <div class="contact-line">
+        Dubai, UAE<span class="sep">|</span><a href="mailto:anastasia.lukach@gmail.com">anastasia.lukach@gmail.com</a><span class="sep">|</span><span style="white-space:nowrap;">+38&nbsp;066&nbsp;941&nbsp;92&nbsp;41</span><span class="sep">|</span><a href="https://linkedin.com/in/anastasialukach">linkedin.com/in/anastasialukach</a>
+      </div>
+    </div>
+  </div>
+
+  <hr class="header-rule">
+
+  <p class="profile-text">
+    Capital-focused operator with 10+ years across venture, digital assets and alternative investments. Executed <strong>$60M+ in secondary market transactions</strong> with entry-to-exit returns of up to <strong>2–3×</strong>. Built a <strong>$350M+ tokenization pipeline</strong> and raised <strong>$1.1M in institutional and angel capital</strong>. Maintained relationships with <strong>20+ family offices</strong> and <strong>30+ private investors</strong> across EMEA &amp; APAC, complemented by a <strong>1,000+ investor network</strong> built through prior platforms. Strong intermediary connectivity with M&amp;A counsel, capital connectors, accelerators and VC funds across EU, MENA and US.
+  </p>
+
+  <div class="section">
+    <div class="section-title">Core Competencies</div>
+    <div class="skills-grid">
+      <div class="skill">Family Office &amp; LP Coverage</div>
+      <div class="skill">Capital Formation &amp; Fundraising</div>
+      <div class="skill">Deal Sourcing &amp; Due Diligence</div>
+      <div class="skill">Investment Memo &amp; IC Process</div>
+      <div class="skill">Portfolio Construction &amp; Monitoring</div>
+      <div class="skill">Tokenization &amp; Digital Securities</div>
+      <div class="skill">Cross-Border Structuring (EU/MENA)</div>
+      <div class="skill">Sell-Side M&amp;A Advisory</div>
+      <div class="skill">Deal Flow Systems &amp; Reporting</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Professional Experience</div>
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-role">Partner — Ironcore Partners</span>
+        <span class="entry-date">Sep 2025 – Present</span>
+      </div>
+      <div class="entry-org">Corporate Finance &amp; Investment Advisory <span class="entry-loc">· Dubai</span></div>
+      <ul>
+        <li>Co-founded boutique advisory firm with Mark Pui (venture investor) focused on sell-side M&amp;A, capital solutions and fund advisory for digital-economy and technology companies.</li>
+        <li>Conducted sell-side advisory for two digital-economy companies (combined <strong>~$350–400M EV</strong>): valuation analysis, buyer mapping and outreach; mandates in progress.</li>
+        <li>Sourcing proprietary deal pipeline across fintech, robotics and IT ventures (<strong>$2–100M</strong> tickets) in UAE, US and EU.</li>
+        <li>Designing an <strong>AI-powered deal flow intelligence system</strong> for automated sourcing, screening and insight generation — accelerating transaction evaluation and buyer/LP matching.</li>
+        <li>Advising family offices on allocation strategy, operational structuring and manager selection; expanding LP network across EMEA &amp; APAC.</li>
+      </ul>
+    </div>
+
+    <hr class="entry-divider">
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-role">Chief Executive Officer</span>
+        <span class="entry-date">Jun 2024 – Aug 2025</span>
+      </div>
+      <div class="entry-org">Marsbase — Secondary Markets &amp; Tokenization Platform</div>
+      <ul>
+        <li>Led capital strategy, revenue operations and product for a secondary-markets platform facilitating OTC transactions in pre-listing securities, SAFTs and tokenized assets.</li>
+        <li>Executed <strong>$60M+ in secondary market transaction volume</strong> across 70+ deals; managed positions at entry valuations of <strong>$1–1.5B</strong> with exits at <strong>$2–3B</strong>, delivering <strong>2–3× returns</strong> to counterparties within 60-day holding periods.</li>
+        <li>Raised <strong>$1.1M</strong> from angel investors and institutional backers (WebWise Capital, YAY Network, NovaCyber, Fractal).</li>
+        <li>Built and launched tokenization platform + white-label solution enabling issuers to raise capital via tokenized equity and revenue instruments with integrated secondary trading; generated <strong>$350M+ deal pipeline</strong>.</li>
+        <li>Launched collateralized lending product (equity/SAFT-backed); processed $600K in loan requests; made strategic decision to wind down after assessing asset-base economics.</li>
+        <li>Built internal capital operating system: deal evaluation models, counterparty CRM, pricing frameworks and investor reporting.</li>
+      </ul>
+      <div style="font-size:8pt; color:#555; margin-top:1px; margin-bottom:1px;"><em>Previously CBDO (Feb – Jun 2024)</em></div>
+    </div>
+
+    <hr class="entry-divider">
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-role">Founder &amp; Managing Partner — 99blocks</span>
+        <span class="entry-date">2023 – 2024</span>
+      </div>
+      <div class="entry-org">Venture Builder, Growth Strategy &amp; Capital Advisory</div>
+      <ul>
+        <li>Reviewed <strong>130+ companies</strong> across fintech, asset management and technology; advised <strong>30+ founders</strong> on fundraising architecture, investor materials and capital-raising strategy.</li>
+        <li>Managed <strong>$2M+ in growth and partnerships budgets</strong> with full P&amp;L ownership. Facilitated LP introductions and prepared investor-grade materials for institutional and FO allocators.</li>
+      </ul>
+    </div>
+
+    <hr class="entry-divider">
+
+    <div class="entry">
+      <div class="entry-header">
+        <span class="entry-role">Senior Manager, Investor Relations &amp; Business Development</span>
+        <span class="entry-date">Sep 2021 – Sep 2023</span>
+      </div>
+      <div class="entry-org">Yellow Network &amp; Yellow Capital <span class="entry-loc">· Trading Infrastructure &amp; Investment Platform</span></div>
+      <ul>
+        <li>Built the investor relations infrastructure: pitch decks, partner presentations, and outreach materials that supported the company's <strong>$10M raise</strong>.</li>
+        <li>Pitched directly to institutional investors sourced through events and personal network; managed follow-ups and investor communications.</li>
+        <li>Sourced investment opportunities for Yellow Capital's portfolio — identifying and evaluating early-stage projects for the deal pipeline.</li>
+        <li>Attended <strong>20+ industry events</strong> as part of active capital-raising and deal-sourcing strategy.</li>
+        <li>Scaled investor community from 5K to <strong>120K+ active participants</strong> through marketing, PR, and brand positioning.</li>
+        <li>Managed team of 5 + external agencies; owned <strong>$200K+ annual budget</strong> with full P&amp;L accountability.</li>
+      </ul>
+    </div>
+
+    <hr class="entry-divider">
+
+    <div class="entry" style="break-before: page; page-break-before: always;">
+      <div class="entry-header">
+        <span class="entry-role">Business Development, Investor Relations &amp; Fund Operations</span>
+        <span class="entry-date">2017 – 2022</span>
+      </div>
+      <div class="entry-org">Rock-West &amp; Tempo (Cross-Border Payments &amp; Asset Management) · Hexn.io (Liquid Trading Platform) · Bazylev Capital (Boutique Hedge Fund) · iSpace News (Financial Media)</div>
+      <ul>
+        <li><strong>Rock-West / Tempo:</strong> GTM, partnerships, investor acquisition for a payments and asset management group.</li>
+        <li><strong>Hexn.io:</strong> Investor profiling, segmentation, presentation design for a liquid trading platform; scaled to <strong>5,000+ accounts</strong>.</li>
+        <li><strong>Bazylev Capital:</strong> Fund operations for a boutique hedge fund (~10 LPs) — portfolio reporting, performance tracking, investor updates. Led Traders Academy; graduates went on to launch own funds.</li>
+        <li><strong>iSpace News:</strong> Financial markets analysis and editorial — event-driven macro research.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Page 2 content — will flow naturally with proper margins from @page -->
+
+  <div class="section">
+    <div class="section-title">Selected Transactions</div>
+    <table class="tx-table">
+      <tr><th>Transaction</th><th>Type</th><th>Valuation / Size</th><th>Role</th></tr>
+      <tr><td>Cross-chain interoperability protocol</td><td>Secondary (pre-listing SAFT)</td><td>$1.2B entry → $3B+ exit</td><td>Origination &amp; execution</td></tr>
+      <tr><td>Layer-2 execution platform</td><td>Secondary (pre-listing SAFT)</td><td>$1B entry → $2B+ exit</td><td>Origination &amp; execution</td></tr>
+      <tr><td>Digital-economy data platform</td><td>Sell-side M&amp;A advisory</td><td>~$300M+ EV</td><td>Valuation &amp; buyer outreach</td></tr>
+      <tr><td>SE Asian digital exchange</td><td>Sell-side M&amp;A advisory</td><td>~$50–80M EV</td><td>Valuation &amp; buyer outreach</td></tr>
+      <tr><td>Tokenization + white-label platform</td><td>Product launch / capital pipeline</td><td>$350M+ pipeline</td><td>CEO — product &amp; business dev.</td></tr>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">LP &amp; Investor Network</div>
+    <ul style="list-style:disc; padding-left:14px;">
+      <li style="font-size:8.3pt; margin-bottom:1.5px; line-height:1.35;"><strong>Family offices (20+):</strong> Gulf, Asian and European family offices ($15–500M AUM) — seeking liquid strategies, digital assets and selective venture exposure.</li>
+      <li style="font-size:8.3pt; margin-bottom:1.5px; line-height:1.35;"><strong>Private investors (30+ HNWIs):</strong> Gulf, Asia, Europe and CIS — liquid strategies and private equity co-investments.</li>
+      <li style="font-size:8.3pt; margin-bottom:1.5px; line-height:1.35;"><strong>Investor network (1,000+):</strong> Built through prior platforms (Marsbase, 99blocks) — private investors, capital connectors and intermediaries with active deal interest.</li>
+      <li style="font-size:8.3pt; margin-bottom:1.5px; line-height:1.35;"><strong>Intermediaries:</strong> M&amp;A counsel, capital connectors, accelerators and VC funds across EU, US and APAC.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Education</div>
+    <div class="edu-entry">
+      <div class="edu-header">
+        <span class="edu-degree">MSc, Economics-Cybernetics</span>
+        <span class="edu-date">2020 – 2021</span>
+      </div>
+      <div class="edu-school">National Technical University of Ukraine — Kyiv Polytechnic Institute</div>
+    </div>
+    <div class="edu-entry">
+      <div class="edu-header">
+        <span class="edu-degree">BSc, Financial Programming</span>
+        <span class="edu-date">2016 – 2020</span>
+      </div>
+      <div class="edu-school">National Technical University of Ukraine — Kyiv Polytechnic Institute</div>
+    </div>
+    <div style="font-size:7.8pt; color:#555; margin-top:2px;">Additional: LVL80 Digital Marketing Program</div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Selected Highlights</div>
+    <ul style="list-style:disc; padding-left:14px;">
+      <li style="font-size:8.1pt; margin-bottom:1px;"><span class="achievement-label">In alternative investments since 2014</span> — spanning venture, hedge funds, OTC secondary markets, market-making and tokenization.</li>
+      <li style="font-size:8.1pt; margin-bottom:1px;"><span class="achievement-label">Co-host, Tech Tuesday (Dubai)</span> — weekly event with 200+ tech, investor and government attendees. Regular speaker on tokenization, capital formation strategy and operational excellence at industry events across EMEA.</li>
+      <li style="font-size:8.1pt; margin-bottom:1px;"><span class="achievement-label">Host, Venture Protocol Podcast</span> — interviewing principals from venture funds, family offices, PE firms and M&amp;A advisory on investment strategy and operational excellence.</li>
+    </ul>
+  </div>
+
+  <div class="section" style="margin-bottom:0;">
+    <div class="section-title">Additional Information</div>
+    <div class="info-item"><span class="info-label">Languages:</span> English (fluent), Ukrainian (native), Russian (native)</div>
+    <div class="info-item"><span class="info-label">Mobility:</span> Based in Dubai — flexible for London, Switzerland, Singapore, Hong Kong; open to regular travel for LP coverage and conferences</div>
+  </div>
+
+</div>
+</body>
+</html>
