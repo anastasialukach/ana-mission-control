@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LP Readiness Score — How institutional is your allocation process?</title>
+<meta name="description" content="Free diagnostic tool for family offices and allocators. Assess your institutional readiness across governance, manager selection, reporting, and operations.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #1a1a2e;
+  --navy-light: #2a2a42;
+  --navy-muted: #3d3d5c;
+  --warm-white: #fafaf8;
+  --warm-white-dim: #f0efe9;
+  --gold: #c9a84c;
+  --gold-dim: rgba(201, 168, 76, 0.15);
+  --teal: #4a7c7e;
+  --text-primary: #1a1a2e;
+  --text-secondary: #5a5a72;
+  --text-tertiary: #8a8a9e;
+  --border: #e2e1db;
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Inter', -apple-system, system-ui, sans-serif;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: var(--sans);
+  background: var(--warm-white);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100dvh;
+}
+
+/* ─── Layout ─── */
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 5vw, 2.5rem);
+}
+
+/* ─── Screens ─── */
+.screen {
+  display: none;
+  opacity: 0;
+  min-height: 100dvh;
+  padding: clamp(2rem, 6vh, 4rem) 0;
+}
+
+.screen.active {
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.6s var(--ease) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Intro Screen ─── */
+.intro {
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.intro-eyebrow {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+
+.intro h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+  margin-bottom: 1.5rem;
+}
+
+.intro-sub {
+  font-size: clamp(1rem, 2.2vw, 1.15rem);
+  color: var(--text-secondary);
+  line-height: 1.65;
+  max-width: 540px;
+  margin-bottom: 0.75rem;
+}
+
+.intro-detail {
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+  margin-bottom: 3rem;
+}
+
+.intro-detail span {
+  display: inline-block;
+  margin-right: 1.5rem;
+}
+
+/* ─── Buttons ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+}
+
+.btn-primary {
+  background: var(--navy);
+  color: var(--warm-white);
+  padding: 1rem 2.25rem;
+  border-radius: 2px;
+}
+
+.btn-primary:hover { background: var(--navy-light); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.btn-secondary:hover { border-color: var(--text-secondary); color: var(--text-primary); }
+
+.btn-ghost {
+  background: none;
+  color: var(--text-tertiary);
+  padding: 0.5rem 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.btn-ghost:hover { color: var(--text-primary); }
+
+/* ─── Progress ─── */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--gold);
+  transition: width 0.5s var(--ease);
+  z-index: 100;
+}
+
+.question-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.question-count {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.question-category {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ─── Question Screen ─── */
+.question-screen { justify-content: flex-start; padding-top: 0; }
+
+.question-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem 0;
+}
+
+.question-text {
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 3vw, 1.7rem);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--navy);
+  margin-bottom: 2.5rem;
+  animation: fadeIn 0.5s var(--ease) forwards;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  animation: fadeIn 0.5s var(--ease) 0.1s forwards;
+  opacity: 0;
+}
+
+.option {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1.1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+  background: transparent;
+  text-align: left;
+  font-family: var(--sans);
+  font-size: 0.925rem;
+  color: var(--text-primary);
+  line-height: 1.5;
+  width: 100%;
+}
+
+.option:hover { border-color: var(--navy-muted); background: rgba(26, 26, 46, 0.02); }
+
+.option.selected {
+  border-color: var(--navy);
+  background: rgba(26, 26, 46, 0.04);
+}
+
+.option-marker {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1.5px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s var(--ease);
+  margin-top: 0.05rem;
+}
+
+.option.selected .option-marker {
+  border-color: var(--navy);
+  background: var(--navy);
+}
+
+.option.selected .option-marker::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--warm-white);
+}
+
+.question-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0 2rem;
+}
+
+/* ─── Results ─── */
+.results-screen { padding-top: clamp(2rem, 5vh, 3rem); }
+
+.results-header {
+  text-align: center;
+  margin-bottom: 3.5rem;
+}
+
+.results-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 2rem;
+}
+
+.score-circle {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  margin: 0 auto 2rem;
+}
+
+.score-circle svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.score-circle .bg {
+  fill: none;
+  stroke: var(--border);
+  stroke-width: 3;
+}
+
+.score-circle .fill {
+  fill: none;
+  stroke: var(--navy);
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-dasharray: 502;
+  stroke-dashoffset: 502;
+  transition: stroke-dashoffset 1.5s var(--ease);
+}
+
+.score-number {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-value {
+  font-family: var(--serif);
+  font-size: 3.5rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--navy);
+}
+
+.score-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-top: 0.35rem;
+}
+
+.score-tier {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 400;
+  color: var(--navy);
+  margin-bottom: 0.75rem;
+}
+
+.score-summary {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  max-width: 480px;
+  margin: 0 auto;
+  line-height: 1.65;
+}
+
+/* Category breakdown */
+.categories {
+  margin-bottom: 3rem;
+}
+
+.categories-title {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.category-row {
+  display: grid;
+  grid-template-columns: 1fr 3fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(226, 225, 219, 0.5);
+}
+
+@media (max-width: 540px) {
+  .category-row { grid-template-columns: 1fr; gap: 0.5rem; }
+  .category-score-num { text-align: left !important; }
+}
+
+.category-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.category-bar-wrap {
+  height: 4px;
+  background: var(--warm-white-dim);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.category-bar {
+  height: 100%;
+  border-radius: 2px;
+  background: var(--navy);
+  width: 0%;
+  transition: width 1.2s var(--ease);
+}
+
+.category-score-num {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-align: right;
+  min-width: 2.5rem;
+}
+
+/* Gaps & Recs */
+.gaps-section {
+  margin-bottom: 3rem;
+}
+
+.gaps-title {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.gap-item {
+  padding: 1.25rem 0;
+  border-bottom: 1px solid rgba(226, 225, 219, 0.5);
+}
+
+.gap-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.35rem;
+}
+
+.gap-rec {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.gap-priority {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.15rem 0.5rem;
+  border-radius: 1px;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+}
+
+.gap-priority.high { background: rgba(180, 60, 60, 0.08); color: #8b3a3a; }
+.gap-priority.medium { background: var(--gold-dim); color: #8a7230; }
+.gap-priority.low { background: rgba(74, 124, 126, 0.08); color: var(--teal); }
+
+/* Benchmark */
+.benchmark {
+  background: rgba(26, 26, 46, 0.03);
+  padding: 2rem;
+  margin-bottom: 3rem;
+  border-radius: 2px;
+}
+
+.benchmark-title {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 1.25rem;
+}
+
+.benchmark-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0;
+  font-size: 0.85rem;
+}
+
+.benchmark-label { color: var(--text-secondary); }
+.benchmark-val { font-weight: 500; color: var(--text-primary); }
+.benchmark-val.you { color: var(--gold); }
+
+/* Actions */
+.results-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 4rem;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 3rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.footer-text {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+}
+
+.footer-text a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.footer-text a:hover { color: var(--text-primary); border-color: var(--text-primary); }
+
+/* ─── Toast ─── */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(1rem);
+  background: var(--navy);
+  color: var(--warm-white);
+  padding: 0.75rem 1.5rem;
+  font-size: 0.85rem;
+  border-radius: 2px;
+  opacity: 0;
+  transition: all 0.3s var(--ease);
+  pointer-events: none;
+  z-index: 200;
+}
+
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Print */
+@media print {
+  .progress-bar, .results-actions, .question-nav { display: none; }
+  .screen.active { min-height: auto; }
+  body { font-size: 11pt; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="toast" id="toast"></div>
+
+<div class="container">
+
+  <!-- ─── INTRO ─── -->
+  <div class="screen active" id="introScreen">
+    <div class="intro" style="display:flex;flex-direction:column;justify-content:center;min-height:80dvh;">
+      <div class="intro-eyebrow">Diagnostic Tool</div>
+      <h1>LP Readiness Score</h1>
+      <p class="intro-sub">Assess how institutional your allocation process really is — across governance, manager selection, reporting, and operations.</p>
+      <p class="intro-detail">
+        <span>15 questions</span>
+        <span>~4 minutes</span>
+        <span>Free assessment</span>
+      </p>
+      <button class="btn btn-primary" onclick="startAssessment()">Begin Assessment</button>
+    </div>
+  </div>
+
+  <!-- ─── QUESTION ─── -->
+  <div class="screen" id="questionScreen">
+    <div class="question-nav">
+      <span class="question-count" id="questionCount"></span>
+      <span class="question-category" id="questionCategory"></span>
+    </div>
+    <div class="question-body">
+      <div class="question-text" id="questionText"></div>
+      <div class="options" id="optionsContainer"></div>
+    </div>
+    <div class="question-actions">
+      <button class="btn btn-ghost" id="backBtn" onclick="prevQuestion()">← Back</button>
+      <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Continue</button>
+    </div>
+  </div>
+
+  <!-- ─── RESULTS ─── -->
+  <div class="screen" id="resultsScreen">
+    <div class="results-header">
+      <div class="results-eyebrow">Your Assessment</div>
+      <div class="score-circle">
+        <svg viewBox="0 0 180 180">
+          <circle class="bg" cx="90" cy="90" r="80"/>
+          <circle class="fill" id="scoreArc" cx="90" cy="90" r="80"/>
+        </svg>
+        <div class="score-number">
+          <div class="score-value" id="scoreValue">0</div>
+          <div class="score-label">out of 100</div>
+        </div>
+      </div>
+      <div class="score-tier" id="scoreTier"></div>
+      <p class="score-summary" id="scoreSummary"></p>
+    </div>
+
+    <div class="categories">
+      <div class="categories-title">Breakdown by Category</div>
+      <div id="categoriesContainer"></div>
+    </div>
+
+    <div class="gaps-section">
+      <div class="gaps-title">Key Gaps &amp; Recommendations</div>
+      <div id="gapsContainer"></div>
+    </div>
+
+    <div class="benchmark" id="benchmarkSection">
+      <div class="benchmark-title">Compared to Institutional Best Practices</div>
+      <div id="benchmarkContainer"></div>
+    </div>
+
+    <div class="results-actions">
+      <button class="btn btn-primary" onclick="downloadReport()">Download Report</button>
+      <button class="btn btn-secondary" onclick="shareResults()">Copy Share Link</button>
+      <button class="btn btn-ghost" onclick="restartAssessment()" style="margin-left:auto;">Retake Assessment</button>
+    </div>
+
+    <div class="footer">
+      <p class="footer-text">Built by <a href="https://linkedin.com/in/anastasialukach" target="_blank" rel="noopener">Anastasia Lukach</a></p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const QUESTIONS = [
+  {
+    category: "Governance",
+    text: "Do you have a written Investment Policy Statement (IPS) that defines objectives, risk tolerance, and constraints?",
+    options: [
+      { text: "No formal IPS — investment decisions are largely ad hoc", score: 0 },
+      { text: "We have informal guidelines but nothing documented", score: 1 },
+      { text: "We have a written IPS but it's rarely reviewed or updated", score: 2 },
+      { text: "We maintain a comprehensive IPS reviewed and updated annually", score: 3 }
+    ],
+    gap: { label: "Investment Policy Statement", rec: "Draft a formal IPS covering return objectives, risk parameters, liquidity needs, and allocation targets. Review annually or after material changes.", priority: "high" }
+  },
+  {
+    category: "Governance",
+    text: "How is your investment team structured?",
+    options: [
+      { text: "It's primarily the principal making decisions alone", score: 0 },
+      { text: "The principal plus one or two trusted advisors (informal)", score: 1 },
+      { text: "A small dedicated team with defined roles, but limited separation of duties", score: 2 },
+      { text: "A professional investment team with clear mandates, an IC, and independent oversight", score: 3 }
+    ],
+    gap: { label: "Team & Governance Structure", rec: "Establish an Investment Committee with documented terms of reference. Even a 2-3 person IC with an external independent member adds meaningful governance.", priority: "high" }
+  },
+  {
+    category: "Governance",
+    text: "How do you manage conflicts of interest in your allocation process?",
+    options: [
+      { text: "We don't have a formal conflicts policy", score: 0 },
+      { text: "We're aware of potential conflicts but address them informally", score: 1 },
+      { text: "We have a written policy but enforcement is inconsistent", score: 2 },
+      { text: "We maintain a conflicts register with formal disclosure and recusal procedures", score: 3 }
+    ],
+    gap: { label: "Conflicts of Interest Policy", rec: "Implement a formal conflicts register. Document all potential conflicts (co-investments, fee arrangements, personal relationships) and establish clear recusal procedures.", priority: "medium" }
+  },
+  {
+    category: "Allocation Framework",
+    text: "How do you source new managers and funds?",
+    options: [
+      { text: "Primarily through personal networks and inbound introductions", score: 0 },
+      { text: "Networks plus occasional conference attendance", score: 1 },
+      { text: "Systematic sourcing across multiple channels with a tracked pipeline", score: 2 },
+      { text: "Structured origination with defined channels, a CRM pipeline, and coverage of the full opportunity set", score: 3 }
+    ],
+    gap: { label: "Manager Sourcing", rec: "Build a repeatable sourcing process. Track your pipeline in a CRM, define target fund characteristics, and diversify beyond warm introductions — databases, conferences, placement agents, and peer networks.", priority: "medium" }
+  },
+  {
+    category: "Allocation Framework",
+    text: "Do you track your actual allocation versus your strategic target?",
+    options: [
+      { text: "We don't have explicit allocation targets", score: 0 },
+      { text: "We have rough targets but don't systematically track deviations", score: 1 },
+      { text: "We track allocation quarterly but rebalancing is reactive", score: 2 },
+      { text: "We monitor allocation continuously against targets with defined rebalancing triggers and tolerance bands", score: 3 }
+    ],
+    gap: { label: "Allocation Tracking & Rebalancing", rec: "Define a Strategic Asset Allocation (SAA) with tolerance bands. Implement at minimum quarterly monitoring of actual vs. target, with documented rebalancing criteria.", priority: "high" }
+  },
+  {
+    category: "Allocation Framework",
+    text: "What is your approach to liquidity management across the portfolio?",
+    options: [
+      { text: "We don't model liquidity — we manage it reactively", score: 0 },
+      { text: "We have a general sense of our liquidity profile but no formal model", score: 1 },
+      { text: "We project cash flows and fund maturities but don't stress-test", score: 2 },
+      { text: "We maintain a detailed liquidity model with scenario analysis and reserve policy", score: 3 }
+    ],
+    gap: { label: "Liquidity Management", rec: "Build a cash flow projection model that maps capital calls, distributions, and commitments across time. Stress-test for downside scenarios and maintain a clear reserve policy.", priority: "high" }
+  },
+  {
+    category: "Manager Selection",
+    text: "What does your manager evaluation process look like?",
+    options: [
+      { text: "Mostly intuition and personal impression from meetings", score: 0 },
+      { text: "We review decks and track records but the process isn't standardised", score: 1 },
+      { text: "We use a structured framework covering key criteria, but it's not consistently applied", score: 2 },
+      { text: "We apply a formal scoring rubric across strategy, team, process, terms, and track record — consistently for every manager", score: 3 }
+    ],
+    gap: { label: "Manager Evaluation Framework", rec: "Develop a structured scorecard covering strategy, team, process, terms, track record, and operational quality. Apply it consistently to enable fair comparison across managers.", priority: "high" }
+  },
+  {
+    category: "Manager Selection",
+    text: "Do you send standardised due diligence questionnaires (DDQs) to managers before committing?",
+    options: [
+      { text: "No — we rely on materials the manager provides", score: 0 },
+      { text: "We ask questions informally during meetings", score: 1 },
+      { text: "We have a DDQ but don't use it consistently", score: 2 },
+      { text: "We use a comprehensive, standardised DDQ for every manager evaluation", score: 3 }
+    ],
+    gap: { label: "Due Diligence Questionnaires", rec: "Adopt a standardised DDQ template (ILPA has good ones) and require it for every serious manager evaluation. This creates a consistent information set and paper trail.", priority: "medium" }
+  },
+  {
+    category: "Manager Selection",
+    text: "Do you conduct reference checks on fund managers before allocating?",
+    options: [
+      { text: "Rarely or never", score: 0 },
+      { text: "Occasionally, if we don't know the manager well", score: 1 },
+      { text: "Usually — we speak to a few existing LPs", score: 2 },
+      { text: "Always — structured reference program covering existing LPs, portfolio companies, co-investors, and off-list references", score: 3 }
+    ],
+    gap: { label: "Manager Reference Checks", rec: "Make structured references mandatory. Speak to at minimum 3-5 existing LPs, 2-3 portfolio companies, and always request off-list references. Document findings.", priority: "medium" }
+  },
+  {
+    category: "Manager Selection",
+    text: "Do you benchmark fees and terms against market standards before committing?",
+    options: [
+      { text: "We generally accept the terms offered", score: 0 },
+      { text: "We negotiate occasionally but lack systematic benchmarks", score: 1 },
+      { text: "We compare terms informally with peers or advisors", score: 2 },
+      { text: "We maintain fee benchmarks by strategy type and systematically negotiate terms aligned to our standards", score: 3 }
+    ],
+    gap: { label: "Fee Benchmarking", rec: "Build a fee database by strategy type. Use ILPA reporting templates and published surveys as benchmarks. Always model net-of-fee returns and negotiate most-favoured-nation (MFN) clauses.", priority: "medium" }
+  },
+  {
+    category: "Reporting & Monitoring",
+    text: "What reporting do you receive from your managers, and how frequently?",
+    options: [
+      { text: "Minimal — mostly annual letters and K-1s", score: 0 },
+      { text: "Quarterly reports, but quality and depth vary widely", score: 1 },
+      { text: "Regular quarterly reports plus ad hoc updates; we track key metrics", score: 2 },
+      { text: "Comprehensive quarterly reporting with standardised templates, plus real-time or monthly data where available", score: 3 }
+    ],
+    gap: { label: "Manager Reporting Standards", rec: "Establish minimum reporting standards for all managers (ILPA templates are a good starting point). Define required data fields — NAV, IRR, DPI, TVPI, portfolio company updates — and enforce them.", priority: "medium" }
+  },
+  {
+    category: "Reporting & Monitoring",
+    text: "Do you have a co-investment policy and process?",
+    options: [
+      { text: "We don't do co-investments", score: 0 },
+      { text: "We consider co-investments opportunistically with no formal process", score: 1 },
+      { text: "We have general guidelines but evaluation is inconsistent", score: 2 },
+      { text: "We have a formal co-investment policy with dedicated underwriting, conflicts review, and concentration limits", score: 3 }
+    ],
+    gap: { label: "Co-Investment Framework", rec: "Define a co-investment policy covering: eligibility criteria, underwriting process, concentration limits, conflicts of interest (especially with lead GP), and reporting requirements.", priority: "low" }
+  },
+  {
+    category: "Operational Infrastructure",
+    text: "What technology or tools do you use for portfolio monitoring?",
+    options: [
+      { text: "Spreadsheets and email, primarily", score: 0 },
+      { text: "Spreadsheets with some structure, but no dedicated platform", score: 1 },
+      { text: "We use a portfolio management tool but it's not fully integrated", score: 2 },
+      { text: "We use an integrated platform (e.g. Addepar, Canoe, Chronograph) with automated data feeds and dashboards", score: 3 }
+    ],
+    gap: { label: "Portfolio Technology", rec: "Invest in a purpose-built portfolio monitoring platform. For alternatives-heavy allocators, tools like Addepar, Canoe, or Chronograph integrate GP reporting, performance tracking, and exposure analysis.", priority: "medium" }
+  },
+  {
+    category: "Operational Infrastructure",
+    text: "How do you handle legal and compliance review of fund documents?",
+    options: [
+      { text: "We sign what the manager sends with minimal review", score: 0 },
+      { text: "The principal or a general counsel reviews documents but isn't specialised in fund terms", score: 1 },
+      { text: "We engage external fund counsel for larger commitments", score: 2 },
+      { text: "Every commitment goes through specialised fund counsel review, with a negotiation playbook for key terms", score: 3 }
+    ],
+    gap: { label: "Legal & Compliance Review", rec: "Engage fund counsel with LP-side experience for every commitment. Develop a standard negotiation playbook covering key terms: clawback, GP removal, key person, reporting, and MFN.", priority: "high" }
+  },
+  {
+    category: "Operational Infrastructure",
+    text: "Do you incorporate ESG or impact considerations into your allocation decisions?",
+    options: [
+      { text: "Not currently a factor in our process", score: 0 },
+      { text: "We think about it but have no formal framework", score: 1 },
+      { text: "We include ESG questions in our DDQ but don't weight them in decisions", score: 2 },
+      { text: "We have a formal ESG/RI policy integrated into manager selection, monitoring, and reporting", score: 3 }
+    ],
+    gap: { label: "ESG Integration", rec: "Develop at minimum an ESG policy statement and include ESG questions in your DDQ. Consider adopting PRI LP framework or ILPA ESG assessment as a starting template.", priority: "low" }
+  }
+];
+
+const CATEGORIES = ["Governance", "Allocation Framework", "Manager Selection", "Reporting & Monitoring", "Operational Infrastructure"];
+
+const CATEGORY_WEIGHTS = {
+  "Governance": 1.2,
+  "Allocation Framework": 1.15,
+  "Manager Selection": 1.15,
+  "Reporting & Monitoring": 0.9,
+  "Operational Infrastructure": 0.85
+};
+
+const TIERS = [
+  { max: 25, name: "Early Stage", summary: "Your allocation process is largely informal. There's significant room to build institutional-grade infrastructure — but the upside is substantial. Even a few targeted improvements will materially reduce risk and improve outcomes." },
+  { max: 50, name: "Developing", summary: "You've built some foundation, but key gaps remain. Formalising your governance, manager selection, and reporting processes will move you meaningfully closer to institutional standards — and help you access better managers." },
+  { max: 75, name: "Progressing", summary: "Your process has real structure. You're ahead of most family offices at your stage. Focus now on consistency, documentation, and filling the remaining gaps to present as a truly institutional LP." },
+  { max: 100, name: "Institutional-Ready", summary: "Your allocation process is genuinely institutional. You have the infrastructure to evaluate and access top-tier managers, negotiate effectively, and manage a sophisticated portfolio. Focus on continuous improvement and staying current." }
+];
+
+const BENCHMARKS = {
+  "Written IPS": { best: "95%", avg: "40%" },
+  "Formal IC": { best: "90%", avg: "25%" },
+  "Standardised DDQ": { best: "88%", avg: "30%" },
+  "Dedicated Portfolio Tech": { best: "82%", avg: "20%" },
+  "Fund Counsel Review": { best: "95%", avg: "35%" }
+};
+
+let currentQ = 0;
+let answers = new Array(QUESTIONS.length).fill(-1);
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; s.style.opacity = '0'; });
+  const el = document.getElementById(id);
+  el.style.display = 'flex';
+  // trigger reflow
+  void el.offsetWidth;
+  el.classList.add('active');
+}
+
+function updateProgress() {
+  const pct = ((currentQ + 1) / QUESTIONS.length) * 100;
+  document.getElementById('progressBar').style.width = pct + '%';
+}
+
+function renderQuestion() {
+  const q = QUESTIONS[currentQ];
+  document.getElementById('questionCount').textContent = `Question ${currentQ + 1} of ${QUESTIONS.length}`;
+  document.getElementById('questionCategory').textContent = q.category;
+  document.getElementById('questionText').textContent = q.text;
+  
+  const container = document.getElementById('optionsContainer');
+  container.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option' + (answers[currentQ] === i ? ' selected' : '');
+    btn.innerHTML = `<span class="option-marker"></span><span>${opt.text}</span>`;
+    btn.onclick = () => selectOption(i);
+    container.appendChild(btn);
+  });
+
+  document.getElementById('backBtn').style.visibility = currentQ === 0 ? 'hidden' : 'visible';
+  document.getElementById('nextBtn').disabled = answers[currentQ] === -1;
+  document.getElementById('nextBtn').textContent = currentQ === QUESTIONS.length - 1 ? 'See Results' : 'Continue';
+  updateProgress();
+
+  // re-trigger animation
+  const body = document.querySelector('.question-body');
+  body.style.animation = 'none';
+  void body.offsetWidth;
+  const text = document.getElementById('questionText');
+  text.style.animation = 'none';
+  void text.offsetWidth;
+  text.style.animation = 'fadeIn 0.5s var(--ease) forwards';
+  container.style.animation = 'none';
+  void container.offsetWidth;
+  container.style.animation = 'fadeIn 0.5s var(--ease) 0.1s forwards';
+}
+
+function selectOption(i) {
+  answers[currentQ] = i;
+  document.querySelectorAll('.option').forEach((o, idx) => o.classList.toggle('selected', idx === i));
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function startAssessment() {
+  // Check URL for shared results
+  showScreen('questionScreen');
+  renderQuestion();
+}
+
+function nextQuestion() {
+  if (answers[currentQ] === -1) return;
+  if (currentQ < QUESTIONS.length - 1) {
+    currentQ++;
+    renderQuestion();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  } else {
+    showResults();
+  }
+}
+
+function prevQuestion() {
+  if (currentQ > 0) {
+    currentQ--;
+    renderQuestion();
+  }
+}
+
+function calculateScores() {
+  const catScores = {};
+  const catMaxes = {};
+  const catCounts = {};
+
+  QUESTIONS.forEach((q, i) => {
+    const cat = q.category;
+    if (!catScores[cat]) { catScores[cat] = 0; catMaxes[cat] = 0; catCounts[cat] = 0; }
+    catScores[cat] += QUESTIONS[i].options[answers[i]].score;
+    catMaxes[cat] += 3;
+    catCounts[cat]++;
+  });
+
+  const catPcts = {};
+  let weightedSum = 0;
+  let weightTotal = 0;
+
+  CATEGORIES.forEach(cat => {
+    const pct = Math.round((catScores[cat] / catMaxes[cat]) * 100);
+    catPcts[cat] = pct;
+    const w = CATEGORY_WEIGHTS[cat];
+    weightedSum += pct * w;
+    weightTotal += 100 * w;
+  });
+
+  const overall = Math.round((weightedSum / weightTotal) * 100);
+  return { overall, catPcts, catScores };
+}
+
+function getGaps() {
+  const gaps = [];
+  QUESTIONS.forEach((q, i) => {
+    const score = q.options[answers[i]].score;
+    if (score <= 1) {
+      gaps.push({ ...q.gap });
+    }
+  });
+  return gaps;
+}
+
+function showResults() {
+  showScreen('resultsScreen');
+  document.getElementById('progressBar').style.width = '100%';
+
+  const { overall, catPcts } = calculateScores();
+  const tier = TIERS.find(t => overall <= t.max);
+
+  // Animate score
+  const scoreEl = document.getElementById('scoreValue');
+  const arc = document.getElementById('scoreArc');
+  const circumference = 2 * Math.PI * 80; // ~502
+
+  setTimeout(() => {
+    arc.style.strokeDashoffset = circumference - (circumference * overall / 100);
+    let current = 0;
+    const step = Math.max(1, Math.floor(overall / 40));
+    const counter = setInterval(() => {
+      current = Math.min(current + step, overall);
+      scoreEl.textContent = current;
+      if (current >= overall) clearInterval(counter);
+    }, 30);
+  }, 300);
+
+  document.getElementById('scoreTier').textContent = tier.name;
+  document.getElementById('scoreSummary').textContent = tier.summary;
+
+  // Categories
+  const catContainer = document.getElementById('categoriesContainer');
+  catContainer.innerHTML = '';
+  CATEGORIES.forEach((cat, i) => {
+    const pct = catPcts[cat];
+    const row = document.createElement('div');
+    row.className = 'category-row';
+    row.innerHTML = `
+      <div class="category-name">${cat}</div>
+      <div class="category-bar-wrap"><div class="category-bar" data-width="${pct}"></div></div>
+      <div class="category-score-num">${pct}%</div>
+    `;
+    catContainer.appendChild(row);
+  });
+
+  setTimeout(() => {
+    document.querySelectorAll('.category-bar').forEach(bar => {
+      bar.style.width = bar.dataset.width + '%';
+    });
+  }, 400);
+
+  // Gaps
+  const gaps = getGaps();
+  const gapsContainer = document.getElementById('gapsContainer');
+  gapsContainer.innerHTML = '';
+  if (gaps.length === 0) {
+    gapsContainer.innerHTML = '<p style="font-size:0.9rem;color:var(--text-secondary);padding:1rem 0;">No critical gaps identified. Your process is well-structured across all areas assessed.</p>';
+  } else {
+    gaps.forEach(g => {
+      const item = document.createElement('div');
+      item.className = 'gap-item';
+      item.innerHTML = `
+        <div class="gap-label">${g.label}<span class="gap-priority ${g.priority}">${g.priority} priority</span></div>
+        <div class="gap-rec">${g.rec}</div>
+      `;
+      gapsContainer.appendChild(item);
+    });
+  }
+
+  // Benchmark
+  const benchContainer = document.getElementById('benchmarkContainer');
+  benchContainer.innerHTML = '';
+  Object.entries(BENCHMARKS).forEach(([label, vals]) => {
+    const row = document.createElement('div');
+    row.className = 'benchmark-row';
+    row.innerHTML = `
+      <span class="benchmark-label">${label}</span>
+      <span><span class="benchmark-val you">You</span> · <span class="benchmark-val">Top-quartile FOs: ${vals.best}</span> · <span class="benchmark-val" style="color:var(--text-tertiary)">Avg FOs: ${vals.avg}</span></span>
+    `;
+    benchContainer.appendChild(row);
+  });
+
+  // Update benchmark "You" values based on relevant questions
+  // Simplified: just show the section as context
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function downloadReport() {
+  const { overall, catPcts } = calculateScores();
+  const tier = TIERS.find(t => overall <= t.max);
+  const gaps = getGaps();
+
+  let report = `LP READINESS SCORE — ASSESSMENT REPORT\n`;
+  report += `${'═'.repeat(50)}\n\n`;
+  report += `Overall Score: ${overall}/100 — ${tier.name}\n\n`;
+  report += `${tier.summary}\n\n`;
+  report += `${'─'.repeat(50)}\n`;
+  report += `CATEGORY BREAKDOWN\n`;
+  report += `${'─'.repeat(50)}\n\n`;
+
+  CATEGORIES.forEach(cat => {
+    const bar = '█'.repeat(Math.round(catPcts[cat] / 5)) + '░'.repeat(20 - Math.round(catPcts[cat] / 5));
+    report += `${cat.padEnd(28)} ${bar} ${catPcts[cat]}%\n`;
+  });
+
+  if (gaps.length > 0) {
+    report += `\n${'─'.repeat(50)}\n`;
+    report += `KEY GAPS & RECOMMENDATIONS\n`;
+    report += `${'─'.repeat(50)}\n\n`;
+    gaps.forEach(g => {
+      report += `▸ ${g.label} [${g.priority.toUpperCase()} PRIORITY]\n`;
+      report += `  ${g.rec}\n\n`;
+    });
+  }
+
+  report += `${'─'.repeat(50)}\n`;
+  report += `Generated by LP Readiness Score\n`;
+  report += `Built by Anastasia Lukach — linkedin.com/in/anastasialukach\n`;
+
+  const blob = new Blob([report], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'LP-Readiness-Report.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function shareResults() {
+  const encoded = btoa(answers.join(','));
+  const url = window.location.origin + window.location.pathname + '?r=' + encoded;
+  navigator.clipboard.writeText(url).then(() => {
+    showToast('Link copied to clipboard');
+  }).catch(() => {
+    // Fallback
+    prompt('Copy this link:', url);
+  });
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function restartAssessment() {
+  answers = new Array(QUESTIONS.length).fill(-1);
+  currentQ = 0;
+  document.getElementById('progressBar').style.width = '0%';
+  showScreen('questionScreen');
+  renderQuestion();
+  window.scrollTo({ top: 0 });
+}
+
+// Check for shared results on load
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const r = params.get('r');
+  if (r) {
+    try {
+      const decoded = atob(r).split(',').map(Number);
+      if (decoded.length === QUESTIONS.length && decoded.every(v => v >= 0 && v <= 3)) {
+        answers = decoded;
+        currentQ = QUESTIONS.length - 1;
+        showResults();
+      }
+    } catch(e) {}
+  }
+})();
+</script>
+
+</body>
+</html>

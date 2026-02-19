@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Founder Update — Investor updates your VCs will actually read.</title>
+<meta name="description" content="Write and send beautiful investor updates in under 5 minutes. Guided flow, professional formatting, zero guilt.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,300;1,8..60,400&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #1a1a2e;
+  --navy-light: #2a2a42;
+  --navy-muted: #3d3d5c;
+  --warm-white: #fafaf8;
+  --warm-white-dim: #f0efe9;
+  --gold: #c9a84c;
+  --gold-dim: rgba(201, 168, 76, 0.15);
+  --teal: #4a7c7e;
+  --red-soft: #b85450;
+  --green-soft: #5a8a5e;
+  --text-primary: #1a1a2e;
+  --text-secondary: #5a5a72;
+  --text-tertiary: #8a8a9e;
+  --border: #e2e1db;
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Inter', -apple-system, system-ui, sans-serif;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+
+body {
+  font-family: var(--sans);
+  background: var(--warm-white);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100dvh;
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 5vw, 2.5rem);
+}
+
+/* ─── Screens ─── */
+.screen {
+  display: none;
+  opacity: 0;
+  min-height: 100dvh;
+  padding: clamp(2rem, 6vh, 4rem) 0;
+}
+
+.screen.active {
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.6s var(--ease) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Progress Bar ─── */
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: var(--gold);
+  transition: width 0.5s var(--ease);
+  z-index: 100;
+}
+
+/* ─── Toast ─── */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(1rem);
+  background: var(--navy);
+  color: var(--warm-white);
+  padding: 0.75rem 1.5rem;
+  font-size: 0.85rem;
+  border-radius: 2px;
+  opacity: 0;
+  transition: all 0.3s var(--ease);
+  pointer-events: none;
+  z-index: 200;
+}
+
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ─── Buttons ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+}
+
+.btn-primary {
+  background: var(--navy);
+  color: var(--warm-white);
+  padding: 1rem 2.25rem;
+  border-radius: 2px;
+}
+.btn-primary:hover { background: var(--navy-light); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+.btn-secondary:hover { border-color: var(--text-secondary); color: var(--text-primary); }
+
+.btn-ghost {
+  background: none;
+  color: var(--text-tertiary);
+  padding: 0.5rem 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.btn-ghost:hover { color: var(--text-primary); }
+
+.btn-gold {
+  background: var(--gold);
+  color: var(--navy);
+  padding: 1rem 2.25rem;
+  border-radius: 2px;
+  font-weight: 600;
+}
+.btn-gold:hover { background: #b8993f; }
+
+/* ─── Intro ─── */
+.intro {
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.intro-eyebrow {
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+
+.intro h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+  margin-bottom: 1.5rem;
+}
+
+.intro-sub {
+  font-size: clamp(1rem, 2.2vw, 1.15rem);
+  color: var(--text-secondary);
+  line-height: 1.65;
+  max-width: 560px;
+  margin-bottom: 0.75rem;
+}
+
+.intro-detail {
+  font-size: 0.875rem;
+  color: var(--text-tertiary);
+  margin-bottom: 3rem;
+}
+
+.intro-detail span {
+  display: inline-block;
+  margin-right: 1.5rem;
+}
+
+/* ─── Step Nav ─── */
+.step-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 0;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.step-count {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.step-label {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+/* ─── Completeness Score ─── */
+.completeness {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(26, 26, 46, 0.03);
+  border-radius: 2px;
+  margin-bottom: 2rem;
+}
+
+.completeness-bar-wrap {
+  flex: 1;
+  height: 4px;
+  background: var(--warm-white-dim);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.completeness-bar {
+  height: 100%;
+  background: var(--gold);
+  border-radius: 2px;
+  transition: width 0.4s var(--ease);
+  width: 0%;
+}
+
+.completeness-text {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+
+/* ─── Form Elements ─── */
+.form-group {
+  margin-bottom: 1.75rem;
+  animation: fadeInUp 0.4s var(--ease) forwards;
+  opacity: 0;
+}
+
+.form-group:nth-child(1) { animation-delay: 0s; }
+.form-group:nth-child(2) { animation-delay: 0.05s; }
+.form-group:nth-child(3) { animation-delay: 0.1s; }
+.form-group:nth-child(4) { animation-delay: 0.15s; }
+.form-group:nth-child(5) { animation-delay: 0.2s; }
+.form-group:nth-child(6) { animation-delay: 0.25s; }
+.form-group:nth-child(7) { animation-delay: 0.3s; }
+.form-group:nth-child(8) { animation-delay: 0.35s; }
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.5rem;
+}
+
+label .optional {
+  font-weight: 400;
+  color: var(--text-tertiary);
+  font-size: 0.8rem;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="email"],
+textarea,
+select {
+  width: 100%;
+  font-family: var(--sans);
+  font-size: 0.925rem;
+  color: var(--text-primary);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 0.85rem 1rem;
+  transition: border-color 0.25s var(--ease);
+  outline: none;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--navy-muted);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.6;
+}
+
+select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M3 4.5L6 7.5L9 4.5' stroke='%238a8a9e' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+.input-hint {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-top: 0.35rem;
+}
+
+.tone-suggestion {
+  font-size: 0.75rem;
+  color: var(--gold);
+  margin-top: 0.35rem;
+  display: none;
+}
+
+.tone-suggestion.visible { display: block; }
+
+.inline-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 540px) {
+  .inline-row { grid-template-columns: 1fr; }
+}
+
+/* ─── Checkboxes ─── */
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.checkbox-pill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  transition: all 0.25s var(--ease);
+  user-select: none;
+}
+
+.checkbox-pill:hover { border-color: var(--navy-muted); }
+
+.checkbox-pill.checked {
+  border-color: var(--navy);
+  background: rgba(26, 26, 46, 0.04);
+  color: var(--text-primary);
+}
+
+.checkbox-pill input { display: none; }
+
+/* ─── Step Actions ─── */
+.step-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 0;
+  margin-top: auto;
+}
+
+/* ─── Step Body ─── */
+.step-body {
+  flex: 1;
+}
+
+.step-title {
+  font-family: var(--serif);
+  font-size: clamp(1.35rem, 3vw, 1.7rem);
+  font-weight: 400;
+  line-height: 1.4;
+  color: var(--navy);
+  margin-bottom: 0.5rem;
+}
+
+.step-subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* ─── Preview / Generated Update ─── */
+.update-preview {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.update-header {
+  background: var(--navy);
+  padding: clamp(2rem, 4vw, 3rem) clamp(1.5rem, 4vw, 2.5rem);
+  color: var(--warm-white);
+}
+
+.update-header-eyebrow {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1rem;
+}
+
+.update-header h2 {
+  font-family: var(--serif);
+  font-size: clamp(1.5rem, 3.5vw, 2rem);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.5rem;
+}
+
+.update-header-date {
+  font-size: 0.85rem;
+  color: rgba(250, 250, 248, 0.6);
+}
+
+.update-body {
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.update-tldr {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  padding: 1.25rem 0 1.25rem 1.25rem;
+  border-left: 2px solid var(--gold);
+  margin-bottom: 2rem;
+}
+
+.update-section {
+  margin-bottom: 2rem;
+}
+
+.update-section-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.metric-cell {
+  background: #ffffff;
+  padding: 1rem;
+  text-align: center;
+}
+
+.metric-label {
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 0.35rem;
+}
+
+.metric-value {
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.metric-change {
+  font-size: 0.7rem;
+  font-weight: 500;
+  margin-top: 0.15rem;
+}
+
+.metric-change.up { color: var(--green-soft); }
+.metric-change.down { color: var(--red-soft); }
+.metric-change.flat { color: var(--text-tertiary); }
+
+.update-list {
+  list-style: none;
+  padding: 0;
+}
+
+.update-list li {
+  padding: 0.6rem 0;
+  font-size: 0.925rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+  border-bottom: 1px solid rgba(226, 225, 219, 0.4);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.update-list li:last-child { border-bottom: none; }
+
+.update-list .list-icon {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.update-footer-bar {
+  border-top: 1px solid var(--border);
+  padding: 1.25rem clamp(1.5rem, 4vw, 2.5rem);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+.update-footer-bar a {
+  color: var(--text-tertiary);
+  text-decoration: none;
+}
+
+.update-footer-bar a:hover { color: var(--text-secondary); }
+
+/* ─── Preview Actions ─── */
+.preview-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+/* ─── Reminder Box ─── */
+.reminder-box {
+  background: rgba(26, 26, 46, 0.03);
+  padding: 1.5rem;
+  border-radius: 2px;
+  margin-bottom: 2rem;
+}
+
+.reminder-box h3 {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 0.75rem;
+  color: var(--navy);
+}
+
+.reminder-inline {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.reminder-inline input {
+  flex: 1;
+}
+
+.reminder-inline .btn {
+  flex-shrink: 0;
+}
+
+/* ─── Historical View ─── */
+.historical-box {
+  background: rgba(201, 168, 76, 0.06);
+  border: 1px solid rgba(201, 168, 76, 0.2);
+  padding: 1.5rem;
+  border-radius: 2px;
+  margin-bottom: 2rem;
+}
+
+.historical-box h3 {
+  font-family: var(--serif);
+  font-size: 1rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  color: var(--navy);
+}
+
+.historical-box p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.historical-sparkline {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 40px;
+  margin-top: 1rem;
+}
+
+.spark-bar {
+  flex: 1;
+  background: var(--gold);
+  border-radius: 1px 1px 0 0;
+  opacity: 0.3;
+  transition: opacity 0.3s;
+}
+
+.spark-bar.current {
+  opacity: 1;
+}
+
+.spark-labels {
+  display: flex;
+  gap: 4px;
+  margin-top: 0.25rem;
+}
+
+.spark-labels span {
+  flex: 1;
+  text-align: center;
+  font-size: 0.6rem;
+  color: var(--text-tertiary);
+}
+
+/* ─── Footer ─── */
+.footer {
+  text-align: center;
+  padding: 3rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.footer-text {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+}
+
+.footer-text a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.footer-text a:hover { color: var(--text-primary); border-color: var(--text-primary); }
+
+/* ─── Print ─── */
+@media print {
+  .progress-bar, .preview-actions, .step-nav, .step-actions, .reminder-box, .historical-box, .completeness { display: none !important; }
+  .screen.active { min-height: auto; }
+  body { font-size: 11pt; }
+  .update-preview { border: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="toast" id="toast"></div>
+
+<div class="container">
+
+  <!-- ═══ INTRO ═══ -->
+  <div class="screen active" id="introScreen">
+    <div class="intro" style="display:flex;flex-direction:column;justify-content:center;min-height:80dvh;">
+      <div class="intro-eyebrow">For Founders</div>
+      <h1>Founder Update</h1>
+      <p class="intro-sub">Investor updates your VCs will actually read. Guided flow, beautiful output, under 5 minutes.</p>
+      <p class="intro-detail">
+        <span>4 steps</span>
+        <span>~5 minutes</span>
+        <span>Zero guilt</span>
+      </p>
+      <button class="btn btn-primary" onclick="startFlow()">Write Your Update →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 1: Company Basics ═══ -->
+  <div class="screen" id="step1Screen">
+    <div class="step-nav">
+      <span class="step-count">Step 1 of 4</span>
+      <span class="step-label">Company Basics</span>
+    </div>
+    <div class="completeness" id="completeness">
+      <span class="completeness-text" id="completenessText">0% complete</span>
+      <div class="completeness-bar-wrap"><div class="completeness-bar" id="completenessBar"></div></div>
+    </div>
+    <div class="step-body">
+      <div class="step-title">Let's start with the basics</div>
+      <p class="step-subtitle">These are saved locally so you don't have to re-enter them next month.</p>
+
+      <div class="form-group">
+        <label for="companyName">Company name</label>
+        <input type="text" id="companyName" placeholder="e.g. Acme Inc." oninput="onInput()">
+      </div>
+
+      <div class="inline-row">
+        <div class="form-group">
+          <label for="stage">Stage</label>
+          <select id="stage" onchange="onInput()">
+            <option value="">Select stage…</option>
+            <option value="Pre-seed">Pre-seed</option>
+            <option value="Seed">Seed</option>
+            <option value="Series A">Series A</option>
+            <option value="Series B+">Series B+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="sector">Sector</label>
+          <input type="text" id="sector" placeholder="e.g. Fintech, SaaS, Climate" oninput="onInput()">
+        </div>
+      </div>
+    </div>
+    <div class="step-actions">
+      <button class="btn btn-ghost" onclick="goIntro()">← Back</button>
+      <button class="btn btn-primary" id="step1Next" onclick="goStep(2)">Continue</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 2: Key Metrics ═══ -->
+  <div class="screen" id="step2Screen">
+    <div class="step-nav">
+      <span class="step-count">Step 2 of 4</span>
+      <span class="step-label">Key Metrics</span>
+    </div>
+    <div class="completeness" id="completeness2">
+      <span class="completeness-text" id="completenessText2">0% complete</span>
+      <div class="completeness-bar-wrap"><div class="completeness-bar" id="completenessBar2"></div></div>
+    </div>
+    <div class="step-body">
+      <div class="step-title">The numbers that matter</div>
+      <p class="step-subtitle" id="metricsSubtitle">Key metrics for your investors. Be honest — they'll trust you more for it.</p>
+
+      <div id="metricsContainer"></div>
+    </div>
+    <div class="step-actions">
+      <button class="btn btn-ghost" onclick="goStep(1)">← Back</button>
+      <button class="btn btn-primary" onclick="goStep(3)">Continue</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 3: Highlights & Lowlights ═══ -->
+  <div class="screen" id="step3Screen">
+    <div class="step-nav">
+      <span class="step-count">Step 3 of 4</span>
+      <span class="step-label">Highlights & Asks</span>
+    </div>
+    <div class="completeness" id="completeness3">
+      <span class="completeness-text" id="completenessText3">0% complete</span>
+      <div class="completeness-bar-wrap"><div class="completeness-bar" id="completenessBar3"></div></div>
+    </div>
+    <div class="step-body">
+      <div class="step-title">What happened this month</div>
+      <p class="step-subtitle">Wins, challenges, and what you need from your investors.</p>
+
+      <div class="form-group">
+        <label>✅ Top wins this month</label>
+        <input type="text" id="win1" placeholder="Win #1 — your biggest achievement" oninput="onInput()" style="margin-bottom:0.5rem;">
+        <input type="text" id="win2" placeholder="Win #2" oninput="onInput()" style="margin-bottom:0.5rem;">
+        <input type="text" id="win3" placeholder="Win #3" oninput="onInput()">
+        <div class="tone-suggestion" id="winTone">💡 Be specific. Instead of "things are going well," try "closed 3 enterprise pilots worth $45K ARR."</div>
+      </div>
+
+      <div class="form-group">
+        <label>⚠️ Challenges</label>
+        <input type="text" id="challenge1" placeholder="Challenge #1 — be honest, investors appreciate transparency" oninput="onInput()" style="margin-bottom:0.5rem;">
+        <input type="text" id="challenge2" placeholder="Challenge #2" oninput="onInput()">
+      </div>
+
+      <div class="form-group">
+        <label>🙏 Asks from investors</label>
+        <div class="checkbox-group" id="askCheckboxes">
+          <label class="checkbox-pill" onclick="togglePill(this)">
+            <input type="checkbox" value="Intros to potential customers">
+            Intros to customers
+          </label>
+          <label class="checkbox-pill" onclick="togglePill(this)">
+            <input type="checkbox" value="Intros to potential hires">
+            Hiring intros
+          </label>
+          <label class="checkbox-pill" onclick="togglePill(this)">
+            <input type="checkbox" value="Strategic advice">
+            Strategic advice
+          </label>
+          <label class="checkbox-pill" onclick="togglePill(this)">
+            <input type="checkbox" value="Follow-on funding intros">
+            Funding intros
+          </label>
+          <label class="checkbox-pill" onclick="togglePill(this)">
+            <input type="checkbox" value="Press / PR help">
+            Press / PR
+          </label>
+        </div>
+        <input type="text" id="askFreetext" placeholder="Anything else specific? e.g. Intro to [Name] at [Company]" oninput="onInput()">
+      </div>
+    </div>
+    <div class="step-actions">
+      <button class="btn btn-ghost" onclick="goStep(2)">← Back</button>
+      <button class="btn btn-gold" onclick="goStep(4)">Generate Update →</button>
+    </div>
+  </div>
+
+  <!-- ═══ STEP 4: Preview ═══ -->
+  <div class="screen" id="step4Screen">
+    <div class="step-nav">
+      <span class="step-count">Step 4 of 4</span>
+      <span class="step-label">Your Update</span>
+    </div>
+
+    <div id="updatePreviewContainer"></div>
+
+    <div class="preview-actions">
+      <button class="btn btn-primary" onclick="copyToClipboard()">📋 Copy to Clipboard</button>
+      <button class="btn btn-secondary" onclick="downloadPDF()">↓ Download as PDF</button>
+      <button class="btn btn-secondary" onclick="shareLink()">🔗 Share via Link</button>
+    </div>
+
+    <div class="reminder-box">
+      <h3>⏰ Remind me next month</h3>
+      <div class="reminder-inline">
+        <input type="email" id="reminderEmail" placeholder="your@email.com">
+        <button class="btn btn-secondary" onclick="setReminder()">Set Reminder</button>
+      </div>
+    </div>
+
+    <div class="historical-box">
+      <h3>📈 Metrics over time</h3>
+      <p>As you send monthly updates, this will show your metrics trend. Here's a preview of what it looks like:</p>
+      <div class="historical-sparkline" id="sparkline"></div>
+      <div class="spark-labels" id="sparkLabels"></div>
+    </div>
+
+    <div class="step-actions">
+      <button class="btn btn-ghost" onclick="goStep(3)">← Edit update</button>
+      <button class="btn btn-ghost" onclick="startOver()" style="margin-left:auto;">Start new update</button>
+    </div>
+
+    <div class="footer">
+      <p class="footer-text">Built by <a href="https://linkedin.com/in/anastasialukach" target="_blank" rel="noopener">Anastasia Lukach</a></p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ─── State ───
+let data = {
+  companyName: '', stage: '', sector: '',
+  metrics: {},
+  win1: '', win2: '', win3: '',
+  challenge1: '', challenge2: '',
+  asks: [], askFreetext: ''
+};
+
+const EARLY_METRICS = [
+  { key: 'mrr', label: 'Monthly Revenue / MRR', placeholder: 'e.g. $12,000', optional: true },
+  { key: 'growth', label: 'MoM Growth %', placeholder: 'e.g. 25%', optional: true },
+  { key: 'burn', label: 'Monthly Burn Rate', placeholder: 'e.g. $30,000' },
+  { key: 'runway', label: 'Runway (months)', placeholder: 'e.g. 14' },
+  { key: 'teamSize', label: 'Team Size', placeholder: 'e.g. 6' },
+  { key: 'milestone', label: 'Key Milestone This Month', placeholder: 'e.g. Launched beta with 50 users', type: 'text' }
+];
+
+const LATE_METRICS = [
+  { key: 'arr', label: 'ARR / Revenue', placeholder: 'e.g. $1.2M' },
+  { key: 'growth', label: 'MoM or QoQ Growth', placeholder: 'e.g. 15% MoM' },
+  { key: 'burn', label: 'Monthly Burn Rate', placeholder: 'e.g. $120,000' },
+  { key: 'runway', label: 'Runway (months)', placeholder: 'e.g. 18' },
+  { key: 'teamSize', label: 'Team Size', placeholder: 'e.g. 24' },
+  { key: 'nrr', label: 'Net Revenue Retention', placeholder: 'e.g. 115%', optional: true },
+  { key: 'milestone', label: 'Key Milestone This Month', placeholder: 'e.g. Closed Series A at $8M', type: 'text' }
+];
+
+function getMetricsDef() {
+  const s = data.stage;
+  return (s === 'Series A' || s === 'Series B+') ? LATE_METRICS : EARLY_METRICS;
+}
+
+// ─── Navigation ───
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => { s.classList.remove('active'); s.style.display = 'none'; s.style.opacity = '0'; });
+  const el = document.getElementById(id);
+  el.style.display = 'flex';
+  void el.offsetWidth;
+  el.classList.add('active');
+}
+
+function startFlow() {
+  loadSaved();
+  showScreen('step1Screen');
+  updateProgress(1);
+  updateCompleteness();
+}
+
+function goIntro() {
+  showScreen('introScreen');
+  document.getElementById('progressBar').style.width = '0%';
+}
+
+function goStep(n) {
+  collectData();
+  if (n === 2) renderMetrics();
+  if (n === 4) renderPreview();
+  showScreen('step' + n + 'Screen');
+  updateProgress(n);
+  updateCompleteness();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function updateProgress(step) {
+  document.getElementById('progressBar').style.width = (step / 4 * 100) + '%';
+}
+
+// ─── Collect Data ───
+function collectData() {
+  data.companyName = v('companyName');
+  data.stage = v('stage');
+  data.sector = v('sector');
+  // metrics
+  const def = getMetricsDef();
+  def.forEach(m => {
+    const el = document.getElementById('metric_' + m.key);
+    if (el) data.metrics[m.key] = el.value.trim();
+  });
+  data.win1 = v('win1'); data.win2 = v('win2'); data.win3 = v('win3');
+  data.challenge1 = v('challenge1'); data.challenge2 = v('challenge2');
+  // asks
+  data.asks = [];
+  document.querySelectorAll('#askCheckboxes input:checked').forEach(cb => data.asks.push(cb.value));
+  data.askFreetext = v('askFreetext');
+  // save locally
+  try { localStorage.setItem('founderupdate_data', JSON.stringify({ companyName: data.companyName, stage: data.stage, sector: data.sector })); } catch(e) {}
+}
+
+function v(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
+
+function loadSaved() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('founderupdate_data') || '{}');
+    if (saved.companyName) document.getElementById('companyName').value = saved.companyName;
+    if (saved.stage) document.getElementById('stage').value = saved.stage;
+    if (saved.sector) document.getElementById('sector').value = saved.sector;
+    data.companyName = saved.companyName || '';
+    data.stage = saved.stage || '';
+    data.sector = saved.sector || '';
+  } catch(e) {}
+}
+
+// ─── Render Metrics ───
+function renderMetrics() {
+  const def = getMetricsDef();
+  const container = document.getElementById('metricsContainer');
+  container.innerHTML = '';
+  def.forEach((m, i) => {
+    const fg = document.createElement('div');
+    fg.className = 'form-group';
+    fg.style.animationDelay = (i * 0.05) + 's';
+    const opt = m.optional ? ' <span class="optional">(if applicable)</span>' : '';
+    fg.innerHTML = `
+      <label for="metric_${m.key}">${m.label}${opt}</label>
+      <input type="text" id="metric_${m.key}" placeholder="${m.placeholder}" value="${data.metrics[m.key] || ''}" oninput="onInput()">
+    `;
+    container.appendChild(fg);
+  });
+}
+
+// ─── Completeness ───
+function onInput() {
+  collectData();
+  updateCompleteness();
+  checkToneSuggestions();
+}
+
+function updateCompleteness() {
+  let total = 0, filled = 0;
+  // basics
+  total += 3;
+  if (data.companyName) filled++;
+  if (data.stage) filled++;
+  if (data.sector) filled++;
+  // metrics
+  const def = getMetricsDef();
+  def.forEach(m => {
+    if (!m.optional) total++;
+    else total += 0.5;
+    if (data.metrics[m.key]) filled += m.optional ? 0.5 : 1;
+  });
+  // highlights
+  total += 5; // 3 wins + 2 challenges
+  if (data.win1) filled++;
+  if (data.win2) filled++;
+  if (data.win3) filled++;
+  if (data.challenge1) filled++;
+  if (data.challenge2) filled++;
+  // asks
+  total += 1;
+  if (data.asks.length > 0 || data.askFreetext) filled++;
+
+  const pct = Math.round((filled / total) * 100);
+  // Update all completeness bars
+  ['', '2', '3'].forEach(suffix => {
+    const bar = document.getElementById('completenessBar' + suffix);
+    const text = document.getElementById('completenessText' + suffix);
+    if (bar) bar.style.width = pct + '%';
+    if (text) text.textContent = pct + '% complete';
+  });
+}
+
+function checkToneSuggestions() {
+  const vague = ['going well', 'things are good', 'making progress', 'on track', 'doing great', 'moving forward'];
+  const wins = [data.win1, data.win2, data.win3].join(' ').toLowerCase();
+  const tone = document.getElementById('winTone');
+  if (tone) {
+    const isVague = vague.some(v => wins.includes(v));
+    tone.classList.toggle('visible', isVague);
+  }
+}
+
+function togglePill(el) {
+  setTimeout(() => {
+    el.classList.toggle('checked', el.querySelector('input').checked);
+    onInput();
+  }, 0);
+}
+
+// ─── Generate Preview ───
+function renderPreview() {
+  const now = new Date();
+  const monthYear = now.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  const def = getMetricsDef();
+
+  // Auto-generate TL;DR
+  let tldr = '';
+  const name = data.companyName || 'The company';
+  if (data.metrics.mrr || data.metrics.arr) {
+    const rev = data.metrics.mrr || data.metrics.arr;
+    tldr += `${name} is at ${rev} in revenue`;
+    if (data.metrics.growth) tldr += `, growing ${data.metrics.growth}`;
+    tldr += '. ';
+  } else {
+    tldr += `${name} update for ${monthYear}. `;
+  }
+  if (data.win1) tldr += data.win1 + '. ';
+  if (data.metrics.runway) tldr += `Runway: ${data.metrics.runway} months.`;
+
+  // Build metrics HTML
+  let metricsHTML = '';
+  def.forEach(m => {
+    if (m.key === 'milestone' || !data.metrics[m.key]) return;
+    const val = data.metrics[m.key];
+    // Determine arrow
+    let changeHTML = '';
+    const numVal = parseFloat(val.replace(/[^0-9.\-]/g, ''));
+    if (m.key === 'growth') {
+      const g = parseFloat(data.metrics.growth);
+      if (!isNaN(g)) {
+        changeHTML = g > 0 ? `<div class="metric-change up">↑ ${data.metrics.growth}</div>` :
+                     g < 0 ? `<div class="metric-change down">↓ ${data.metrics.growth}</div>` :
+                     `<div class="metric-change flat">→ flat</div>`;
+      }
+    }
+    metricsHTML += `<div class="metric-cell"><div class="metric-label">${m.label.replace(/ *\(.*?\)/g, '')}</div><div class="metric-value">${val}</div>${changeHTML}</div>`;
+  });
+
+  // Wins
+  const wins = [data.win1, data.win2, data.win3].filter(Boolean);
+  let winsHTML = wins.map(w => `<li><span class="list-icon">✅</span><span>${w}</span></li>`).join('');
+
+  // Challenges
+  const challenges = [data.challenge1, data.challenge2].filter(Boolean);
+  let challengesHTML = challenges.map(c => `<li><span class="list-icon">⚠️</span><span>${c}</span></li>`).join('');
+
+  // Asks
+  const allAsks = [...data.asks];
+  if (data.askFreetext) allAsks.push(data.askFreetext);
+  let asksHTML = allAsks.map(a => `<li><span class="list-icon">🙏</span><span>${a}</span></li>`).join('');
+
+  // Milestone
+  const milestone = data.metrics.milestone;
+
+  const html = `
+    <div class="update-preview" id="updatePreview">
+      <div class="update-header">
+        <div class="update-header-eyebrow">Investor Update</div>
+        <h2>${data.companyName || 'Your Company'} — ${monthYear}</h2>
+        <div class="update-header-date">${data.stage || ''}${data.stage && data.sector ? ' · ' : ''}${data.sector || ''}</div>
+      </div>
+      <div class="update-body">
+        <div class="update-tldr">${tldr || 'Fill in your metrics and highlights to generate a summary.'}</div>
+
+        ${milestone ? `<div class="update-section"><div class="update-section-title">🏆 Milestone</div><p style="font-size:0.95rem;color:var(--text-primary);line-height:1.6;">${milestone}</p></div>` : ''}
+
+        ${metricsHTML ? `<div class="update-section"><div class="update-section-title">📊 Key Metrics</div><div class="metrics-grid">${metricsHTML}</div></div>` : ''}
+
+        ${winsHTML ? `<div class="update-section"><div class="update-section-title">✅ Wins</div><ul class="update-list">${winsHTML}</ul></div>` : ''}
+
+        ${challengesHTML ? `<div class="update-section"><div class="update-section-title">⚠️ Challenges</div><ul class="update-list">${challengesHTML}</ul></div>` : ''}
+
+        ${asksHTML ? `<div class="update-section"><div class="update-section-title">🙏 Asks</div><ul class="update-list">${asksHTML}</ul></div>` : ''}
+      </div>
+      <div class="update-footer-bar">
+        <span>${data.companyName || 'Company'} · ${data.stage || 'Stage'} · Runway: ${data.metrics.runway || '—'} months</span>
+        <a href="#">founderupdate.co</a>
+      </div>
+    </div>
+  `;
+
+  document.getElementById('updatePreviewContainer').innerHTML = html;
+
+  // Render sparkline
+  renderSparkline();
+}
+
+function renderSparkline() {
+  const sparkline = document.getElementById('sparkline');
+  const labels = document.getElementById('sparkLabels');
+  if (!sparkline) return;
+  const now = new Date();
+  const months = [];
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    months.push(d.toLocaleDateString('en-US', { month: 'short' }));
+  }
+  // Fake historical + current
+  const heights = [30, 42, 38, 55, 62, 80];
+  sparkline.innerHTML = heights.map((h, i) =>
+    `<div class="spark-bar${i === heights.length - 1 ? ' current' : ''}" style="height:${h}%"></div>`
+  ).join('');
+  labels.innerHTML = months.map(m => `<span>${m}</span>`).join('');
+}
+
+// ─── Actions ───
+function copyToClipboard() {
+  const el = document.getElementById('updatePreview');
+  if (!el) return;
+  // Copy as HTML for rich paste in email
+  const html = el.outerHTML;
+  const text = el.innerText;
+  if (navigator.clipboard && window.ClipboardItem) {
+    navigator.clipboard.write([
+      new ClipboardItem({
+        'text/html': new Blob([html], { type: 'text/html' }),
+        'text/plain': new Blob([text], { type: 'text/plain' })
+      })
+    ]).then(() => showToast('Copied as formatted HTML — paste into your email!')).catch(() => {
+      navigator.clipboard.writeText(text).then(() => showToast('Copied as text'));
+    });
+  } else {
+    // Fallback: select and copy
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+    sel.addRange(range);
+    document.execCommand('copy');
+    sel.removeAllRanges();
+    showToast('Copied to clipboard');
+  }
+}
+
+function downloadPDF() {
+  showToast('Opening print dialog — save as PDF');
+  setTimeout(() => window.print(), 300);
+}
+
+function shareLink() {
+  // Encode data into URL
+  const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(data))));
+  const url = window.location.origin + window.location.pathname + '?d=' + encoded;
+  navigator.clipboard.writeText(url).then(() => {
+    showToast('Share link copied to clipboard');
+  }).catch(() => {
+    prompt('Copy this link:', url);
+  });
+}
+
+function setReminder() {
+  const email = document.getElementById('reminderEmail').value.trim();
+  if (!email || !email.includes('@')) {
+    showToast('Please enter a valid email');
+    return;
+  }
+  showToast('Reminder set! We\'ll ping you next month.');
+}
+
+function startOver() {
+  data.metrics = {};
+  data.win1 = ''; data.win2 = ''; data.win3 = '';
+  data.challenge1 = ''; data.challenge2 = '';
+  data.asks = []; data.askFreetext = '';
+  ['win1','win2','win3','challenge1','challenge2','askFreetext'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.querySelectorAll('.checkbox-pill').forEach(p => {
+    p.classList.remove('checked');
+    p.querySelector('input').checked = false;
+  });
+  goStep(1);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ─── Load shared data from URL ───
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  const d = params.get('d');
+  if (d) {
+    try {
+      const decoded = JSON.parse(decodeURIComponent(escape(atob(d))));
+      data = { ...data, ...decoded };
+      // Go directly to preview
+      setTimeout(() => {
+        showScreen('step4Screen');
+        updateProgress(4);
+        renderPreview();
+      }, 100);
+    } catch(e) {}
+  }
+})();
+</script>
+
+</body>
+</html>

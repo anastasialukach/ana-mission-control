@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manager Intelligence — Deep due diligence. Privately.</title>
+<meta name="description" content="Deep due diligence on fund managers that goes beyond paid databases. Private, comprehensive intelligence briefs for family offices and institutional allocators.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy: #1a1a2e;
+  --navy-light: #2a2a42;
+  --navy-muted: #3d3d5c;
+  --warm-white: #fafaf8;
+  --warm-white-dim: #f0efe9;
+  --gold: #c9a84c;
+  --gold-dim: rgba(201, 168, 76, 0.15);
+  --gold-text: #8a7230;
+  --teal: #4a7c7e;
+  --red: #8b3a3a;
+  --red-bg: rgba(180, 60, 60, 0.08);
+  --red-border: rgba(180, 60, 60, 0.2);
+  --amber: #8a7230;
+  --amber-bg: rgba(201, 168, 76, 0.1);
+  --amber-border: rgba(201, 168, 76, 0.25);
+  --green: #3a6b3a;
+  --green-bg: rgba(58, 107, 58, 0.08);
+  --green-border: rgba(58, 107, 58, 0.2);
+  --text-primary: #1a1a2e;
+  --text-secondary: #5a5a72;
+  --text-tertiary: #8a8a9e;
+  --border: #e2e1db;
+  --border-light: rgba(226, 225, 219, 0.5);
+  --serif: 'Source Serif 4', Georgia, serif;
+  --sans: 'Inter', -apple-system, system-ui, sans-serif;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+}
+
+html { font-size: 16px; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+body {
+  font-family: var(--sans);
+  background: var(--warm-white);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100dvh;
+}
+
+/* ─── Layout ─── */
+.container {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 5vw, 2.5rem);
+}
+
+.container--narrow { max-width: 640px; }
+
+/* ─── Animations ─── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInSoft {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideDown {
+  from { opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; }
+  to { opacity: 1; max-height: 2000px; }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+@keyframes scanLine {
+  0% { left: -30%; }
+  100% { left: 100%; }
+}
+
+@keyframes dotPulse {
+  0%, 80%, 100% { transform: scale(0); opacity: 0; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.7s var(--ease) forwards;
+}
+
+.fade-in-delay-1 { animation-delay: 0.1s; }
+.fade-in-delay-2 { animation-delay: 0.2s; }
+.fade-in-delay-3 { animation-delay: 0.3s; }
+.fade-in-delay-4 { animation-delay: 0.4s; }
+
+/* ─── Hero / Input Section ─── */
+.hero {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(3rem, 8vh, 5rem) 0;
+}
+
+.hero-eyebrow {
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 {
+  font-family: var(--serif);
+  font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--navy);
+  margin-bottom: 1.25rem;
+}
+
+.hero-tagline {
+  font-family: var(--serif);
+  font-size: clamp(1.05rem, 2.2vw, 1.2rem);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--text-secondary);
+  margin-bottom: 3rem;
+}
+
+.hero-desc {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 520px;
+  margin-bottom: 3rem;
+}
+
+/* ─── Privacy Badge ─── */
+.privacy-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text-tertiary);
+  padding: 0.5rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  margin-bottom: 2.5rem;
+}
+
+.privacy-badge svg { flex-shrink: 0; }
+
+/* ─── Search Form ─── */
+.search-form {
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  font-family: var(--sans);
+  font-size: 1rem;
+  color: var(--text-primary);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  outline: none;
+  transition: border-color 0.3s var(--ease);
+}
+
+.form-input::placeholder { color: var(--text-tertiary); }
+.form-input:focus { border-color: var(--navy-muted); }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 540px) {
+  .form-row { grid-template-columns: 1fr; }
+}
+
+/* ─── Focus Area Checkboxes ─── */
+.focus-areas {
+  margin-bottom: 2rem;
+}
+
+.focus-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+@media (max-width: 540px) {
+  .focus-grid { grid-template-columns: 1fr; }
+}
+
+.focus-check {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+  user-select: none;
+}
+
+.focus-check:hover { border-color: var(--navy-muted); }
+.focus-check.checked { border-color: var(--navy); background: rgba(26, 26, 46, 0.03); }
+
+.focus-check input { display: none; }
+
+.check-box {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s var(--ease);
+  flex-shrink: 0;
+}
+
+.focus-check.checked .check-box {
+  border-color: var(--navy);
+  background: var(--navy);
+}
+
+.check-box svg {
+  opacity: 0;
+  transition: opacity 0.2s var(--ease);
+}
+
+.focus-check.checked .check-box svg { opacity: 1; }
+
+.check-label {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+/* ─── Buttons ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s var(--ease);
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: var(--navy);
+  color: var(--warm-white);
+  padding: 1rem 2.5rem;
+  border-radius: 2px;
+  width: 100%;
+}
+
+.btn-primary:hover { background: var(--navy-light); }
+.btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text-secondary);
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+}
+
+.btn-secondary:hover { border-color: var(--text-secondary); color: var(--text-primary); }
+
+.btn-ghost {
+  background: none;
+  color: var(--text-tertiary);
+  padding: 0.5rem 0;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+}
+
+.btn-ghost:hover { color: var(--text-primary); }
+
+/* ─── Loading State ─── */
+.loading-screen {
+  display: none;
+  min-height: 100dvh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 4rem 0;
+}
+
+.loading-screen.active { display: flex; }
+
+.loading-title {
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  font-weight: 400;
+  color: var(--navy);
+  margin-bottom: 0.75rem;
+}
+
+.loading-sub {
+  font-size: 0.9rem;
+  color: var(--text-tertiary);
+  margin-bottom: 3rem;
+}
+
+.loading-steps {
+  width: 100%;
+  max-width: 400px;
+  text-align: left;
+}
+
+.loading-step {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 0;
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  transition: all 0.4s var(--ease);
+}
+
+.loading-step.active { color: var(--text-primary); }
+.loading-step.done { color: var(--text-secondary); }
+
+.step-indicator {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.4s var(--ease);
+  position: relative;
+}
+
+.loading-step.active .step-indicator {
+  border-color: var(--navy);
+}
+
+.loading-step.active .step-indicator::after {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--navy);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+.loading-step.done .step-indicator {
+  border-color: var(--green);
+  background: var(--green-bg);
+}
+
+.loading-step.done .step-indicator svg { display: block; }
+.loading-step .step-indicator svg { display: none; }
+
+/* ─── Report ─── */
+.report {
+  display: none;
+  padding: clamp(2rem, 5vh, 3rem) 0 4rem;
+}
+
+.report.active { display: block; }
+
+.report-header {
+  padding-bottom: 2.5rem;
+  margin-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.report-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 0.75rem;
+}
+
+.report-manager-name {
+  font-family: var(--serif);
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 400;
+  line-height: 1.15;
+  color: var(--navy);
+  margin-bottom: 0.5rem;
+}
+
+.report-fund-name {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.report-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+}
+
+.report-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* ─── Confidence Gauge ─── */
+.confidence-gauge {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  margin-bottom: 2rem;
+}
+
+.gauge-bar {
+  flex: 1;
+  height: 6px;
+  background: var(--warm-white-dim);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+
+.gauge-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1.2s var(--ease);
+  width: 0;
+}
+
+.gauge-fill.green { background: var(--green); }
+.gauge-fill.amber { background: var(--gold); }
+.gauge-fill.red { background: var(--red); }
+
+.gauge-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.gauge-label.green { color: var(--green); }
+.gauge-label.amber { color: var(--amber); }
+.gauge-label.red { color: var(--red); }
+
+.gauge-title {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+}
+
+/* ─── Executive Summary ─── */
+.exec-summary {
+  margin-bottom: 2.5rem;
+  opacity: 0;
+}
+
+.exec-summary.visible { animation: fadeIn 0.7s var(--ease) forwards; }
+
+.summary-highlights {
+  margin: 1.5rem 0;
+}
+
+.summary-highlight {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.6rem 0;
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  line-height: 1.55;
+}
+
+.highlight-marker {
+  flex-shrink: 0;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+  margin-top: 0.55rem;
+}
+
+.meeting-questions {
+  background: rgba(26, 26, 46, 0.03);
+  padding: 1.5rem;
+  border-radius: 2px;
+  margin-top: 1.5rem;
+}
+
+.meeting-questions-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 1rem;
+}
+
+.meeting-q {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  padding: 0.4rem 0;
+  line-height: 1.55;
+  font-style: italic;
+}
+
+/* ─── Report Sections ─── */
+.report-section {
+  border-top: 1px solid var(--border);
+  opacity: 0;
+  margin-bottom: 0;
+}
+
+.report-section.visible { animation: fadeIn 0.7s var(--ease) forwards; }
+
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 0;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s var(--ease);
+}
+
+.section-header:hover { opacity: 0.75; }
+
+.section-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.section-number {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  min-width: 1.5rem;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--navy);
+}
+
+.section-flag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+  margin-left: 0.75rem;
+}
+
+.flag-green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green-border); }
+.flag-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber-border); }
+.flag-red { background: var(--red-bg); color: var(--red); border: 1px solid var(--red-border); }
+
+.section-chevron {
+  transition: transform 0.3s var(--ease);
+  color: var(--text-tertiary);
+  flex-shrink: 0;
+}
+
+.section-header.open .section-chevron { transform: rotate(180deg); }
+
+.section-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.5s var(--ease), padding 0.3s var(--ease);
+  padding: 0 0;
+}
+
+.section-body.open {
+  max-height: 3000px;
+  padding: 0.5rem 0 2rem;
+}
+
+.section-content {
+  padding-left: 2.35rem;
+}
+
+/* ─── Data Items ─── */
+.data-group {
+  margin-bottom: 1.75rem;
+}
+
+.data-group:last-child { margin-bottom: 0; }
+
+.data-group-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: 0.85rem;
+}
+
+.data-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.45rem 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+.data-bullet {
+  flex-shrink: 0;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--border);
+  margin-top: 0.55rem;
+}
+
+.data-flag {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 0.1rem 0.4rem;
+  border-radius: 1px;
+  margin-left: 0.25rem;
+  vertical-align: middle;
+}
+
+.data-flag.green { background: var(--green-bg); color: var(--green); }
+.data-flag.amber { background: var(--amber-bg); color: var(--amber); }
+.data-flag.red { background: var(--red-bg); color: var(--red); }
+
+/* ─── Red Flags Dashboard ─── */
+.red-flags-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.red-flag-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  transition: all 0.2s var(--ease);
+}
+
+.red-flag-item.severity-high { border-left: 3px solid var(--red); }
+.red-flag-item.severity-medium { border-left: 3px solid var(--gold); }
+.red-flag-item.severity-low { border-left: 3px solid var(--teal); }
+
+.flag-severity {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  padding-top: 0.15rem;
+}
+
+.flag-severity.high { color: var(--red); }
+.flag-severity.medium { color: var(--amber); }
+.flag-severity.low { color: var(--teal); }
+
+.flag-content {
+  flex: 1;
+}
+
+.flag-title {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 0.25rem;
+}
+
+.flag-desc {
+  font-size: 0.825rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+}
+
+/* ─── Actions Section ─── */
+.action-list {
+  list-style: none;
+}
+
+.action-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.65rem 0;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.action-item:last-child { border-bottom: none; }
+
+.action-num {
+  flex-shrink: 0;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  padding-top: 0.2rem;
+  min-width: 1.25rem;
+}
+
+/* ─── Report Footer Actions ─── */
+.report-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 2.5rem 0;
+  border-top: 1px solid var(--border);
+  margin-top: 1rem;
+}
+
+/* ─── Waitlist ─── */
+.waitlist {
+  display: none;
+  min-height: 80dvh;
+  flex-direction: column;
+  justify-content: center;
+  padding: 4rem 0;
+}
+
+.waitlist.active { display: flex; animation: fadeIn 0.7s var(--ease) forwards; }
+
+.waitlist-title {
+  font-family: var(--serif);
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  font-weight: 400;
+  color: var(--navy);
+  margin-bottom: 0.75rem;
+}
+
+.waitlist-sub {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 2.5rem;
+  line-height: 1.65;
+  max-width: 480px;
+}
+
+.waitlist-form {
+  display: flex;
+  gap: 0.75rem;
+  max-width: 420px;
+  margin-bottom: 1.5rem;
+}
+
+.waitlist-form input {
+  flex: 1;
+  padding: 0.85rem 1rem;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--text-primary);
+  outline: none;
+}
+
+.waitlist-form input:focus { border-color: var(--navy-muted); }
+
+.waitlist-form button {
+  padding: 0.85rem 1.5rem;
+  white-space: nowrap;
+}
+
+.waitlist-note {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+}
+
+/* ─── Footer ─── */
+.footer {
+  text-align: center;
+  padding: 3rem 0;
+  border-top: 1px solid var(--border);
+}
+
+.footer-text {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+}
+
+.footer-text a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.footer-text a:hover { color: var(--text-primary); border-color: var(--text-primary); }
+
+/* ─── Toast ─── */
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(1rem);
+  background: var(--navy);
+  color: var(--warm-white);
+  padding: 0.75rem 1.5rem;
+  font-size: 0.85rem;
+  border-radius: 2px;
+  opacity: 0;
+  transition: all 0.3s var(--ease);
+  pointer-events: none;
+  z-index: 200;
+}
+
+.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ─── SVG Mini Chart ─── */
+.mini-chart {
+  margin: 1rem 0;
+}
+
+.mini-chart svg { width: 100%; max-width: 360px; }
+
+/* ─── Bar chart ─── */
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.5rem;
+  height: 80px;
+  padding: 0.5rem 0;
+  margin: 1rem 0;
+}
+
+.bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  flex: 1;
+}
+
+.bar-value {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+}
+
+.bar-fill {
+  width: 100%;
+  max-width: 36px;
+  border-radius: 2px 2px 0 0;
+  transition: height 1s var(--ease);
+}
+
+.bar-label {
+  font-size: 0.6rem;
+  color: var(--text-tertiary);
+  letter-spacing: 0.02em;
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 540px) {
+  .confidence-gauge { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .gauge-bar { width: 100%; }
+  .waitlist-form { flex-direction: column; }
+  .report-actions { flex-direction: column; }
+  .report-actions .btn { width: 100%; }
+  .section-content { padding-left: 0; }
+  .section-header-left { gap: 0.5rem; }
+}
+
+/* ─── Print ─── */
+@media print {
+  .report-actions, .hero, .loading-screen, .waitlist { display: none !important; }
+  .report-section { break-inside: avoid; }
+  .section-body { max-height: none !important; padding: 0.5rem 0 1.5rem !important; }
+  body { font-size: 10pt; }
+}
+</style>
+</head>
+<body>
+
+<div class="toast" id="toast"></div>
+
+<!-- ─── HERO / INPUT ─── -->
+<div class="container container--narrow" id="heroSection">
+  <div class="hero">
+    <div class="hero-eyebrow fade-in">Intelligence Platform</div>
+    <h1 class="fade-in fade-in-delay-1">Manager Intelligence</h1>
+    <p class="hero-tagline fade-in fade-in-delay-2">The due diligence your databases miss.</p>
+
+    <div class="privacy-badge fade-in fade-in-delay-3">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Your research is private. Nothing is stored.
+    </div>
+
+    <form class="search-form fade-in fade-in-delay-4" onsubmit="handleSearch(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label" for="managerName">Manager / GP Name</label>
+          <input class="form-input" type="text" id="managerName" placeholder="e.g. Greenfield Capital Partners" required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="fundName">Fund Name (optional)</label>
+          <input class="form-input" type="text" id="fundName" placeholder="e.g. Fund III" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="focus-areas">
+        <label class="form-label">Focus Areas</label>
+        <div class="focus-grid">
+          <label class="focus-check checked" onclick="toggleCheck(this)">
+            <input type="checkbox" name="focus" value="team" checked>
+            <span class="check-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fafaf8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="check-label">Team Stability</span>
+          </label>
+          <label class="focus-check checked" onclick="toggleCheck(this)">
+            <input type="checkbox" name="focus" value="track" checked>
+            <span class="check-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fafaf8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="check-label">Track Record Verification</span>
+          </label>
+          <label class="focus-check checked" onclick="toggleCheck(this)">
+            <input type="checkbox" name="focus" value="regulatory" checked>
+            <span class="check-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fafaf8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="check-label">Regulatory &amp; Legal</span>
+          </label>
+          <label class="focus-check checked" onclick="toggleCheck(this)">
+            <input type="checkbox" name="focus" value="market" checked>
+            <span class="check-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fafaf8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="check-label">Market Positioning</span>
+          </label>
+          <label class="focus-check checked" onclick="toggleCheck(this)">
+            <input type="checkbox" name="focus" value="sentiment" checked>
+            <span class="check-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fafaf8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="check-label">LP Sentiment</span>
+          </label>
+          <label class="focus-check checked" onclick="toggleCheck(this)">
+            <input type="checkbox" name="focus" value="redflags" checked>
+            <span class="check-box"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fafaf8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <span class="check-label">Red Flags</span>
+          </label>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" type="submit">Generate Intelligence Brief</button>
+    </form>
+  </div>
+</div>
+
+<!-- ─── LOADING ─── -->
+<div class="container container--narrow">
+  <div class="loading-screen" id="loadingScreen">
+    <div class="loading-title" id="loadingTitle">Gathering intelligence...</div>
+    <div class="loading-sub" id="loadingSub">Cross-referencing public and alternative data sources</div>
+    <div class="loading-steps" id="loadingSteps">
+      <div class="loading-step" data-step="0">
+        <span class="step-indicator"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span>Scanning regulatory filings</span>
+      </div>
+      <div class="loading-step" data-step="1">
+        <span class="step-indicator"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span>Analysing team composition signals</span>
+      </div>
+      <div class="loading-step" data-step="2">
+        <span class="step-indicator"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span>Cross-referencing track record claims</span>
+      </div>
+      <div class="loading-step" data-step="3">
+        <span class="step-indicator"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span>Aggregating LP sentiment data</span>
+      </div>
+      <div class="loading-step" data-step="4">
+        <span class="step-indicator"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span>Mapping market positioning</span>
+      </div>
+      <div class="loading-step" data-step="5">
+        <span class="step-indicator"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--green)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+        <span>Compiling intelligence brief</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── WAITLIST ─── -->
+<div class="container container--narrow">
+  <div class="waitlist" id="waitlistSection">
+    <div class="waitlist-title">This manager is not in our demo database.</div>
+    <p class="waitlist-sub">Manager Intelligence is currently in private beta. We are building deep integrations with regulatory, employment, and alternative data sources. Join the waitlist for early access to full research capabilities.</p>
+    <form class="waitlist-form" onsubmit="handleWaitlist(event)">
+      <input type="email" placeholder="your@email.com" required id="waitlistEmail">
+      <button class="btn btn-primary" type="submit" style="width:auto;padding:0.85rem 1.75rem;">Join Waitlist</button>
+    </form>
+    <p class="waitlist-note">No spam. We will notify you when full access launches.</p>
+    <br><br>
+    <button class="btn btn-ghost" onclick="backToSearch()" style="text-transform:uppercase;">&larr; Try another search</button>
+  </div>
+</div>
+
+<!-- ─── REPORT ─── -->
+<div class="container" id="reportContainer">
+  <div class="report" id="reportSection"></div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<div class="container">
+  <div class="footer" id="footer">
+    <p class="footer-text">Built by <a href="https://linkedin.com/in/anastasialukach" target="_blank" rel="noopener">Anastasia Lukach</a></p>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// DEMO DATA
+// ═══════════════════════════════════════════════════════
+
+const DEMO_DATA = {
+  "greenfield capital partners": {
+    name: "Greenfield Capital Partners",
+    fund: "Greenfield Opportunities Fund IV",
+    confidence: "green",
+    confidenceLabel: "High Confidence",
+    confidencePct: 82,
+    aum: "$2.4B",
+    strategy: "Growth Equity / Technology",
+    vintage: "2023",
+    hq: "New York, NY",
+    executive: {
+      highlights: [
+        "Consistent top-quartile performance across Funds I-III with a net IRR of 22-28% across vintages",
+        "Stable senior team with average partner tenure of 9.2 years; no key departures in 36 months",
+        "Clean regulatory record across SEC and state filings; no enforcement actions, no material ADV amendments",
+        "Strong LP re-commitment rate estimated at 85%+ based on Fund IV close trajectory"
+      ],
+      meetingQuestions: [
+        "Fund IV is 40% larger than Fund III. How are you managing the strategy drift risk at this scale?",
+        "Your two most senior associates left in Q2 2024. Were these planned transitions or departures?",
+        "The stated gross IRR for Fund II includes Nextera's $340M exit. What does performance look like excluding your top-quartile outlier?"
+      ]
+    },
+    team: {
+      flag: "green",
+      groups: [
+        {
+          title: "Team Composition",
+          items: [
+            { text: "18 investment professionals, 6 partners. Headcount grew 22% over 24 months — consistent with AUM growth", flag: "green" },
+            { text: "Average partner tenure: 9.2 years. Two founding partners remain. No senior departures since 2021", flag: "green" },
+            { text: "Two associates departed Q2 2024, both to MBA programs — typical career progression, not attrition signal" },
+            { text: "Three new hires in 2024: two laterals from Insight Partners and General Atlantic — strong pedigree" }
+          ]
+        },
+        {
+          title: "Sentiment Indicators",
+          items: [
+            { text: "Glassdoor: 4.1/5.0 average (28 reviews). No concerning patterns in recent reviews" },
+            { text: "No \"Open to Work\" signals detected among current senior staff on LinkedIn" },
+            { text: "Active conference speaking: CIO appeared at SuperReturn, ILPA Summit, and Milken in past 12 months" }
+          ]
+        }
+      ]
+    },
+    track: {
+      flag: "green",
+      groups: [
+        {
+          title: "Performance Verification",
+          items: [
+            { text: "Fund I (2015): Stated 2.8x net TVPI / 28% net IRR. Public exits (3 of 8 companies) cross-reference within expected range", flag: "green" },
+            { text: "Fund II (2018): Stated 2.2x net TVPI / 24% net IRR. Includes Nextera exit at $340M — top-decile outlier. Excluding Nextera: ~1.7x TVPI", flag: "amber" },
+            { text: "Fund III (2021): Early vintage, stated 1.4x net TVPI. Markings appear reasonable based on comparable transaction data", flag: "green" }
+          ]
+        },
+        {
+          title: "Portfolio Company Outcomes",
+          items: [
+            { text: "12 of 14 Fund I companies exited. Two write-downs (Coda Analytics, ParkView). 86% exit rate is above median" },
+            { text: "Fund II portfolio: 5 of 11 companies marked at >2x. Largest position (SpectraAI) accounts for 35% of unrealised value — concentration risk noted" },
+            { text: "Vintage year context: Fund I outperformed the 2015 growth equity cohort by ~400bps net IRR" }
+          ]
+        }
+      ]
+    },
+    regulatory: {
+      flag: "green",
+      groups: [
+        {
+          title: "Filings & Compliance",
+          items: [
+            { text: "SEC registered investment adviser since 2014. ADV filed annually, no material amendments outside normal course", flag: "green" },
+            { text: "No enforcement actions, no deficiency letters disclosed", flag: "green" },
+            { text: "Most recent exam: 2022. No public findings" },
+            { text: "DFSA registration maintained for Middle East activities. Clean record" }
+          ]
+        },
+        {
+          title: "Structure & Terms",
+          items: [
+            { text: "Standard Cayman/Delaware fund structure. No unusual affiliated service providers" },
+            { text: "No known side letter controversies. MFN offered to commitments above $25M" },
+            { text: "2/20 fee structure with 8% preferred return. Within market norms for strategy" }
+          ]
+        }
+      ]
+    },
+    market: {
+      flag: "green",
+      groups: [
+        {
+          title: "Competitive Positioning",
+          items: [
+            { text: "Positioned as sector-focused growth equity ($20-80M checks). Differentiation: proprietary sourcing through technical advisory network" },
+            { text: "AUM growth: $800M (2018) to $2.4B (2024). Steady trajectory, no sharp spikes suggesting style drift" },
+            { text: "Claims 60% proprietary deal flow. Based on portfolio company sampling, this appears directionally accurate — several investments show no prior institutional involvement" }
+          ]
+        },
+        {
+          title: "Media & Visibility",
+          items: [
+            { text: "Moderate media profile. Featured in Institutional Investor (2x), PEI (3x), Bloomberg (1x) over 24 months" },
+            { text: "CIO speaks at 4-6 industry events annually. Consistent with peer group visibility, not attention-seeking" },
+            { text: "No concerning press. One WSJ mention regarding a portfolio company IPO — neutral-to-positive" }
+          ]
+        }
+      ]
+    },
+    sentiment: {
+      flag: "green",
+      groups: [
+        {
+          title: "LP Signals",
+          items: [
+            { text: "Estimated 85%+ re-up rate from Fund III to Fund IV based on known LP base and close size", flag: "green" },
+            { text: "Fund IV first close: $1.6B (of $2.5B target) in 6 months. Strong demand signal" },
+            { text: "No placement agent used for Funds III or IV. Direct LP relationships appear strong" },
+            { text: "Anonymous LP forum mentions (3 found): consistently positive. Noted themes: responsive team, transparent reporting, fair terms" }
+          ]
+        },
+        {
+          title: "Reference Check Suggestions",
+          items: [
+            { text: "Request references from Fund I LPs specifically — longest track record to verify" },
+            { text: "Ask for a portfolio company CEO reference from a write-down (Coda Analytics) — how they handle adversity matters" },
+            { text: "Speak to the two departed associates if possible — they are the most candid source on culture" }
+          ]
+        }
+      ]
+    },
+    redflags: {
+      items: [
+        { severity: "low", title: "Concentration Risk in Fund II", desc: "SpectraAI represents ~35% of Fund II unrealised value. A significant markdown here would materially change the fund's performance profile." },
+        { severity: "low", title: "AUM Growth Pace", desc: "Fund IV is 40% larger than Fund III. While growth is organic, strategy capacity at $2.5B should be probed — particularly check-size discipline and competitive dynamics at larger deal sizes." }
+      ]
+    },
+    actions: {
+      ddq: [
+        "What is your maximum check size as a percentage of fund size, and has this changed across vintages?",
+        "How do you think about position concentration? What triggers a markdown in your valuation process?",
+        "Walk us through a deal that did not work — specifically Coda Analytics. What happened and what changed in your process?",
+        "With Fund IV 40% larger, how many new deals do you expect versus Fund III? Is the team scaled accordingly?"
+      ],
+      references: [
+        "Two Fund I anchor LPs (longest relationship, most data points)",
+        "CEO of a write-down company (tests GP behaviour in adversity)",
+        "Co-investor on a recent deal (validates sourcing and diligence claims)",
+        "Former associate (candid on culture, pace, mentorship)"
+      ],
+      verify: [
+        "Request audited financials for Funds I-III directly from the administrator (not the GP)",
+        "Cross-reference Nextera exit valuation with public filings (company went public in 2022)",
+        "Verify SpectraAI's latest fundraise valuation through secondary market data providers",
+        "Confirm headcount claims via LinkedIn Sales Navigator team search"
+      ],
+      timeline: "Re-assess in 6 months. Key triggers: Fund IV final close trajectory, SpectraAI valuation development, any senior team changes."
+    }
+  },
+
+  "apex ventures": {
+    name: "Apex Ventures",
+    fund: "Apex Growth Partners II",
+    confidence: "amber",
+    confidenceLabel: "Mixed Signals",
+    confidencePct: 54,
+    aum: "$680M",
+    strategy: "Early Growth / Technology",
+    vintage: "2022",
+    hq: "San Francisco, CA",
+    executive: {
+      highlights: [
+        "Fund I shows strong top-line returns (3.1x gross TVPI) but driven primarily by a single exit — underlying dispersion is wide",
+        "Two of five partners departed in the last 18 months, including the original CTO-in-Residence. Key person risk is elevated",
+        "LP sentiment is divided: early backers are enthusiastic, but two institutional LPs declined Fund II re-up citing governance concerns",
+        "Regulatory record is clean, but recent ADV amendment expanded the scope of permitted affiliated transactions"
+      ],
+      meetingQuestions: [
+        "Two partners have left since Fund I. Can you walk us through the circumstances — were these planned successions or disagreements?",
+        "Your Fund I gross-to-net spread is 1,400bps. That is above market. Can you detail the fee and carry structure, including any deal-level fees?",
+        "We understand at least two Fund I LPs did not re-commit to Fund II. What feedback did they give, and what changes have you made?"
+      ]
+    },
+    team: {
+      flag: "amber",
+      groups: [
+        {
+          title: "Team Composition",
+          items: [
+            { text: "Currently 11 investment professionals, 3 partners (down from 5). Team turnover rate of 36% over 18 months", flag: "red" },
+            { text: "Marcus Webb (co-founder and CTO-in-Residence) departed Q1 2024. No public announcement, LinkedIn shows advisory role elsewhere", flag: "red" },
+            { text: "Sarah Chen (Partner, healthcare) departed Q3 2023. Now at competing firm. Non-compete waiver suggests amicable but firm did not retain her", flag: "amber" },
+            { text: "Two new VP-level hires in 2024 from mid-tier firms. Rebuilding, but experience level is a step down from departures" }
+          ]
+        },
+        {
+          title: "Sentiment Indicators",
+          items: [
+            { text: "Glassdoor: 3.2/5.0 (12 reviews). Two recent reviews mention \"changing culture\" and \"founder-driven decisions\"", flag: "amber" },
+            { text: "One current VP has \"Open to Work\" enabled on LinkedIn — possible flight risk", flag: "amber" },
+            { text: "Hiring activity: 4 open roles posted in past 60 days including a COO position — suggests operational restructuring" }
+          ]
+        }
+      ]
+    },
+    track: {
+      flag: "amber",
+      groups: [
+        {
+          title: "Performance Verification",
+          items: [
+            { text: "Fund I (2019): Stated 3.1x gross TVPI / 1.7x net TVPI / 18% net IRR. Gross-to-net gap of ~1,400bps raises fee structure questions", flag: "amber" },
+            { text: "Performance concentration: top exit (DataMesh, acquired for $420M) accounts for ~55% of gross gains. Excluding DataMesh: ~1.4x gross TVPI", flag: "red" },
+            { text: "Two Fund I companies (Helio Systems, WaveTech) appear to have been written down but are not prominently disclosed in marketing materials", flag: "amber" }
+          ]
+        },
+        {
+          title: "Portfolio Company Outcomes",
+          items: [
+            { text: "8 investments in Fund I. 2 exits (1 strong, 1 modest), 2 likely write-downs, 4 held at cost or modest markup" },
+            { text: "Stated \"top-quartile\" performance. Based on 2019 early-growth vintage benchmarks, the net IRR of 18% places them at approximately 55th percentile — above median but not top-quartile", flag: "amber" },
+            { text: "Fund II deployment pace: 40% called in first 12 months. Fast for a 2022 vintage given market conditions — possible adverse selection risk" }
+          ]
+        }
+      ]
+    },
+    regulatory: {
+      flag: "amber",
+      groups: [
+        {
+          title: "Filings & Compliance",
+          items: [
+            { text: "SEC registered since 2019. No enforcement actions", flag: "green" },
+            { text: "ADV amended in March 2024 to expand affiliated transaction permissions. The scope of permitted GP co-invest alongside the fund was broadened", flag: "amber" },
+            { text: "No litigation found in public records" }
+          ]
+        },
+        {
+          title: "Structure & Terms",
+          items: [
+            { text: "Fund II terms: 2/20 with no preferred return hurdle. Below-market LP protections", flag: "amber" },
+            { text: "GP commitment: 1% of fund size. Low end of market range — typical is 2-5% for emerging managers seeking alignment", flag: "amber" },
+            { text: "Side letter programme exists but details are not disclosed to non-anchor LPs" }
+          ]
+        }
+      ]
+    },
+    market: {
+      flag: "amber",
+      groups: [
+        {
+          title: "Competitive Positioning",
+          items: [
+            { text: "Positions as \"founder-friendly, technical-first\" early growth investor. Claims differentiation through technical due diligence capabilities" },
+            { text: "With CTO-in-Residence departed, the technical diligence claim is harder to substantiate", flag: "amber" },
+            { text: "AUM relatively flat: $680M across two funds. Fund II is smaller than Fund I ($380M vs $300M) — a negative trajectory signal in fundraising context", flag: "amber" }
+          ]
+        },
+        {
+          title: "Media & Visibility",
+          items: [
+            { text: "Low media profile. One TechCrunch mention, two podcast appearances in past 24 months" },
+            { text: "Founding partner active on Twitter/X with commentary on AI and crypto. Mixed signal — builds personal brand but some posts are informal for an institutional manager" },
+            { text: "Not present at major LP conferences (SuperReturn, ILPA). Peer managers in their cohort attend regularly" }
+          ]
+        }
+      ]
+    },
+    sentiment: {
+      flag: "amber",
+      groups: [
+        {
+          title: "LP Signals",
+          items: [
+            { text: "Estimated 55-60% re-up rate from Fund I to Fund II. Below the ~75% threshold that signals strong LP satisfaction", flag: "amber" },
+            { text: "Two institutional LPs (one US endowment, one European FoF) are known to have declined Fund II. Cited governance and key-person concerns", flag: "red" },
+            { text: "Placement agent engaged for Fund II (Monument Group). Can be neutral, but in this case it followed LP attrition — suggests difficulty filling the fund organically", flag: "amber" },
+            { text: "One anonymous forum mention: \"good fund, founder is hard to work with on reporting and transparency\"" }
+          ]
+        },
+        {
+          title: "Reference Check Suggestions",
+          items: [
+            { text: "Critical: speak to the LPs who did NOT re-commit. Their reasons will be more informative than reference LPs" },
+            { text: "Ask Marcus Webb (departed CTO-in-Residence) for a candid perspective — off-list reference" },
+            { text: "Request a reference from the DataMesh founding team — your best data point on how the GP actually adds value" }
+          ]
+        }
+      ]
+    },
+    redflags: {
+      items: [
+        { severity: "high", title: "Key Person Departures", desc: "Two of five original partners departed in 18 months, including the CTO-in-Residence who was central to the firm's stated differentiation. This materially changes the team that generated Fund I returns." },
+        { severity: "high", title: "Performance Concentration + Disclosure", desc: "55% of Fund I gross gains from a single exit. Two write-downs are not prominently disclosed. Marketing materials cite \"top-quartile\" performance that does not match vintage benchmarks on a net basis." },
+        { severity: "medium", title: "LP Attrition Signal", desc: "55-60% re-up rate with known institutional LP departures, combined with placement agent engagement, suggests the manager is having difficulty retaining their LP base." },
+        { severity: "medium", title: "Below-Market LP Protections", desc: "No preferred return hurdle and 1% GP commitment. Fee structure and alignment are below institutional norms. ADV amendment expanding affiliated transaction scope adds to governance concerns." },
+        { severity: "low", title: "Glassdoor Sentiment Shift", desc: "Recent employee reviews mention changing culture and founder-driven decisions. Combined with team turnover, this suggests potential internal friction." }
+      ]
+    },
+    actions: {
+      ddq: [
+        "Please detail the circumstances of Marcus Webb and Sarah Chen's departures. Were these planned transitions? Were non-competes enforced?",
+        "Provide Fund I performance attribution — what percentage of gross gains came from your top 1 and top 3 investments?",
+        "What is the current status of Helio Systems and WaveTech? Please provide the latest fair market valuations and methodology.",
+        "Why was the ADV amended to expand affiliated transaction permissions? Can you provide examples of how this provision would be used?",
+        "What specific feedback did the LPs who did not re-commit to Fund II provide, and what changes have you made in response?"
+      ],
+      references: [
+        "An LP who declined Fund II re-commitment (most honest signal available)",
+        "Marcus Webb, former CTO-in-Residence (off-list, critical for understanding the departure)",
+        "DataMesh CEO (verify value-add claims from the GP's best outcome)",
+        "Monument Group (placement agent) — understand the fundraise dynamics"
+      ],
+      verify: [
+        "Request Fund I audited financials and compare gross/net spread against stated fees to identify any undisclosed economics",
+        "Cross-reference Fund I write-downs with Crunchbase/PitchBook for latest funding rounds or shutdown signals",
+        "Pull the full ADV amendment history and compare affiliated transaction language between original and current filing",
+        "Verify Fund II close size through independent sources — secondary market brokers often have intel"
+      ],
+      timeline: "High monitoring frequency recommended. Re-assess in 3 months. Key triggers: additional team departures, Fund II close progress, any LP liquidity requests."
+    }
+  },
+
+  "meridian growth fund": {
+    name: "Meridian Growth Fund",
+    fund: "Meridian Growth Partners III",
+    confidence: "red",
+    confidenceLabel: "Significant Concerns",
+    confidencePct: 28,
+    aum: "$1.1B",
+    strategy: "Multi-Strategy / Opportunistic",
+    vintage: "2023",
+    hq: "Miami, FL",
+    executive: {
+      highlights: [
+        "Stated returns of 35%+ net IRR across funds are not corroborated by available data and exceed plausible benchmarks for the stated strategy",
+        "40% investment team turnover in 24 months, including the head of risk and the CFO. Three Glassdoor reviews reference compliance and culture concerns",
+        "SEC ADV shows two disclosure events and a material change in fee calculations. A related-party service provider was added without LP advisory committee approval",
+        "Multiple data points do not reconcile: claimed AUM trajectory, stated returns, team stability narrative, and LP composition tell inconsistent stories"
+      ],
+      meetingQuestions: [
+        "Your head of risk and CFO both left within six months of each other. What were the circumstances, and who is currently fulfilling those functions?",
+        "We cannot reconcile your stated 35% net IRR with the portfolio company data available. Can you provide audited, administrator-verified performance through a third-party channel?",
+        "Your ADV now includes a related-party administration company. Was this disclosed to and approved by the LP Advisory Committee?"
+      ]
+    },
+    team: {
+      flag: "red",
+      groups: [
+        {
+          title: "Team Composition",
+          items: [
+            { text: "22 employees listed, but cross-referencing LinkedIn shows only 15 current profiles associated with the firm. Headcount claims may be inflated", flag: "red" },
+            { text: "Head of Risk (James Thornton) departed Q4 2023. CFO (Linda Park) departed Q1 2024. Both were 5+ year veterans. Neither has made public statements", flag: "red" },
+            { text: "Investment team turnover: approximately 40% over 24 months. 9 departures across all levels", flag: "red" },
+            { text: "Founder/CIO Robert Kessler concentrates decision-making. No independent IC members identified", flag: "amber" }
+          ]
+        },
+        {
+          title: "Sentiment Indicators",
+          items: [
+            { text: "Glassdoor: 2.4/5.0 (18 reviews). Three reviews in past 6 months reference \"compliance shortcuts,\" \"top-down culture,\" and \"questionable practices\"", flag: "red" },
+            { text: "Four current team members have \"Open to Work\" enabled on LinkedIn", flag: "red" },
+            { text: "Two former employees have filed employment-related complaints (public record). Disputes appear to involve compensation and non-compete enforcement" }
+          ]
+        }
+      ]
+    },
+    track: {
+      flag: "red",
+      groups: [
+        {
+          title: "Performance Verification",
+          items: [
+            { text: "Fund I (2017): Claims 3.8x net TVPI / 38% net IRR. No independent verification available. These numbers would place it in the top 1% of all multi-strategy funds globally", flag: "red" },
+            { text: "Fund II (2020): Claims 2.9x net TVPI / 35% net IRR on a 2020 vintage. Implausibly high for a multi-strategy fund with this deployment timeline", flag: "red" },
+            { text: "Requested auditor name — provided \"Meridian Advisory Services LLC\" which appears to be an affiliated entity, not an independent auditor", flag: "red" }
+          ]
+        },
+        {
+          title: "Portfolio Company Outcomes",
+          items: [
+            { text: "Marketing materials reference 26 portfolio companies. Only 14 could be independently identified. The remaining 12 have no public footprint", flag: "red" },
+            { text: "Of the 14 identified companies: 3 show funding data consistent with Meridian's claims, 6 show no evidence of Meridian involvement, 5 appear to be operating at significantly lower valuations than stated", flag: "red" },
+            { text: "Survivorship bias concern: marketing materials heavily feature successful exits but the full portfolio composition is opaque" }
+          ]
+        }
+      ]
+    },
+    regulatory: {
+      flag: "red",
+      groups: [
+        {
+          title: "Filings & Compliance",
+          items: [
+            { text: "SEC registered since 2017. Two disclosure events on ADV: one related to a regulatory inquiry (2021), one related to a client complaint (2022)", flag: "red" },
+            { text: "The 2021 regulatory inquiry appears to have been resolved without formal action, but details are limited", flag: "amber" },
+            { text: "Recent ADV amendment added \"Meridian Advisory Services LLC\" as an affiliated service provider — related-party administration raises significant conflict concerns", flag: "red" },
+            { text: "Fee calculation methodology was amended in 2023. The change appears to shift from committed capital to invested capital basis — potentially increasing effective fees on deployed capital" }
+          ]
+        },
+        {
+          title: "Structure & Terms",
+          items: [
+            { text: "Complex fund structure with multiple feeders and a master fund in the Cayman Islands. Offshore SPVs for individual deals add opacity", flag: "amber" },
+            { text: "Fund III terms: 2.5/25 above a 6% hurdle. Fee load is in the top decile for the strategy — significantly above market", flag: "red" },
+            { text: "LP Advisory Committee composition unknown. No evidence of independent LP representation on governance bodies", flag: "amber" },
+            { text: "No MFN provisions identified in available fund documents" }
+          ]
+        }
+      ]
+    },
+    market: {
+      flag: "amber",
+      groups: [
+        {
+          title: "Competitive Positioning",
+          items: [
+            { text: "Positions as \"institutional multi-strategy with venture-like returns.\" This combination is inherently unusual and should be scrutinised", flag: "amber" },
+            { text: "Claims $1.1B AUM but third-party databases (Preqin, PitchBook) show $640M. Discrepancy is unexplained", flag: "red" },
+            { text: "Differentiation claim centers on \"proprietary deal access in emerging markets.\" Difficult to verify and common among managers lacking clear edge" }
+          ]
+        },
+        {
+          title: "Media & Visibility",
+          items: [
+            { text: "High media profile relative to AUM. Founder frequently quoted in Forbes, Business Insider, and industry podcasts — unusual ratio of press to institutional substance", flag: "amber" },
+            { text: "Multiple \"award\" mentions (e.g., \"Top 50 Fund Manager\" from pay-to-play publications). Not legitimate industry recognition", flag: "amber" },
+            { text: "Presence at retail-oriented conferences (money shows, wealth expos) rather than institutional events. Unusual for a fund at this claimed AUM" }
+          ]
+        }
+      ]
+    },
+    sentiment: {
+      flag: "red",
+      groups: [
+        {
+          title: "LP Signals",
+          items: [
+            { text: "LP base appears to consist primarily of HNW individuals and small family offices. No institutional LPs (endowments, pensions, FoFs) identified", flag: "amber" },
+            { text: "Fund III fundraise has been ongoing for 18+ months. Current close size is estimated at $180M against a $500M target", flag: "red" },
+            { text: "Placement agent (non-top-tier) engaged 12 months ago. Two known placement agent relationships have ended during the fundraise — unusual churn", flag: "red" },
+            { text: "Three anonymous forum mentions: two are negative (\"avoid,\" \"numbers don't add up\"), one is neutral. A former LP posted on a private forum that redemption requests were met with significant delay" }
+          ]
+        },
+        {
+          title: "Reference Check Suggestions",
+          items: [
+            { text: "Critical: speak to former employees, particularly James Thornton (former Head of Risk) and Linda Park (former CFO). Their departures are the most significant signal" },
+            { text: "Request the fund administrator's direct contact and verify performance independently — do not rely on GP-provided statements" },
+            { text: "Contact the placement agents who disengaged. Their reasons for dropping the mandate will be highly informative" },
+            { text: "Reach out to any identifiable Fund I LP who did NOT commit to Fund II — look for patterns" }
+          ]
+        }
+      ]
+    },
+    redflags: {
+      items: [
+        { severity: "high", title: "Unverifiable Performance Claims", desc: "Stated returns of 35-38% net IRR across vintages place this manager in the top 0.5% globally. No independent verification is available. The named auditor appears to be a related party. This is the single most significant concern." },
+        { severity: "high", title: "Portfolio Opacity", desc: "12 of 26 claimed portfolio companies cannot be independently identified. Of those that can, several show no evidence of Meridian involvement or operate at valuations inconsistent with stated markings." },
+        { severity: "high", title: "Key Control Function Departures", desc: "The Head of Risk and CFO — the two most important control functions — departed within six months of each other. Combined with Glassdoor reviews mentioning compliance concerns, this pattern demands explanation." },
+        { severity: "high", title: "Related-Party Administration", desc: "The use of an affiliated entity for fund administration removes a critical independent check on valuation, fee calculation, and reporting accuracy." },
+        { severity: "medium", title: "AUM Discrepancy", desc: "Claims $1.1B in AUM. Third-party databases show $640M. A ~40% discrepancy in stated AUM is a material misrepresentation concern." },
+        { severity: "medium", title: "Fee Structure", desc: "2.5% management fee and 25% carry above a 6% hurdle is significantly above market. Combined with the related-party admin and opaque fee methodology changes, total LP cost is likely higher than disclosed." },
+        { severity: "medium", title: "Fundraising Difficulty", desc: "Fund III at $180M of $500M target after 18+ months, with placement agent churn. The market is giving a clear signal." },
+        { severity: "low", title: "Retail-Oriented Marketing", desc: "Conference presence at wealth expos, pay-to-play awards, and high media-to-substance ratio are patterns more commonly associated with retail-targeted products than institutional-quality managers." }
+      ]
+    },
+    actions: {
+      ddq: [
+        "Provide audited, administrator-verified performance statements for Funds I and II, delivered directly from your independent administrator — not through the GP.",
+        "Please identify all 26 portfolio companies across Funds I and II with current fair market values, valuation methodology, and the date of last independent mark.",
+        "Detail the relationship between the GP and Meridian Advisory Services LLC. When was it established, what services does it provide, and was the LP Advisory Committee consulted?",
+        "Explain the discrepancy between your stated $1.1B AUM and the $640M reported by third-party databases.",
+        "Provide details on the 2021 regulatory inquiry and 2022 client complaint disclosed on your ADV. What were the specifics and resolutions?"
+      ],
+      references: [
+        "James Thornton, former Head of Risk — highest priority reference. His perspective on risk management and compliance culture is essential",
+        "Linda Park, former CFO — second priority. Understanding why the CFO left during a fundraise is critical",
+        "Any identifiable institutional LP from Fund I (if any exist) — their continued involvement or departure is a signal",
+        "The current fund administrator — verify they are truly independent and request direct performance confirmation"
+      ],
+      verify: [
+        "Engage an independent operational due diligence (ODD) firm before any commitment. The control environment concerns warrant professional assessment",
+        "Run a background check on the founding team through a professional service (not just Google)",
+        "Verify corporate registrations for the 12 unidentified portfolio companies through state and Cayman registries",
+        "Request the LP Advisory Committee charter and meeting minutes from the past 24 months"
+      ],
+      timeline: "Recommendation: do not proceed to commitment without resolving the verification concerns above. If the GP cannot or will not provide independently verified performance data and full portfolio transparency, that is itself a definitive answer."
+    }
+  }
+};
+
+// ═══════════════════════════════════════════════════════
+// APP STATE & LOGIC
+// ═══════════════════════════════════════════════════════
+
+function toggleCheck(el) {
+  const input = el.querySelector('input');
+  // Toggle will happen naturally, but we need to handle the class
+  setTimeout(() => {
+    el.classList.toggle('checked', input.checked);
+  }, 0);
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+function handleSearch(e) {
+  e.preventDefault();
+  const name = document.getElementById('managerName').value.trim();
+  if (!name) return;
+
+  const key = name.toLowerCase();
+  const data = DEMO_DATA[key];
+
+  document.getElementById('heroSection').style.display = 'none';
+
+  if (data) {
+    startLoading(data);
+  } else {
+    showWaitlist(name);
+  }
+}
+
+function showWaitlist(name) {
+  document.getElementById('waitlistSection').classList.add('active');
+  document.getElementById('reportSection').classList.remove('active');
+  document.getElementById('loadingScreen').classList.remove('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function handleWaitlist(e) {
+  e.preventDefault();
+  showToast('You are on the list. We will be in touch.');
+  document.getElementById('waitlistEmail').value = '';
+}
+
+function backToSearch() {
+  document.getElementById('waitlistSection').classList.remove('active');
+  document.getElementById('reportSection').classList.remove('active');
+  document.getElementById('loadingScreen').classList.remove('active');
+  document.getElementById('heroSection').style.display = '';
+  window.scrollTo({ top: 0 });
+}
+
+function startLoading(data) {
+  const screen = document.getElementById('loadingScreen');
+  screen.classList.add('active');
+  document.getElementById('loadingTitle').textContent = `Researching ${data.name}...`;
+
+  const steps = screen.querySelectorAll('.loading-step');
+  steps.forEach(s => { s.classList.remove('active', 'done'); });
+
+  let current = 0;
+  const interval = setInterval(() => {
+    if (current > 0) steps[current - 1].classList.remove('active');
+    if (current > 0) steps[current - 1].classList.add('done');
+
+    if (current < steps.length) {
+      steps[current].classList.add('active');
+      current++;
+    } else {
+      clearInterval(interval);
+      setTimeout(() => {
+        screen.classList.remove('active');
+        renderReport(data);
+      }, 400);
+    }
+  }, 600);
+}
+
+// ═══════════════════════════════════════════════════════
+// REPORT RENDERING
+// ═══════════════════════════════════════════════════════
+
+function renderReport(data) {
+  const report = document.getElementById('reportSection');
+  const today = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  let html = `
+    <div class="report-header fade-in">
+      <div class="report-eyebrow">Intelligence Brief</div>
+      <div class="report-manager-name">${data.name}</div>
+      <div class="report-fund-name">${data.fund}</div>
+      <div class="report-meta">
+        <span class="report-meta-item">${data.strategy}</span>
+        <span class="report-meta-item">${data.hq}</span>
+        <span class="report-meta-item">AUM: ${data.aum}</span>
+        <span class="report-meta-item">Generated ${today}</span>
+      </div>
+    </div>
+
+    <div class="confidence-gauge fade-in" style="animation-delay:0.15s;">
+      <span class="gauge-title">Confidence Level</span>
+      <div class="gauge-bar">
+        <div class="gauge-fill ${data.confidence}" id="gaugeBar" data-pct="${data.confidencePct}"></div>
+      </div>
+      <span class="gauge-label ${data.confidence}">${data.confidenceLabel}</span>
+    </div>
+  `;
+
+  // Executive Summary
+  html += `<div class="exec-summary" id="sect-exec">`;
+  html += `<div class="data-group-title">Executive Summary</div>`;
+  html += `<div class="summary-highlights">`;
+  data.executive.highlights.forEach(h => {
+    html += `<div class="summary-highlight"><span class="highlight-marker"></span><span>${h}</span></div>`;
+  });
+  html += `</div>`;
+  html += `<div class="meeting-questions"><div class="meeting-questions-title">Ask in your next meeting</div>`;
+  data.executive.meetingQuestions.forEach(q => {
+    html += `<div class="meeting-q">"${q}"</div>`;
+  });
+  html += `</div></div>`;
+
+  // Sections
+  const sections = [
+    { num: "01", key: "team", title: "Team Stability Signals" },
+    { num: "02", key: "track", title: "Track Record Cross-Reference" },
+    { num: "03", key: "regulatory", title: "Regulatory & Legal Scan" },
+    { num: "04", key: "market", title: "Market Positioning" },
+    { num: "05", key: "sentiment", title: "LP Sentiment & Network Intelligence" },
+  ];
+
+  sections.forEach(sec => {
+    const sData = data[sec.key];
+    const flagClass = sData.flag === 'green' ? 'flag-green' : sData.flag === 'amber' ? 'flag-amber' : 'flag-red';
+    const flagLabel = sData.flag === 'green' ? 'Clear' : sData.flag === 'amber' ? 'Monitor' : 'Concern';
+
+    html += `<div class="report-section" id="sect-${sec.key}">`;
+    html += `<div class="section-header" onclick="toggleSection(this)">`;
+    html += `<div class="section-header-left">`;
+    html += `<span class="section-number">${sec.num}</span>`;
+    html += `<span class="section-title">${sec.title}</span>`;
+    html += `<span class="section-flag ${flagClass}">${flagLabel}</span>`;
+    html += `</div>`;
+    html += `<svg class="section-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+    html += `</div>`;
+    html += `<div class="section-body"><div class="section-content">`;
+
+    sData.groups.forEach(g => {
+      html += `<div class="data-group"><div class="data-group-title">${g.title}</div>`;
+      g.items.forEach(item => {
+        const fHtml = item.flag ? ` <span class="data-flag ${item.flag}">${item.flag === 'green' ? 'Clear' : item.flag === 'amber' ? 'Monitor' : 'Concern'}</span>` : '';
+        html += `<div class="data-item"><span class="data-bullet"></span><span>${item.text}${fHtml}</span></div>`;
+      });
+      html += `</div>`;
+    });
+
+    html += `</div></div></div>`;
+  });
+
+  // Red Flags Dashboard
+  html += `<div class="report-section" id="sect-redflags">`;
+  html += `<div class="section-header" onclick="toggleSection(this)">`;
+  html += `<div class="section-header-left">`;
+  html += `<span class="section-number">06</span>`;
+  html += `<span class="section-title">Red Flags Dashboard</span>`;
+  const rfCount = data.redflags.items.filter(i => i.severity === 'high').length;
+  if (rfCount > 0) {
+    html += `<span class="section-flag flag-red">${rfCount} High</span>`;
+  } else {
+    html += `<span class="section-flag flag-green">Clear</span>`;
+  }
+  html += `</div>`;
+  html += `<svg class="section-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+  html += `</div>`;
+  html += `<div class="section-body"><div class="section-content">`;
+  html += `<div class="red-flags-grid">`;
+  data.redflags.items.forEach(rf => {
+    html += `<div class="red-flag-item severity-${rf.severity}">`;
+    html += `<span class="flag-severity ${rf.severity}">${rf.severity}</span>`;
+    html += `<div class="flag-content"><div class="flag-title">${rf.title}</div><div class="flag-desc">${rf.desc}</div></div>`;
+    html += `</div>`;
+  });
+  html += `</div></div></div></div>`;
+
+  // Recommended Actions
+  html += `<div class="report-section" id="sect-actions">`;
+  html += `<div class="section-header" onclick="toggleSection(this)">`;
+  html += `<div class="section-header-left">`;
+  html += `<span class="section-number">07</span>`;
+  html += `<span class="section-title">Recommended Actions</span>`;
+  html += `</div>`;
+  html += `<svg class="section-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+  html += `</div>`;
+  html += `<div class="section-body"><div class="section-content">`;
+
+  html += `<div class="data-group"><div class="data-group-title">DDQ Questions for This Manager</div><ol class="action-list">`;
+  data.actions.ddq.forEach((q, i) => {
+    html += `<li class="action-item"><span class="action-num">${String(i+1).padStart(2,'0')}</span><span>${q}</span></li>`;
+  });
+  html += `</ol></div>`;
+
+  html += `<div class="data-group"><div class="data-group-title">Reference Check Targets</div><ol class="action-list">`;
+  data.actions.references.forEach((r, i) => {
+    html += `<li class="action-item"><span class="action-num">${String(i+1).padStart(2,'0')}</span><span>${r}</span></li>`;
+  });
+  html += `</ol></div>`;
+
+  html += `<div class="data-group"><div class="data-group-title">Data Points to Verify Independently</div><ol class="action-list">`;
+  data.actions.verify.forEach((v, i) => {
+    html += `<li class="action-item"><span class="action-num">${String(i+1).padStart(2,'0')}</span><span>${v}</span></li>`;
+  });
+  html += `</ol></div>`;
+
+  html += `<div class="data-group"><div class="data-group-title">Timeline</div>`;
+  html += `<div class="data-item"><span class="data-bullet"></span><span>${data.actions.timeline}</span></div>`;
+  html += `</div>`;
+
+  html += `</div></div></div>`;
+
+  // Report footer actions
+  html += `
+    <div class="report-actions">
+      <button class="btn btn-primary" onclick="exportPDF()" style="width:auto;padding:0.85rem 2rem;">Export PDF</button>
+      <button class="btn btn-secondary" onclick="showToast('Alerts will be available in the full release')">Set Alert</button>
+      <button class="btn btn-ghost" onclick="backToSearch()" style="margin-left:auto;text-transform:uppercase;">&larr; New Search</button>
+    </div>
+  `;
+
+  report.innerHTML = html;
+  report.classList.add('active');
+  window.scrollTo({ top: 0 });
+
+  // Stagger section animations
+  setTimeout(() => {
+    document.getElementById('gaugeBar').style.width = data.confidencePct + '%';
+  }, 300);
+
+  const animTargets = ['sect-exec', ...sections.map(s => 'sect-' + s.key), 'sect-redflags', 'sect-actions'];
+  animTargets.forEach((id, i) => {
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) el.classList.add('visible');
+    }, 500 + i * 250);
+  });
+}
+
+function toggleSection(header) {
+  header.classList.toggle('open');
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+
+function exportPDF() {
+  // Expand all sections for print
+  document.querySelectorAll('.section-header').forEach(h => h.classList.add('open'));
+  document.querySelectorAll('.section-body').forEach(b => b.classList.add('open'));
+  window.print();
+}
+
+// Keyboard shortcut: Escape to go back
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') backToSearch();
+});
+</script>
+
+</body>
+</html>
