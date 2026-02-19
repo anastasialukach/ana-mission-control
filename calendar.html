@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Calendar — Mission Control</title>
+<style>
+:root{--bg:#0a0a0b;--surface:#141416;--surface2:#1c1c20;--border:#2a2a30;--text:#ececf0;--muted:#7a7a85;--accent:#f0883e;--green:#34d399;--yellow:#fbbf24;--red:#f87171;--blue:#60a5fa;--purple:#a78bfa;--radius:16px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;padding:16px;max-width:720px;margin:0 auto;-webkit-font-smoothing:antialiased}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+.back{font-size:13px;color:var(--muted);display:inline-block;margin-bottom:16px}
+h1{font-size:24px;font-weight:700;margin-bottom:4px}
+h2{font-size:18px;font-weight:700;margin:20px 0 8px}
+h3{font-size:15px;font-weight:600;margin:12px 0 6px}
+.subtitle{color:var(--muted);font-size:13px;margin-bottom:20px}
+p,li{font-size:14px;line-height:1.6}
+
+/* Calendar Grid */
+.cal-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.cal-nav button{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:8px 16px;border-radius:8px;font-size:14px;cursor:pointer}
+.cal-nav button:hover{background:var(--surface2)}
+.cal-month{font-size:18px;font-weight:700}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:24px}
+.cal-day-header{text-align:center;font-size:11px;color:var(--muted);padding:8px 0;font-weight:600}
+.cal-day{text-align:center;padding:10px 4px;border-radius:8px;font-size:14px;cursor:pointer;position:relative;min-height:44px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.cal-day:hover{background:var(--surface)}
+.cal-day.today{background:var(--surface);border:2px solid var(--accent)}
+.cal-day.has-data{background:var(--surface)}
+.cal-day.has-data::after{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;position:absolute;bottom:4px}
+.cal-day.selected{background:var(--accent);color:#000;font-weight:700}
+.cal-day.selected::after{background:#000}
+.cal-day.empty{cursor:default}
+.cal-day.empty:hover{background:transparent}
+
+/* Day Detail */
+.day-detail{display:none}
+.day-detail.active{display:block}
+.day-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.day-date{font-size:20px;font-weight:700}
+.day-status{font-size:12px;color:var(--muted)}
+
+/* News Section */
+.news-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:8px}
+.news-title{font-size:14px;font-weight:600;margin-bottom:4px}
+.news-source{font-size:12px;color:var(--muted)}
+.news-summary{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.5}
+.news-link{font-size:12px;margin-top:6px;display:inline-block}
+
+/* Post Section */
+.post-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+.post-platform{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+.post-platform.linkedin{color:var(--blue)}
+.post-platform.twitter{color:var(--purple)}
+.post-text{font-size:14px;line-height:1.6;white-space:pre-wrap;-webkit-user-select:all;user-select:all;cursor:text;padding:12px;background:var(--surface2);border-radius:8px;margin-bottom:12px}
+.post-hook{font-size:12px;color:var(--accent);margin-bottom:8px}
+.post-why{font-size:12px;color:var(--muted);margin-bottom:12px}
+
+/* Metrics */
+.metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.metric-input{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:8px;text-align:center}
+.metric-input label{display:block;font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.metric-input input{width:100%;background:transparent;border:none;color:var(--text);font-size:18px;font-weight:700;text-align:center;outline:none}
+.metric-input input::placeholder{color:var(--border);font-size:14px}
+.save-btn{width:100%;padding:12px;background:var(--accent);color:#000;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;margin-top:12px}
+.save-btn:hover{opacity:0.9}
+
+/* Stats Summary */
+.stats-bar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:20px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center}
+.stats-bar .stat-num{font-size:20px;font-weight:700}
+.stats-bar .stat-label{font-size:10px;color:var(--muted);text-transform:uppercase;margin-top:2px}
+
+/* Tag */
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
+.tag-green{background:rgba(52,211,153,0.12);color:var(--green)}
+.tag-yellow{background:rgba(251,191,36,0.12);color:var(--yellow)}
+.tag-blue{background:rgba(96,165,250,0.12);color:var(--blue)}
+.tag-purple{background:rgba(167,139,250,0.12);color:var(--purple)}
+
+.footer{text-align:center;color:var(--muted);font-size:11px;padding:24px 0 12px;border-top:1px solid var(--border);margin-top:24px}
+
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted)}
+.empty-state .emoji{font-size:40px;margin-bottom:12px}
+.empty-state p{font-size:14px}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back">← Back to Dashboard</a>
+<h1>📅 Daily Briefing Calendar</h1>
+<p class="subtitle">News · Posts · Results · Updated every morning by Benji</p>
+
+<!-- Stats Summary -->
+<div class="stats-bar" id="statsBar">
+  <div><div class="stat-num" id="totalPosts">0</div><div class="stat-label">Posts</div></div>
+  <div><div class="stat-num" id="totalViews">0</div><div class="stat-label">Views</div></div>
+  <div><div class="stat-num" id="totalLikes">0</div><div class="stat-label">Likes</div></div>
+  <div><div class="stat-num" id="totalComments">0</div><div class="stat-label">Comments</div></div>
+</div>
+
+<!-- Calendar -->
+<div class="cal-nav">
+  <button onclick="prevMonth()">‹</button>
+  <div class="cal-month" id="calMonth"></div>
+  <button onclick="nextMonth()">›</button>
+</div>
+<div class="cal-grid" id="calGrid"></div>
+
+<!-- Day Detail -->
+<div class="day-detail" id="dayDetail">
+  <div class="day-header">
+    <div class="day-date" id="dayDate"></div>
+    <div class="day-status" id="dayStatus"></div>
+  </div>
+
+  <div id="dayContent">
+    <!-- Populated by JS -->
+  </div>
+</div>
+
+<!-- Empty state (no day selected) -->
+<div class="empty-state" id="emptyState">
+  <div class="emoji">📅</div>
+  <p>Tap a day to see the briefing, posts, and track results.</p>
+  <p style="margin-top:8px;font-size:12px">Green dots = days with content. Benji updates this every morning at 9am Dubai.</p>
+</div>
+
+<div class="footer">
+  Daily Briefing Calendar · Updated by Benji 🐾<br>
+  News + posts generated at 9am Dubai · Enter your results to help optimize
+</div>
+
+<script>
+// ============ DATA STORE ============
+// Days data: { "2026-02-20": { news: [...], posts: [...] } }
+// Metrics stored in localStorage: metrics_2026-02-20_0 = {views, likes, comments}
+
+const DAYS_DATA = {};
+
+// Load sample data for today
+function getSampleData() {
+  return {
+    "2026-02-20": {
+      news: [
+        {
+          title: "Calendar page deployed — daily briefings start tomorrow",
+          source: "Benji",
+          summary: "Morning briefings with industry news and ready-to-post content will begin Feb 20. Each day: 3-5 news items + 2-3 posts with your take.",
+          link: ""
+        }
+      ],
+      posts: [
+        {
+          platform: "linkedin",
+          hook: "Data-driven insight + personal take",
+          text: "First daily briefing drops tomorrow morning.\n\nI'm building a system: every day I get curated news in IR, capital formation, and VC — then turn it into posts with my actual take + data.\n\nThe goal? Show up consistently with substance, not just reshares.\n\nDay 1 starts tomorrow. Follow along if you want to see what works 👇",
+          why: "Meta-content about the system itself. Builds anticipation + accountability."
+        }
+      ]
+    }
+  };
+}
+
+// Initialize
+let daysData = getSampleData();
+
+// ============ CALENDAR ============
+let currentMonth = new Date().getMonth();
+let currentYear = new Date().getFullYear();
+let selectedDate = null;
+
+function renderCalendar() {
+  const grid = document.getElementById('calGrid');
+  const monthLabel = document.getElementById('calMonth');
+  
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  monthLabel.textContent = `${months[currentMonth]} ${currentYear}`;
+  
+  const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const today = new Date();
+  const todayStr = formatDate(today);
+  
+  let html = '';
+  ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d => {
+    html += `<div class="cal-day-header">${d}</div>`;
+  });
+  
+  for (let i = 0; i < firstDay; i++) {
+    html += '<div class="cal-day empty"></div>';
+  }
+  
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = `${currentYear}-${String(currentMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday = dateStr === todayStr;
+    const hasData = daysData[dateStr];
+    const isSelected = dateStr === selectedDate;
+    
+    let classes = 'cal-day';
+    if (isToday) classes += ' today';
+    if (hasData) classes += ' has-data';
+    if (isSelected) classes += ' selected';
+    
+    html += `<div class="${classes}" onclick="selectDate('${dateStr}')">${d}</div>`;
+  }
+  
+  grid.innerHTML = html;
+}
+
+function prevMonth() {
+  currentMonth--;
+  if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+  renderCalendar();
+}
+
+function nextMonth() {
+  currentMonth++;
+  if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+  renderCalendar();
+}
+
+function formatDate(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function formatDateDisplay(dateStr) {
+  const d = new Date(dateStr + 'T12:00:00');
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${days[d.getDay()]}, ${months[d.getMonth()]} ${d.getDate()}`;
+}
+
+// ============ DAY DETAIL ============
+function selectDate(dateStr) {
+  selectedDate = dateStr;
+  renderCalendar();
+  
+  const detail = document.getElementById('dayDetail');
+  const empty = document.getElementById('emptyState');
+  const data = daysData[dateStr];
+  
+  document.getElementById('dayDate').textContent = formatDateDisplay(dateStr);
+  
+  if (!data) {
+    document.getElementById('dayContent').innerHTML = `
+      <div class="empty-state">
+        <div class="emoji">📭</div>
+        <p>No briefing for this day yet.</p>
+        <p style="margin-top:8px;font-size:12px">Benji generates briefings every morning at 9am Dubai time.</p>
+      </div>
+    `;
+    document.getElementById('dayStatus').textContent = '';
+    detail.classList.add('active');
+    empty.style.display = 'none';
+    return;
+  }
+  
+  let html = '';
+  
+  // News section
+  if (data.news && data.news.length) {
+    html += '<h2>📰 News & Insights</h2>';
+    data.news.forEach(n => {
+      html += `<div class="news-card">
+        <div class="news-title">${n.title}</div>
+        <div class="news-source">${n.source}</div>
+        <div class="news-summary">${n.summary}</div>
+        ${n.link ? `<a href="${n.link}" target="_blank" class="news-link">Read source →</a>` : ''}
+      </div>`;
+    });
+  }
+  
+  // Posts section
+  if (data.posts && data.posts.length) {
+    html += '<h2>📝 Posts for Today</h2>';
+    data.posts.forEach((p, i) => {
+      const platformClass = p.platform === 'linkedin' ? 'linkedin' : 'twitter';
+      const platformName = p.platform === 'linkedin' ? 'LinkedIn' : 'X / Twitter';
+      
+      // Load saved metrics
+      const saved = getMetrics(dateStr, i);
+      
+      html += `<div class="post-card">
+        <div class="post-platform ${platformClass}">${platformName}</div>
+        <div class="post-hook">Hook: ${p.hook}</div>
+        <div class="post-text">${p.text}</div>
+        <div class="post-why">💡 ${p.why}</div>
+        
+        <h3>📊 Results</h3>
+        <div class="metrics-grid">
+          <div class="metric-input">
+            <label>Views</label>
+            <input type="number" placeholder="—" id="views_${dateStr}_${i}" value="${saved.views || ''}" onchange="saveMetric('${dateStr}',${i})">
+          </div>
+          <div class="metric-input">
+            <label>Likes</label>
+            <input type="number" placeholder="—" id="likes_${dateStr}_${i}" value="${saved.likes || ''}" onchange="saveMetric('${dateStr}',${i})">
+          </div>
+          <div class="metric-input">
+            <label>Comments</label>
+            <input type="number" placeholder="—" id="comments_${dateStr}_${i}" value="${saved.comments || ''}" onchange="saveMetric('${dateStr}',${i})">
+          </div>
+        </div>
+      </div>`;
+    });
+  }
+  
+  const postCount = data.posts ? data.posts.length : 0;
+  document.getElementById('dayStatus').textContent = `${data.news ? data.news.length : 0} news · ${postCount} posts`;
+  document.getElementById('dayContent').innerHTML = html;
+  detail.classList.add('active');
+  empty.style.display = 'none';
+}
+
+// ============ METRICS ============
+function saveMetric(dateStr, postIdx) {
+  const views = document.getElementById(`views_${dateStr}_${postIdx}`).value;
+  const likes = document.getElementById(`likes_${dateStr}_${postIdx}`).value;
+  const comments = document.getElementById(`comments_${dateStr}_${postIdx}`).value;
+  
+  localStorage.setItem(`metrics_${dateStr}_${postIdx}`, JSON.stringify({
+    views: views || '', likes: likes || '', comments: comments || ''
+  }));
+  
+  updateTotals();
+}
+
+function getMetrics(dateStr, postIdx) {
+  const saved = localStorage.getItem(`metrics_${dateStr}_${postIdx}`);
+  return saved ? JSON.parse(saved) : {};
+}
+
+function updateTotals() {
+  let totalViews = 0, totalLikes = 0, totalComments = 0, totalPosts = 0;
+  
+  for (const [key, val] of Object.entries(localStorage)) {
+    if (key.startsWith('metrics_')) {
+      const m = JSON.parse(val);
+      if (m.views) totalViews += parseInt(m.views) || 0;
+      if (m.likes) totalLikes += parseInt(m.likes) || 0;
+      if (m.comments) totalComments += parseInt(m.comments) || 0;
+      if (m.views || m.likes || m.comments) totalPosts++;
+    }
+  }
+  
+  document.getElementById('totalPosts').textContent = totalPosts;
+  document.getElementById('totalViews').textContent = totalViews > 999 ? (totalViews/1000).toFixed(1)+'K' : totalViews;
+  document.getElementById('totalLikes').textContent = totalLikes;
+  document.getElementById('totalComments').textContent = totalComments;
+}
+
+// ============ LOAD EXTERNAL DATA ============
+// Benji pushes daily data as calendar-data.js
+// Format: window.CALENDAR_DATA = { "2026-02-20": { news: [...], posts: [...] } }
+function loadExternalData() {
+  if (window.CALENDAR_DATA) {
+    Object.assign(daysData, window.CALENDAR_DATA);
+  }
+}
+
+// ============ INIT ============
+document.addEventListener('DOMContentLoaded', () => {
+  loadExternalData();
+  renderCalendar();
+  updateTotals();
+  
+  // Auto-select today
+  const today = formatDate(new Date());
+  if (daysData[today]) {
+    selectDate(today);
+  }
+});
+</script>
+
+<!-- External data file (updated daily by Benji) -->
+<script src="calendar-data.js"></script>
+
+</body>
+</html>
