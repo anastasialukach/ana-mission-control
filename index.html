@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mission Control — Ana</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<style>
+  :root {
+    --bg: #0a0a0b; --surface: #141416; --surface2: #1c1c20;
+    --border: #2a2a30; --text: #ececf0; --muted: #7a7a85;
+    --accent: #f0883e; --green: #34d399; --yellow: #fbbf24;
+    --red: #f87171; --blue: #60a5fa; --purple: #a78bfa;
+    --radius: 16px;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+    padding: 16px; max-width: 720px; margin: 0 auto;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Header */
+  .header { padding: 24px 0 20px; }
+  .header h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.5px; }
+  .header .sub { color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+  /* Status pill */
+  .status-bar {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 1px solid #2a2a4a; border-radius: var(--radius);
+    padding: 20px; margin-bottom: 20px;
+  }
+  .status-bar .label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+  .status-bar .value { font-size: 18px; font-weight: 600; margin-top: 4px; }
+  .status-bar .meta { font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.6; }
+
+  /* Section */
+  .section { margin-bottom: 24px; }
+  .section-title {
+    font-size: 14px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.8px; color: var(--muted); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .section-title .emoji { font-size: 18px; }
+  .count { 
+    background: var(--surface2); color: var(--muted); 
+    font-size: 11px; padding: 2px 8px; border-radius: 10px; font-weight: 600;
+  }
+
+  /* Cards */
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden; margin-bottom: 8px;
+  }
+  .card-row {
+    padding: 14px 16px; border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 12px; cursor: default;
+  }
+  .card-row:last-child { border-bottom: none; }
+  .card-row.clickable { cursor: pointer; }
+  .card-row.clickable:hover { background: var(--surface2); }
+  .card-row.clickable:active { background: var(--border); }
+  .row-main { flex: 1; min-width: 0; }
+  .row-title { font-size: 15px; font-weight: 600; }
+  .row-sub { font-size: 12px; color: var(--muted); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row-right { text-align: right; flex-shrink: 0; }
+  .row-loc { font-size: 11px; color: var(--muted); }
+
+  /* Tags */
+  .tag {
+    display: inline-block; padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 600; white-space: nowrap;
+  }
+  .tag-green { background: rgba(52,211,153,0.12); color: var(--green); }
+  .tag-yellow { background: rgba(251,191,36,0.12); color: var(--yellow); }
+  .tag-red { background: rgba(248,113,113,0.12); color: var(--red); }
+  .tag-blue { background: rgba(96,165,250,0.12); color: var(--blue); }
+  .tag-purple { background: rgba(167,139,250,0.12); color: var(--purple); }
+
+  /* Todo items */
+  .todo {
+    padding: 12px 16px; border-bottom: 1px solid var(--border);
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .todo:last-child { border-bottom: none; }
+  .todo-check {
+    width: 20px; height: 20px; border: 2px solid var(--border);
+    border-radius: 6px; flex-shrink: 0; margin-top: 1px;
+  }
+  .todo-text { font-size: 14px; line-height: 1.4; }
+  .todo-priority { font-size: 11px; font-weight: 600; margin-top: 3px; }
+
+  /* Stats row */
+  .stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+    margin-bottom: 24px;
+  }
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px; text-align: center;
+  }
+  .stat-num { font-size: 22px; font-weight: 700; }
+  .stat-label { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+  /* Strategy tracks */
+  .track {
+    padding: 14px 16px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .track:last-child { border-bottom: none; }
+  .track-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .track-info { flex: 1; }
+  .track-name { font-size: 14px; font-weight: 600; }
+  .track-desc { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  /* CV grid */
+  .cv-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .cv-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px;
+  }
+  .cv-type { font-size: 14px; font-weight: 600; }
+  .cv-use { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* Articles */
+  .article-card {
+    padding: 14px 16px; border-bottom: 1px solid var(--border);
+  }
+  .article-card:last-child { border-bottom: none; }
+  .article-title { font-size: 14px; font-weight: 600; line-height: 1.3; }
+  .article-meta { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* Collapsible sections */
+  details { margin-bottom: 8px; }
+  details summary {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px 16px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    list-style: none; display: flex; justify-content: space-between; align-items: center;
+  }
+  details summary::-webkit-details-marker { display: none; }
+  details summary::after { content: '›'; color: var(--muted); font-size: 18px; transition: transform 0.2s; }
+  details[open] summary::after { transform: rotate(90deg); }
+  details[open] summary { border-radius: var(--radius) var(--radius) 0 0; }
+  details .detail-content {
+    background: var(--surface); border: 1px solid var(--border); border-top: none;
+    border-radius: 0 0 var(--radius) var(--radius); padding: 12px 16px;
+  }
+  .detail-item { padding: 8px 0; font-size: 13px; color: var(--muted); border-bottom: 1px solid var(--border); }
+  .detail-item:last-child { border-bottom: none; }
+
+  /* Timeline */
+  .timeline { padding: 4px 0; }
+  .tl-item { padding: 10px 0 10px 20px; border-left: 2px solid var(--border); position: relative; }
+  .tl-item::before {
+    content: ''; width: 8px; height: 8px; background: var(--accent);
+    border-radius: 50%; position: absolute; left: -5px; top: 14px;
+  }
+  .tl-date { font-size: 11px; color: var(--muted); font-weight: 600; }
+  .tl-text { font-size: 13px; margin-top: 2px; line-height: 1.4; }
+
+  /* Footer */
+  .footer { text-align: center; color: var(--muted); font-size: 11px; padding: 24px 0 12px; border-top: 1px solid var(--border); margin-top: 16px; }
+
+  /* Links */
+  a { color: var(--blue); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  /* Responsive */
+  @media (max-width: 480px) {
+    body { padding: 12px; }
+    .stats { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .stat-card { padding: 12px 8px; }
+    .stat-num { font-size: 18px; }
+    .cv-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <h1>⚡ Mission Control</h1>
+  <div class="sub">Anastasia Lukach · IR & Capital Formation · Dubai</div>
+</div>
+
+<!-- Status -->
+<div class="status-bar">
+  <div class="label">Current Status</div>
+  <div class="value">🟡 Actively Searching</div>
+  <div class="meta">
+    Strategy: high-touch personalized outreach → 40-50% response rate<br>
+    Target: $140-200K total comp (Dubai, tax-free)<br>
+    Focus: IR / Capital Formation / VC roles — Dubai & Abu Dhabi
+  </div>
+</div>
+
+<!-- Key Numbers -->
+<div class="stats">
+  <div class="stat-card">
+    <div class="stat-num" style="color:var(--blue)">10</div>
+    <div class="stat-label">Tier-1 targets</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" style="color:var(--purple)">7</div>
+    <div class="stat-label">Tier-2 ready</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num" style="color:var(--green)">4</div>
+    <div class="stat-label">CVs ready</div>
+  </div>
+</div>
+
+<!-- Next Actions -->
+<div class="section">
+  <div class="section-title"><span class="emoji">🔥</span> Next Actions</div>
+  <div class="card">
+    <div class="todo">
+      <div class="todo-check"></div>
+      <div>
+        <div class="todo-text">Send outreach to <strong>Sirius, Hays, Korn Ferry</strong></div>
+        <div class="todo-priority" style="color:var(--red)">HIGH · Messages ready — just personalize & send</div>
+      </div>
+    </div>
+    <div class="todo">
+      <div class="todo-check"></div>
+      <div>
+        <div class="todo-text">Publish Article 1 on X — tag <strong>@Greenstone</strong></div>
+        <div class="todo-priority" style="color:var(--red)">HIGH · Best window: Tue-Thu, 9-11am Dubai</div>
+      </div>
+    </div>
+    <div class="todo">
+      <div class="todo-check"></div>
+      <div>
+        <div class="todo-text">Research hiring managers on LinkedIn</div>
+        <div class="todo-priority" style="color:var(--yellow)">MEDIUM · 10 min per target</div>
+      </div>
+    </div>
+    <div class="todo">
+      <div class="todo-check"></div>
+      <div>
+        <div class="todo-text">Apply to <strong>Goldman Sachs</strong> VP role (active listing)</div>
+        <div class="todo-priority" style="color:var(--red)">HIGH · Direct application link available</div>
+      </div>
+    </div>
+    <div class="todo">
+      <div class="todo-check"></div>
+      <div>
+        <div class="todo-text">FEG follow-up — proposal sent (15K → 30K AED + commissions)</div>
+        <div class="todo-priority" style="color:var(--yellow)">MEDIUM · Awaiting response</div>
+      </div>
+    </div>
+    <div class="todo">
+      <div class="todo-check"></div>
+      <div>
+        <div class="todo-text">Interview prep practice session</div>
+        <div class="todo-priority" style="color:var(--muted)">WHEN READY · 12 questions prepared</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tier-1 Targets -->
+<div class="section">
+  <div class="section-title"><span class="emoji">⭐</span> Tier-1 Targets <span class="count">10</span></div>
+  <div class="card">
+    <a href="https://ae.linkedin.com/jobs/view/wealth-management-alternative-capital-markets-clients-solutions-vp-dubai-at-goldman-sachs-4329753309" target="_blank" class="card-row clickable" style="text-decoration:none;color:inherit">
+      <div class="row-main">
+        <div class="row-title">Goldman Sachs</div>
+        <div class="row-sub">VP, Alternative Capital Markets, Client Solutions</div>
+      </div>
+      <div class="row-right">
+        <div class="row-loc">Dubai DIFC</div>
+        <span class="tag tag-green">Active</span>
+      </div>
+    </a>
+    <a href="https://ae.linkedin.com/jobs/view/director-capital-formation-at-sirius-private-office-4363990840" target="_blank" class="card-row clickable" style="text-decoration:none;color:inherit">
+      <div class="row-main">
+        <div class="row-title">Sirius Private Office</div>
+        <div class="row-sub">Director, Capital Formation</div>
+      </div>
+      <div class="row-right">
+        <div class="row-loc">Dubai</div>
+        <span class="tag tag-green">Active</span>
+      </div>
+    </a>
+    <a href="https://ae.linkedin.com/jobs/view/executive-director-investor-solutions-capital-raising-at-hays-4357497425" target="_blank" class="card-row clickable" style="text-decoration:none;color:inherit">
+      <div class="row-main">
+        <div class="row-title">Hays (Undisclosed Client)</div>
+        <div class="row-sub">ED, Investor Solutions & Capital Raising</div>
+      </div>
+      <div class="row-right">
+        <div class="row-loc">Dubai</div>
+        <span class="tag tag-green">Active</span>
+      </div>
+    </a>
+    <div class="card-row">
+      <div class="row-main">
+        <div class="row-title">Mubadala</div>
+        <div class="row-sub">IR / Co-investment Distribution</div>
+      </div>
+      <div class="row-right">
+        <div class="row-loc">Abu Dhabi</div>
+        <span class="tag tag-purple">Sovereign</span>
+      </div>
+    </div>
+    <div class="card-row">
+      <div class="row-main">
+        <div class="row-title">ADQ / ADQ Ventures</div>
+        <div class="row-sub">Investment / IR</div>
+      </div>
+      <div class="row-right">
+        <div class="row-loc">Abu Dhabi</div>
+        <span class="tag tag-purple">Sovereign</span>
+      </div>
+    </div>
+    <div class="card-row">
+      <div class="row-main">
+        <div class="row-title">Investcorp</div>
+        <div class="row-sub">IR / Capital Formation</div>
+      </div>
+      <div class="row-right">
+        <div class="row-loc">Multi-Gulf</div>
+        <span class="tag tag-blue">$50B+ AUM</span>
+      </div>
+    </div>
+    <div class="card-row">
+      <div class="row-main">
+        <div class="row-title">Warburg Pincus</div>
+        <div class="row-sub">IR / Capital Formation</div>
+      </div>
+      <div class="row-right">
+        <div class="row-loc">Abu Dhabi</div>
+        <span class="tag tag-blue">$87B+ AUM</span>
+      </div>
+    </div>
+    <div class="card-row">
+      <div class="row-main">
+        <div class="row-title">Hub71</div>
+        <div class="row-sub">IR / Partnerships (Mubadala-backed)</div>
+      </div>
+      <div class="row-right">
+        <div class="row-loc">Abu Dhabi</div>
+        <span class="tag tag-yellow">Ecosystem</span>
+      </div>
+    </div>
+    <div class="card-row">
+      <div class="row-main">
+        <div class="row-title">Permira</div>
+        <div class="row-sub">IR / Capital Formation</div>
+      </div>
+      <div class="row-right">
+        <div class="row-loc">Dubai DIFC</div>
+        <span class="tag tag-blue">€70B+ AUM</span>
+      </div>
+    </div>
+    <div class="card-row">
+      <div class="row-main">
+        <div class="row-title">Triago / Houlihan Lokey / Lazard</div>
+        <div class="row-sub">Placement Agent / Private Capital Advisory</div>
+      </div>
+      <div class="row-right">
+        <div class="row-loc">Dubai</div>
+        <span class="tag tag-yellow">Placement</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Tier-2 Targets -->
+<div class="section">
+  <div class="section-title"><span class="emoji">🎯</span> Tier-2 Outreach <span class="count">7 · messages ready</span></div>
+  <div class="card">
+    <div class="card-row">
+      <div class="row-main">
+        <div class="row-title">Sirius Private Office</div>
+        <div class="row-sub">Director, Capital Formation · Dubai</div>
+      </div>
+      <span class="tag tag-green">3 msgs</span>
+    </div>
+    <div class="card-row">
+      <div class="row-main">
+        <div class="row-title">Hays (Undisclosed)</div>
+        <div class="row-sub">ED, Investor Solutions & Capital Raising · Dubai</div>
+      </div>
+      <span class="tag tag-green">4 msgs</span>
+    </div>
+    <div class="card-row">
+      <div class="row-main">
+        <div class="row-title">Arboris Capital</div>
+        <div class="row-sub">Relationship Manager, Private Markets · Dubai</div>
+      </div>
+      <span class="tag tag-green">3 msgs</span>
+    </div>
+    <div class="card-row">
+      <div class="row-main">
+        <div class="row-title">Empyrean Sky Partners</div>
+        <div class="row-sub">Director of IR · Multi-location</div>
+      </div>
+      <span class="tag tag-green">3 msgs</span>
+    </div>
+    <div class="card-row">
+      <div class="row-main">
+        <div class="row-title">Korn Ferry</div>
+        <div class="row-sub">VP, IR & Capital Formation · New York</div>
+      </div>
+      <span class="tag tag-green">3 msgs</span>
+    </div>
+    <div class="card-row">
+      <div class="row-main">
+        <div class="row-title">Fram Search</div>
+        <div class="row-sub">IR & Fundraising, VC · London (Contact: Chloe Tillman)</div>
+      </div>
+      <span class="tag tag-green">3 msgs</span>
+    </div>
+    <div class="card-row">
+      <div class="row-main">
+        <div class="row-title">Greenstone</div>
+        <div class="row-sub">Fund Placement · Singapore/Dubai HQ</div>
+      </div>
+      <span class="tag tag-green">3 msgs</span>
+    </div>
+  </div>
+</div>
+
+<!-- Strategy -->
+<div class="section">
+  <div class="section-title"><span class="emoji">🛤️</span> Strategy</div>
+  <div class="card">
+    <div class="track">
+      <div class="track-dot" style="background:var(--green)"></div>
+      <div class="track-info">
+        <div class="track-name">Personalized Outreach</div>
+        <div class="track-desc">7 targets, 25 message variations — ready to send</div>
+      </div>
+      <span class="tag tag-green">Ready</span>
+    </div>
+    <div class="track">
+      <div class="track-dot" style="background:var(--green)"></div>
+      <div class="track-info">
+        <div class="track-name">Content & Visibility</div>
+        <div class="track-desc">2 X articles written — tag targets for inbound interest</div>
+      </div>
+      <span class="tag tag-green">Ready</span>
+    </div>
+    <div class="track">
+      <div class="track-dot" style="background:var(--red)"></div>
+      <div class="track-info">
+        <div class="track-name">Volume Applications</div>
+        <div class="track-desc">Needs browser extension for automation</div>
+      </div>
+      <span class="tag tag-red">Blocked</span>
+    </div>
+  </div>
+</div>
+
+<!-- CVs -->
+<div class="section">
+  <div class="section-title"><span class="emoji">📄</span> CVs</div>
+  <div class="cv-grid">
+    <div class="cv-card">
+      <div class="cv-type">Venture Investments</div>
+      <div class="cv-use">Use for → VC fund roles</div>
+    </div>
+    <div class="cv-card">
+      <div class="cv-type">Capital Formation</div>
+      <div class="cv-use">Use for → FO / PE / Other</div>
+    </div>
+    <div class="cv-card">
+      <div class="cv-type">IB Version</div>
+      <div class="cv-use">Use for → Investment banking</div>
+    </div>
+    <div class="cv-card">
+      <div class="cv-type">FEG Custom</div>
+      <div class="cv-use">Use for → First Eagle Group</div>
+    </div>
+  </div>
+</div>
+
+<!-- Content Pipeline -->
+<div class="section">
+  <div class="section-title"><span class="emoji">✍️</span> Content Pipeline</div>
+  <div class="card">
+    <div class="article-card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="article-title">Why Dubai Became the Fund Placement Capital of the Middle East</div>
+        <span class="tag tag-green">Ready</span>
+      </div>
+      <div class="article-meta">~900 words · Tags @Greenstone · Hook: DIFC 25% YoY growth, $1.3B ONCAP V placement</div>
+    </div>
+    <div class="article-card">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div class="article-title">Why Family Offices Are Building In-House Capital Formation Teams</div>
+        <span class="tag tag-green">Ready</span>
+      </div>
+      <div class="article-meta">~850 words · Tags @Sirius · Hook: CFA Institute report — "hiring aggressively"</div>
+    </div>
+  </div>
+</div>
+
+<!-- Track Record -->
+<div class="section">
+  <div class="section-title"><span class="emoji">💎</span> Track Record</div>
+  <div class="card">
+    <div class="card-row">
+      <div class="row-main"><div class="row-title">$10M+ raised</div><div class="row-sub">Yellow Capital — family offices & HNWIs</div></div>
+    </div>
+    <div class="card-row">
+      <div class="row-main"><div class="row-title">1,000+ investor network</div><div class="row-sub">Built at Marsbase (CBDO → CEO)</div></div>
+    </div>
+    <div class="card-row">
+      <div class="row-main"><div class="row-title">20+ family offices, 30+ HNWIs</div><div class="row-sub">Direct LP relationships in network</div></div>
+    </div>
+    <div class="card-row">
+      <div class="row-main"><div class="row-title">10 years in crypto & tech</div><div class="row-sub">Started at 17 — not a tourist</div></div>
+    </div>
+    <div class="card-row">
+      <div class="row-main"><div class="row-title">Selected transactions</div><div class="row-sub">LayerZero ($1.2B→$3B+) · Fuel ($1B→$2B+) · CoinGecko (~$300M+ EV) · Bitazza (~$50-80M EV)</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="section">
+  <div class="section-title"><span class="emoji">📅</span> Recent Activity</div>
+  <div class="card" style="padding: 16px;">
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">Feb 19</div>
+        <div class="tl-text">Mission Control built · Tasks Board fixed · 2 X articles written · 7 tier-2 outreach messages drafted · Content strategy created</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Feb 18</div>
+        <div class="tl-text">CVs v5 finalized (3 versions) · LinkedIn fully optimized · FEG proposal sent (Head of Capital & Int'l Development) · Markowski due diligence</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Feb 16</div>
+        <div class="tl-text">CV project started · Career assessment · Tier-1 target research · Interview prep questions (12) sent</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reference (collapsible) -->
+<div class="section">
+  <div class="section-title"><span class="emoji">📚</span> Reference</div>
+  <details>
+    <summary>Research & Analysis Files</summary>
+    <div class="detail-content">
+      <div class="detail-item">📊 Cold Outreach Research — platform testing, response rates, what works</div>
+      <div class="detail-item">🤖 Automation Learnings — LinkedIn anti-bot, what NOT to automate</div>
+      <div class="detail-item">👤 Ana Profile — full background for AI context</div>
+      <div class="detail-item">🎯 Search Criteria — role types, locations, comp ranges</div>
+      <div class="detail-item">✍️ TOV Analysis — tone of voice for outreach</div>
+      <div class="detail-item">📝 Content Drafts — additional article ideas</div>
+      <div class="detail-item">⚡ Quick Apply Guide — screening question answers, CV selection</div>
+      <div class="detail-item">📖 Mission Control Guide — Alex Finn's 6-component framework</div>
+    </div>
+  </details>
+  <details>
+    <summary>Other Opportunities</summary>
+    <div class="detail-content">
+      <div class="detail-item">🏢 <strong>First Eagle Group (FEG)</strong> — Diversified Dubai conglomerate · Head of Capital & Int'l Development · 15K→30K AED + commissions · Proposal sent, awaiting response</div>
+      <div class="detail-item">🎙️ <strong>Venture Protocol Podcast</strong> — Recording first 10 episodes · Visibility play</div>
+      <div class="detail-item">🎤 <strong>Tech Tuesday</strong> — Co-host, 200+ weekly attendees in Dubai</div>
+    </div>
+  </details>
+</div>
+
+<div class="footer">
+  Last updated: Feb 19, 2026 · Built by Benji 🐾<br>
+  Ask Benji to refresh anytime — data pulled from local workspace files
+</div>
+
+</body>
+</html>
