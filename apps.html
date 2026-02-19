@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mini-Apps — Mission Control</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<style>
+:root{--bg:#0a0a0b;--surface:#141416;--surface2:#1c1c20;--border:#2a2a30;--text:#ececf0;--muted:#7a7a85;--accent:#f0883e;--green:#34d399;--yellow:#fbbf24;--red:#f87171;--blue:#60a5fa;--purple:#a78bfa;--radius:16px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;padding:16px;-webkit-font-smoothing:antialiased}
+.container{max-width:900px;margin:0 auto}
+.back{color:var(--muted);font-size:14px;text-decoration:none;margin-bottom:16px;display:inline-block}
+.back:hover{color:var(--text)}
+h1{font-size:26px;font-weight:700;margin-bottom:8px}
+.subtitle{color:var(--muted);font-size:14px;margin-bottom:24px}
+
+/* App cards */
+.app-grid{display:grid;gap:16px;margin-bottom:24px}
+.app-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.app-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.app-icon{font-size:24px}
+.app-title{font-size:18px;font-weight:700}
+.app-desc{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.4}
+
+/* Form */
+.form-group{margin-bottom:16px}
+.form-label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;display:block}
+input[type="text"],textarea{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;color:var(--text);font-size:14px;font-family:inherit}
+input[type="text"]:focus,textarea:focus{outline:none;border-color:var(--accent)}
+textarea{resize:vertical;min-height:80px}
+.btn{background:var(--accent);color:var(--bg);border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer;margin-right:8px}
+.btn:hover{opacity:0.9}
+.btn:active{transform:scale(0.98)}
+.btn-secondary{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+
+/* Output */
+.output{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:16px;margin-top:16px;display:none}
+.output.visible{display:block}
+.output-text{font-size:13px;line-height:1.6;white-space:pre-wrap;color:var(--text)}
+.output-actions{margin-top:12px;padding-top:12px;border-top:1px solid var(--border);display:flex;gap:8px}
+.copy-msg{font-size:12px;color:var(--green);margin-left:8px;opacity:0;transition:opacity 0.3s}
+.copy-msg.show{opacity:1}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="index.html" class="back">← Back to Dashboard</a>
+<h1>🛠️ Mini-Apps</h1>
+<div class="subtitle">Quick generators for common tasks</div>
+
+<div class="app-grid">
+
+<!-- Event Intel Generator -->
+<div class="app-card">
+<div class="app-header">
+<div class="app-icon">🎯</div>
+<div class="app-title">Event Intel Generator</div>
+</div>
+<div class="app-desc">Generate a pre-event briefing with talking points structure</div>
+<div class="form-group">
+<label class="form-label">Event Name</label>
+<input type="text" id="event-name" placeholder="Dubai Fintech Summit 2026">
+</div>
+<div class="form-group">
+<label class="form-label">Date</label>
+<input type="text" id="event-date" placeholder="March 15-16, 2026">
+</div>
+<div class="form-group">
+<label class="form-label">Location</label>
+<input type="text" id="event-location" placeholder="DIFC, Dubai">
+</div>
+<div class="form-group">
+<label class="form-label">Key Attendees (one per line)</label>
+<textarea id="event-attendees" placeholder="John Smith - Goldman Sachs - MD, Alternatives&#10;Sarah Johnson - Mubadala - Head of Venture Capital"></textarea>
+</div>
+<button class="btn" onclick="generateEvent()">Generate Briefing</button>
+<div class="output" id="event-output">
+<div class="output-text" id="event-text"></div>
+<div class="output-actions">
+<button class="btn btn-secondary" onclick="copyToClipboard('event-text')">Copy to Clipboard</button>
+<span class="copy-msg" id="event-copy-msg">Copied!</span>
+</div>
+</div>
+</div>
+
+<!-- LP Readiness Evaluation -->
+<div class="app-card">
+<div class="app-header">
+<div class="app-icon">📊</div>
+<div class="app-title">LP Readiness Evaluation</div>
+</div>
+<div class="app-desc">Score a fund's readiness to raise from institutional LPs (1-10 scale)</div>
+<div class="form-group">
+<label class="form-label">Fund Name</label>
+<input type="text" id="lp-fundname" placeholder="Acme Ventures III">
+</div>
+<div class="form-group">
+<label class="form-label">AUM</label>
+<input type="text" id="lp-aum" placeholder="$250M">
+</div>
+<div class="form-group">
+<label class="form-label">Strategy</label>
+<input type="text" id="lp-strategy" placeholder="Early-stage MENA tech">
+</div>
+<div class="form-group">
+<label class="form-label">Track Record Summary</label>
+<textarea id="lp-track" placeholder="Fund I: 2.5x MOIC, 25% IRR (2018-2023)&#10;Fund II: Ongoing, 10 investments, 2 unicorns"></textarea>
+</div>
+<div class="form-group">
+<label class="form-label">Team Size</label>
+<input type="text" id="lp-team" placeholder="8 investment professionals, 4 ops/IR">
+</div>
+<button class="btn" onclick="generateLP()">Generate Scorecard</button>
+<div class="output" id="lp-output">
+<div class="output-text" id="lp-text"></div>
+<div class="output-actions">
+<button class="btn btn-secondary" onclick="copyToClipboard('lp-text')">Copy to Clipboard</button>
+<span class="copy-msg" id="lp-copy-msg">Copied!</span>
+</div>
+</div>
+</div>
+
+<!-- Manager Intel -->
+<div class="app-card">
+<div class="app-header">
+<div class="app-icon">🔍</div>
+<div class="app-title">Manager Intel Research Template</div>
+</div>
+<div class="app-desc">Generate a structured research template for a hiring manager</div>
+<div class="form-group">
+<label class="form-label">Hiring Manager Name</label>
+<input type="text" id="mgr-name" placeholder="Sarah Chen">
+</div>
+<div class="form-group">
+<label class="form-label">Company</label>
+<input type="text" id="mgr-company" placeholder="Sirius Private Office">
+</div>
+<div class="form-group">
+<label class="form-label">Role/Title</label>
+<input type="text" id="mgr-role" placeholder="Managing Partner">
+</div>
+<div class="form-group">
+<label class="form-label">LinkedIn URL</label>
+<input type="text" id="mgr-linkedin" placeholder="https://linkedin.com/in/sarahchen">
+</div>
+<button class="btn" onclick="generateManager()">Generate Template</button>
+<div class="output" id="mgr-output">
+<div class="output-text" id="mgr-text"></div>
+<div class="output-actions">
+<button class="btn btn-secondary" onclick="copyToClipboard('mgr-text')">Copy to Clipboard</button>
+<span class="copy-msg" id="mgr-copy-msg">Copied!</span>
+</div>
+</div>
+</div>
+
+<!-- Founder Update Generator -->
+<div class="app-card">
+<div class="app-header">
+<div class="app-icon">📧</div>
+<div class="app-title">Founder Update Generator</div>
+</div>
+<div class="app-desc">Generate a formatted investor/founder update email</div>
+<div class="form-group">
+<label class="form-label">Company Name</label>
+<input type="text" id="upd-company" placeholder="Acme Technologies">
+</div>
+<div class="form-group">
+<label class="form-label">Period</label>
+<input type="text" id="upd-period" placeholder="Q1 2026">
+</div>
+<div class="form-group">
+<label class="form-label">Key Metrics</label>
+<textarea id="upd-metrics" placeholder="Revenue: $2.4M (+40% QoQ)&#10;ARR: $9.6M&#10;Customers: 120 (+15)"></textarea>
+</div>
+<div class="form-group">
+<label class="form-label">Highlights</label>
+<textarea id="upd-highlights" placeholder="- Closed Series A ($12M led by Sequoia)&#10;- Launched new product line&#10;- Hired VP Engineering"></textarea>
+</div>
+<div class="form-group">
+<label class="form-label">Challenges</label>
+<textarea id="upd-challenges" placeholder="- Customer churn increased to 5%&#10;- Delayed product roadmap by 2 months"></textarea>
+</div>
+<button class="btn" onclick="generateUpdate()">Generate Update</button>
+<div class="output" id="upd-output">
+<div class="output-text" id="upd-text"></div>
+<div class="output-actions">
+<button class="btn btn-secondary" onclick="copyToClipboard('upd-text')">Copy to Clipboard</button>
+<span class="copy-msg" id="upd-copy-msg">Copied!</span>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+function generateEvent() {
+  const name = document.getElementById('event-name').value.trim();
+  const date = document.getElementById('event-date').value.trim();
+  const location = document.getElementById('event-location').value.trim();
+  const attendees = document.getElementById('event-attendees').value.trim();
+  
+  if (!name || !date || !location) {
+    alert('Please fill in event name, date, and location');
+    return;
+  }
+  
+  const output = `EVENT BRIEFING: ${name}
+
+📅 Date: ${date}
+📍 Location: ${location}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+KEY ATTENDEES:
+${attendees || '[Add attendee details]'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+PRE-EVENT OBJECTIVES:
+□ [Define your goals for this event]
+□ [E.g., Meet 3 target LPs, connect with 2 GPs]
+□ [E.g., Gather intel on emerging fund structures]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TALKING POINTS:
+
+1. YOUR VALUE PROP (30-second version):
+   [Draft your elevator pitch for this audience]
+
+2. CURRENT FOCUS:
+   [What you're working on / looking for right now]
+
+3. CONVERSATION STARTERS:
+   • [Topic 1 relevant to this event]
+   • [Topic 2 - ask insightful questions]
+   • [Topic 3 - reference recent industry news]
+
+4. QUESTIONS TO ASK:
+   • [Question about their fund/firm strategy]
+   • [Question about LP landscape / trends]
+   • [Question about hiring plans]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+POST-EVENT FOLLOW-UP TEMPLATE:
+
+Subject: Great meeting you at ${name}
+
+Hi [Name],
+
+It was great connecting at ${name} yesterday. I enjoyed our conversation about [specific topic].
+
+[Reference something specific they said or a shared interest]
+
+[Your ask or value offer]
+
+Looking forward to staying in touch.
+
+Best,
+Ana
+`;
+
+  document.getElementById('event-text').textContent = output;
+  document.getElementById('event-output').classList.add('visible');
+}
+
+function generateLP() {
+  const fundname = document.getElementById('lp-fundname').value.trim();
+  const aum = document.getElementById('lp-aum').value.trim();
+  const strategy = document.getElementById('lp-strategy').value.trim();
+  const track = document.getElementById('lp-track').value.trim();
+  const team = document.getElementById('lp-team').value.trim();
+  
+  if (!fundname) {
+    alert('Please enter fund name');
+    return;
+  }
+  
+  const output = `LP READINESS SCORECARD: ${fundname}
+
+Fund: ${fundname}
+AUM: ${aum || '[Not provided]'}
+Strategy: ${strategy || '[Not provided]'}
+Team: ${team || '[Not provided]'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+EVALUATION (1-10 scale, 10 = fully ready):
+
+1. TRACK RECORD: [ /10]
+   ${track || '[Add track record details]'}
+   
+   Notes:
+   - [ ] Fund I/II performance vs benchmark?
+   - [ ] Notable exits or markups?
+   - [ ] Loss ratio / failure handling?
+
+2. TEAM STRENGTH: [ /10]
+   Team Size: ${team || '[Not provided]'}
+   
+   Notes:
+   - [ ] Investment team experience & pedigree?
+   - [ ] Dedicated IR/fundraising capability?
+   - [ ] Operational support (legal, finance, ops)?
+
+3. STRATEGY CLARITY: [ /10]
+   Strategy: ${strategy || '[Not provided]'}
+   
+   Notes:
+   - [ ] Clear differentiation vs peers?
+   - [ ] Defensible thesis & edge?
+   - [ ] Market timing / tailwinds?
+
+4. OPERATIONAL INFRASTRUCTURE: [ /10]
+   Notes:
+   - [ ] Fund admin, legal, compliance in place?
+   - [ ] Portfolio monitoring & reporting systems?
+   - [ ] LP portal / communication cadence?
+
+5. REPORTING & TRANSPARENCY: [ /10]
+   Notes:
+   - [ ] Quarterly LP reports (quality & timeliness)?
+   - [ ] Audit trail & financial controls?
+   - [ ] Willingness to share portfolio data?
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OVERALL SCORE: [ /50]
+
+READINESS ASSESSMENT:
+□ 40-50: Ready to raise from institutional LPs
+□ 30-39: Close — address gaps below
+□ 20-29: Significant work needed
+□ <20: Not ready for institutional capital
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+KEY GAPS TO ADDRESS:
+1. [Gap 1]
+2. [Gap 2]
+3. [Gap 3]
+
+RECOMMENDATION:
+[Your verdict: ready / needs work / pass]
+`;
+
+  document.getElementById('lp-text').textContent = output;
+  document.getElementById('lp-output').classList.add('visible');
+}
+
+function generateManager() {
+  const name = document.getElementById('mgr-name').value.trim();
+  const company = document.getElementById('mgr-company').value.trim();
+  const role = document.getElementById('mgr-role').value.trim();
+  const linkedin = document.getElementById('mgr-linkedin').value.trim();
+  
+  if (!name || !company) {
+    alert('Please enter name and company');
+    return;
+  }
+  
+  const output = `MANAGER INTEL: ${name}
+
+Name: ${name}
+Company: ${company}
+Role: ${role || '[Role not provided]'}
+LinkedIn: ${linkedin || '[Not provided]'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+BACKGROUND RESEARCH:
+
+Career Path:
+□ [Previous firms/roles - use LinkedIn]
+□ [Years of experience in sector]
+□ [Education / credentials]
+□ [Notable career moves or pivots]
+
+Current Role at ${company}:
+□ [Responsibilities & scope]
+□ [Reporting structure (who they report to)]
+□ [Team size they manage]
+□ [How long in current role]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+RECENT ACTIVITY:
+
+LinkedIn Posts (last 3 months):
+□ [Topic 1 - what they're talking about]
+□ [Topic 2]
+□ [Topic 3]
+
+Key Themes:
+□ [What seems to matter to them?]
+□ [Any strong opinions or pet topics?]
+
+Public Speaking / Press:
+□ [Any recent interviews, podcasts, or conference talks?]
+□ [Quotes in articles or industry reports?]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+MUTUAL CONNECTIONS:
+
+1st Degree:
+□ [Name 1] - [How you know them]
+□ [Name 2] - [How you know them]
+
+2nd Degree:
+□ [Name] via [Mutual connection]
+□ [Name] via [Mutual connection]
+
+Best Path In:
+[Who can make a warm intro? What's your ask?]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CONVERSATION STARTERS:
+
+Based on research:
+1. [Reference their recent post/article about X]
+2. [Ask about a project/deal they mentioned]
+3. [Shared interest or background (e.g., same university, worked at same firm)]
+
+Smart Questions:
+1. [About their firm's strategy or recent moves]
+2. [About industry trends they've commented on]
+3. [About their team or hiring needs]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+RED FLAGS / RISKS:
+
+□ [Any concerning patterns? High turnover in their team?]
+□ [Reputation issues or negative press?]
+□ [Firm instability or recent departures?]
+□ [Cultural misfit signals?]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+OUTREACH PLAN:
+
+Approach:
+□ Cold outreach (personalized message)
+□ Warm intro via [Name]
+□ Event-based (meet at [Event])
+□ Content-based (tag in X post)
+
+Message Hook:
+[What's your compelling reason to reach out NOW?]
+
+Follow-Up Cadence:
+Day 0: [Initial outreach]
+Day 3: [Soft follow-up if no response]
+Day 7: [Different angle / value offer]
+`;
+
+  document.getElementById('mgr-text').textContent = output;
+  document.getElementById('mgr-output').classList.add('visible');
+}
+
+function generateUpdate() {
+  const company = document.getElementById('upd-company').value.trim();
+  const period = document.getElementById('upd-period').value.trim();
+  const metrics = document.getElementById('upd-metrics').value.trim();
+  const highlights = document.getElementById('upd-highlights').value.trim();
+  const challenges = document.getElementById('upd-challenges').value.trim();
+  
+  if (!company || !period) {
+    alert('Please enter company name and period');
+    return;
+  }
+  
+  const output = `Subject: ${company} — ${period} Update
+
+Hi [Investor Name],
+
+Hope you're doing well. Here's our update for ${period}.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📊 KEY METRICS (${period}):
+
+${metrics || '[Add metrics here]'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 HIGHLIGHTS:
+
+${highlights || '[Add highlights here]'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+⚠️ CHALLENGES:
+
+${challenges || '[Add challenges here - be transparent]'}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🔮 LOOKING AHEAD:
+
+[Next period priorities]
+• [Priority 1]
+• [Priority 2]
+• [Priority 3]
+
+[Key milestones or catalysts]
+• [Milestone 1 + target date]
+• [Milestone 2 + target date]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🙏 ASK:
+
+[Optional: what you need help with]
+• [Intro to X]
+• [Feedback on Y]
+• [Advice on Z]
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+As always, happy to jump on a call if you'd like to discuss anything in more detail.
+
+Best,
+[Your Name]
+
+P.S. [Optional: personal touch or interesting industry news]
+`;
+
+  document.getElementById('upd-text').textContent = output;
+  document.getElementById('upd-output').classList.add('visible');
+}
+
+function copyToClipboard(elementId) {
+  const text = document.getElementById(elementId).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const msgId = elementId.replace('-text', '-copy-msg');
+    const msg = document.getElementById(msgId);
+    msg.classList.add('show');
+    setTimeout(() => msg.classList.remove('show'), 2000);
+  });
+}
+</script>
+</body>
+</html>

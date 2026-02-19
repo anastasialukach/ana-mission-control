@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Job Tracker — Mission Control</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<style>
+:root{--bg:#0a0a0b;--surface:#141416;--surface2:#1c1c20;--border:#2a2a30;--text:#ececf0;--muted:#7a7a85;--accent:#f0883e;--green:#34d399;--yellow:#fbbf24;--red:#f87171;--blue:#60a5fa;--purple:#a78bfa;--radius:16px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;padding:16px;-webkit-font-smoothing:antialiased}
+.container{max-width:1200px;margin:0 auto}
+.back{color:var(--muted);font-size:14px;text-decoration:none;margin-bottom:16px;display:inline-block}
+.back:hover{color:var(--text)}
+h1{font-size:26px;font-weight:700;margin-bottom:8px}
+.subtitle{color:var(--muted);font-size:14px;margin-bottom:24px}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:24px}
+.stat{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center}
+.stat-num{font-size:24px;font-weight:700;margin-bottom:4px}
+.stat-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px}
+
+/* Filters */
+.filters{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px}
+.filter-row{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.filter-group{flex:1;min-width:200px}
+.filter-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px}
+input[type="text"],select{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;color:var(--text);font-size:14px}
+input[type="text"]:focus,select:focus{outline:none;border-color:var(--accent)}
+select{cursor:pointer}
+option{background:var(--surface2);color:var(--text)}
+
+/* Jobs */
+.job-list{display:grid;gap:8px}
+.job-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px}
+.job-header{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:12px}
+.job-main{flex:1;min-width:0}
+.job-firm{font-size:16px;font-weight:600;margin-bottom:4px}
+.job-role{font-size:14px;color:var(--muted);margin-bottom:6px}
+.job-meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:12px}
+.job-link{color:var(--blue);text-decoration:none}
+.job-link:hover{text-decoration:underline}
+.job-status{min-width:180px}
+.status-select{width:100%;padding:8px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer}
+.status-not-started{background:rgba(122,122,133,0.12);color:var(--muted);border:1px solid var(--muted)}
+.status-applied{background:rgba(96,165,250,0.12);color:var(--blue);border:1px solid var(--blue)}
+.status-interviewing{background:rgba(251,191,36,0.12);color:var(--yellow);border:1px solid var(--yellow)}
+.status-offer{background:rgba(52,211,153,0.12);color:var(--green);border:1px solid var(--green)}
+.status-rejected{background:rgba(248,113,113,0.12);color:var(--red);border:1px solid var(--red)}
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
+.tag-active{background:rgba(52,211,153,0.12);color:var(--green)}
+.tag-recruiter{background:rgba(96,165,250,0.12);color:var(--blue)}
+.tag-speculative{background:rgba(167,139,250,0.12);color:var(--purple)}
+.job-notes{margin-top:12px;font-size:13px;color:var(--muted);line-height:1.4}
+.hidden{display:none}
+
+@media(max-width:768px){
+.job-header{flex-direction:column}
+.job-status{width:100%}
+.stats{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="index.html" class="back">← Back to Dashboard</a>
+<h1>📋 Job Tracker</h1>
+<div class="subtitle">All 222 jobs with interactive status tracking</div>
+
+<div class="stats" id="stats">
+<div class="stat"><div class="stat-num" id="stat-total">222</div><div class="stat-label">Total Jobs</div></div>
+<div class="stat"><div class="stat-num" style="color:var(--muted)" id="stat-notstarted">222</div><div class="stat-label">Not Started</div></div>
+<div class="stat"><div class="stat-num" style="color:var(--blue)" id="stat-applied">0</div><div class="stat-label">Applied</div></div>
+<div class="stat"><div class="stat-num" style="color:var(--yellow)" id="stat-interviewing">0</div><div class="stat-label">Interviewing</div></div>
+<div class="stat"><div class="stat-num" style="color:var(--green)" id="stat-offer">0</div><div class="stat-label">Offer</div></div>
+<div class="stat"><div class="stat-num" style="color:var(--red)" id="stat-rejected">0</div><div class="stat-label">Rejected</div></div>
+</div>
+
+<div class="filters">
+<div class="filter-row">
+<div class="filter-group">
+<div class="filter-label">Search Firm</div>
+<input type="text" id="searchInput" placeholder="Type firm name...">
+</div>
+<div class="filter-group">
+<div class="filter-label">Status</div>
+<select id="statusFilter">
+<option value="">All Statuses</option>
+<option value="Not Started">Not Started</option>
+<option value="Applied">Applied</option>
+<option value="Interviewing">Interviewing</option>
+<option value="Offer">Offer</option>
+<option value="Rejected">Rejected</option>
+</select>
+</div>
+<div class="filter-group">
+<div class="filter-label">Location</div>
+<select id="locationFilter">
+<option value="">All Locations</option>
+<option value="Dubai">Dubai</option>
+<option value="Abu Dhabi">Abu Dhabi</option>
+<option value="London">London</option>
+<option value="New York">New York</option>
+<option value="Singapore">Singapore</option>
+<option value="Hong Kong">Hong Kong</option>
+<option value="Other">Other</option>
+</select>
+</div>
+<div class="filter-group">
+<div class="filter-label">Type</div>
+<select id="typeFilter">
+<option value="">All Types</option>
+<option value="Active Listing">Active Listing</option>
+<option value="Recruiter Listing">Recruiter Listing</option>
+<option value="Speculative">Speculative</option>
+<option value="Recruiter Outreach">Recruiter Outreach</option>
+</select>
+</div>
+</div>
+</div>
+
+<div class="job-list" id="jobList"></div>
+</div>
+
+<script>
+const jobs = [{"firm":"Goldman Sachs","role":"VP, Alternative Capital Markets, Client Solutions","location":"Dubai DIFC","type":"Active Listing","notes":"⭐ TOP PRIORITY","link":"https://ae.linkedin.com/jobs/view/wealth-management-alternative-capital-markets-clients-solutions-vp-dubai-at-goldman-sachs-4329753309"},
+{"firm":"Empyrean Sky Partners","role":"Director of Investor Relations","location":"Dubai (also NY, SG)","type":"Active Listing","notes":"Research firm further","link":"https://ae.linkedin.com/jobs/view/director-of-investor-relations-at-empyrean-sky-partners-4368154627"},
+{"firm":"Sirius Private Office","role":"Director, Capital Formation","location":"Dubai","type":"Active Listing","notes":"⭐ EXCELLENT FIT","link":"https://ae.linkedin.com/jobs/view/director-capital-formation-at-sirius-private-office-4363990840"},
+{"firm":"Hays (undisclosed)","role":"ED, Investor Solutions & Capital Raising","location":"Dubai","type":"Recruiter Listing","notes":"⭐ EXCELLENT FIT","link":"https://ae.linkedin.com/jobs/view/executive-director-investor-solutions-capital-raising-at-hays-4357497425"},
+{"firm":"Hays (undisclosed)","role":"Investment Manager","location":"Dubai","type":"Recruiter Listing","notes":"Clarify LP vs GP side","link":"https://ae.linkedin.com/jobs/view/investment-manager-at-hays-4357488971"},
+{"firm":"Arboris Capital","role":"Relationship Manager, Private Markets HNWI Sales","location":"Dubai","type":"Active Listing","notes":"May be stale - speculative outreach","link":"https://ae.linkedin.com/jobs/view/relationship-manager-private-markets-hnwi-sales-at-arboris-capital-limited-4121148612"},
+{"firm":"Fitch Ratings","role":"AD/Director, BRM Private Capital ME","location":"Dubai","type":"Active Listing","notes":"More advisory than direct allocation","link":"https://ae.linkedin.com/jobs/view/associate-director-director-business-relationship-management-brm-private-capital-middle-east-at-fitch-ratings-4323509213"},
+{"firm":"Zahid Group","role":"Senior Investment Analyst","location":"Dubai","type":"Active Listing","notes":"Explore scope","link":"https://ae.linkedin.com/jobs/view/senior-investment-analyst-at-zahid-group-4373523317"},
+{"firm":"Flynn and Chase","role":"PM, Sovereign Investment Platform","location":"Dubai","type":"Recruiter Listing","notes":"Likely sovereign wealth-adjacent","link":"https://ae.linkedin.com/jobs/view/portfolio-manager-sovereign-investment-platform-at-flynn-and-chase-4371284849"},
+{"firm":"Selby Jennings","role":"IR Vice President, Private Markets","location":"London","type":"Recruiter Listing","notes":"Reach out to Jacques","link":"https://uk.linkedin.com/jobs/view/investor-relations-vice-president-at-selby-jennings-4373565654"},
+{"firm":"Goldman Sachs","role":"Alternatives Capital Formation VP – ABF","location":"London","type":"Active Listing","notes":"ABF focus - credit not VC","link":"https://uk.linkedin.com/jobs/view/goldman-sachs-alternatives-alternatives-capital-formation-asset-backed-finance-abf-vice-president-london-at-goldman-sachs-4366817228"},
+{"firm":"Goldman Sachs","role":"XIG Imprint BD Lead, VP","location":"London","type":"Active Listing","notes":"Connects GPs and LPs","link":"https://uk.linkedin.com/jobs/view/goldman-sachs-asset-wealth-management-xig-imprint-business-development-lead-vice-president-london-at-goldman-sachs-4371124439"},
+{"firm":"Fram Search","role":"IR & Fundraising, Venture Capital","location":"London","type":"Recruiter Listing","notes":"⭐ STRONG FIT","link":"https://uk.linkedin.com/jobs/view/investor-relations-and-fundraising-professional-venture-capital-at-fram-search-4367418343"},
+{"firm":"Mapletree","role":"Director/SVP, Capital Formation EMEA","location":"London","type":"Active Listing","notes":"Real estate focus","link":"https://uk.linkedin.com/jobs/view/director-senior-vice-president-capital-formation-private-capital-management-emea-europe-based-in-london-at-mapletree-4370767740"},
+{"firm":"DWS Group","role":"EMEA Senior Capital Raiser/BD – RE","location":"London","type":"Active Listing","notes":"Real estate specific","link":"https://uk.linkedin.com/jobs/view/emea-senior-capital-raiser-business-development-real-estate-at-dws-group-4355325867"},
+{"firm":"QuantumLight","role":"VP, Fundraising","location":"London","type":"Active Listing","notes":"Research team","link":"https://uk.linkedin.com/jobs/view/vp-fundraising-at-quantumlight-4355420797"},
+{"firm":"Mondrian Alpha","role":"IR, Global HF (UK Boutique)","location":"London","type":"Recruiter Listing","notes":"Good comp","link":"https://uk.linkedin.com/jobs/view/investor-relations-global-hedge-fund-uk-boutique-up-to-100k-base-large-bonus-at-mondrian-alpha-4356902434"},
+{"firm":"Mondrian Alpha","role":"IR, Multi-Billion $ Specialist HF","location":"London","type":"Recruiter Listing","notes":"Senior and visible","link":"https://uk.linkedin.com/jobs/view/investor-relations-multi-billion-specialist-hedge-fund-2-to-head-of-sales-ir-at-mondrian-alpha-4363104922"},
+{"firm":"Isomer Capital","role":"IR Analyst/Associate","location":"London","type":"Active Listing","notes":"More junior but great platform","link":"https://uk.linkedin.com/jobs/view/investor-relations-analyst-associate-at-isomer-capital-4371451229"},
+{"firm":"Edgworth Partners","role":"IR Associate","location":"London","type":"Active Listing","notes":"Very fresh listing","link":"https://uk.linkedin.com/jobs/view/investor-relations-associate-at-edgworth-partners-4371495999"},
+{"firm":"OCR Alpha","role":"IR, Multi-Strategy HF","location":"London","type":"Recruiter Listing","notes":"","link":"https://uk.linkedin.com/jobs/view/investor-relations-multi-strategy-hedge-fund-at-ocr-alpha-4359417759"},
+{"firm":"Korn Ferry (undisclosed)","role":"VP, IR & Capital Formation","location":"New York","type":"Recruiter Listing","notes":"⭐ EXCELLENT FIT","link":"https://www.linkedin.com/jobs/view/vice-president-investor-relations-capital-formation-at-korn-ferry-4370642103"},
+{"firm":"FutureSight","role":"Partner, IR (Fundraising)","location":"New York","type":"Active Listing","notes":"High seniority","link":"https://www.linkedin.com/jobs/view/partner-investor-relations-fundraising-at-futuresight-4365417630"},
+{"firm":"Venture Search","role":"VP/Director, Distribution – Placement Agent","location":"New York","type":"Recruiter Listing","notes":"Placement agent = capital formation","link":"https://www.linkedin.com/jobs/view/vp-director-distribution-placement-agent-at-venture-search-4364122974"},
+{"firm":"Carta","role":"BD Manager, PE Partners","location":"New York","type":"Active Listing","notes":"Alternative path","link":"https://www.linkedin.com/jobs/view/business-development-manager-private-equity-partners-at-carta-4354105670"},
+{"firm":"Empyrean Sky Partners","role":"Director of IR","location":"New York (also Dubai, SG)","type":"Active Listing","notes":"","link":"https://www.linkedin.com/jobs/view/director-of-investor-relations-at-empyrean-sky-partners-4371807055"},
+{"firm":"Landing Point","role":"Institutional Fundraiser","location":"New York","type":"Recruiter Listing","notes":"","link":"https://www.linkedin.com/jobs/view/institutional-fundraiser-at-landing-point-4366309437"},
+{"firm":"General Atlantic","role":"Capital Solutions / IR","location":"NY / London / SG / HK / Amsterdam","type":"Speculative","notes":"Join talent community","link":"https://www.generalatlantic.com/careers/"},
+{"firm":"Mubadala","role":"IR / Co-investment Distribution","location":"Abu Dhabi","type":"Speculative","notes":"","link":"https://www.mubadala.com/en/careers"},
+{"firm":"ADQ / ADQ Ventures","role":"Investment","location":"Abu Dhabi","type":"Speculative","notes":"","link":"https://adq.ae/careers"},
+{"firm":"Hub71","role":"IR / Partnerships","location":"Abu Dhabi","type":"Speculative","notes":"","link":"https://hub71.com"},
+{"firm":"Wamda Capital","role":"IR / BD / Venture Partner","location":"Dubai","type":"Speculative","notes":"","link":"https://www.wamda.com"},
+{"firm":"BECO Capital","role":"IR / BD","location":"Dubai DIFC","type":"Speculative","notes":"","link":"https://www.becocapital.com"},
+{"firm":"Shorooq Partners","role":"IR / BD","location":"Abu Dhabi","type":"Speculative","notes":"","link":"https://www.shorooq.com"},
+{"firm":"Global Ventures","role":"IR / BD","location":"Dubai","type":"Speculative","notes":"","link":"https://www.globalventures.vc"},
+{"firm":"Kinterra Capital","role":"IR Manager","location":"Dubai","type":"Active Listing","notes":"","link":"https://ae.linkedin.com/jobs/view/investor-relations-manager-at-kinterra-capital-4367944473"},
+{"firm":"Confidential","role":"IR Manager","location":"Dubai","type":"Active Listing","notes":"","link":"https://ae.linkedin.com/jobs/view/investor-relations-manager-at-confidential-4367159010"},
+{"firm":"aG Resources","role":"IR Specialist","location":"Dubai","type":"Active Listing","notes":"","link":"https://ae.linkedin.com/jobs/view/investor-relations-specialist-at-ag-resources-4363048177"},
+{"firm":"Edari","role":"IR Specialist","location":"Dubai","type":"Active Listing","notes":"","link":"https://ae.linkedin.com/jobs/view/investor-relations-specialist-at-edari-4370927723"},
+{"firm":"Delta Executive Search","role":"Analyst, Sales Support, IR","location":"Dubai","type":"Recruiter Listing","notes":"Fresh listing","link":"https://ae.linkedin.com/jobs/view/analyst-sales-support-international-investor-relations-and-principal-investment-firm-dubai-at-delta-executive-search-4373812130"},
+{"firm":"Evvolve & Partners","role":"VC Analyst","location":"Dubai","type":"Active Listing","notes":"More junior","link":"https://ae.linkedin.com/jobs/view/venture-capital-analyst-at-evvolve-partners-4363086962"},
+{"firm":"Warner Scott Recruitment","role":"Head of Investment Advisory & OCIO","location":"Dubai","type":"Recruiter Listing","notes":"Senior","link":"https://ae.linkedin.com/jobs/view/head-of-investment-advisory-ocio-solutions-asset-management-at-warner-scott-recruitment-4371838759"},
+{"firm":"Everet Marsh","role":"VP, Private Equity","location":"Dubai","type":"Recruiter Listing","notes":"","link":"https://ae.linkedin.com/jobs/view/vice-president-private-equity-investment-team-at-everet-marsh-4371841649"},
+{"firm":"PER / eFinancialCareers","role":"VP, PE, Global Fund","location":"Abu Dhabi","type":"Recruiter Listing","notes":"PER is top PE recruiter","link":"https://ae.linkedin.com/jobs/view/vice-president-private-equity-global-fund-abu-dhabi-uae-per-private-equity-recruitment-at-jobs-via-efinancialcareers-4370183214"},
+{"firm":"BOX4 Financial Markets","role":"Institutional Sales","location":"Abu Dhabi","type":"Active Listing","notes":"","link":"https://ae.linkedin.com/jobs/view/institutional-sales-at-box4-financial-markets-4358081860"},
+{"firm":"Wealthrone Capital","role":"Capital Raiser for M&A","location":"Dubai","type":"Active Listing","notes":"M&A focus","link":"https://ae.linkedin.com/jobs/view/capital-raiser-for-m-a-at-wealthrone-capital-4359884718"},
+{"firm":"ACCA Careers","role":"IR Manager","location":"Dubai","type":"Active Listing","notes":"","link":"https://ae.linkedin.com/jobs/view/investor-relations-manager-at-acca-careers-4369539008"},
+{"firm":"Majid Al Futtaim","role":"Manager, Treasury - Funding & IR","location":"Dubai","type":"Active Listing","notes":"Dubai visa","link":"https://ae.linkedin.com/jobs/view/manager-treasury-funding-investor-relations-emirati-talent-at-majid-al-futtaim-4363245551"},
+{"firm":"PureHealth","role":"Senior Manager IR","location":"Dubai","type":"Active Listing","notes":"Corporate IR","link":"https://ae.linkedin.com/jobs/view/senior-manager-investor-relations-at-purehealth-4360398701"},
+{"firm":"Greenstone","role":"Fund Placement, Singapore Investor Coverage","location":"Singapore (Dubai HQ)","type":"Active Listing","notes":"Could negotiate Dubai base","link":"https://sg.linkedin.com/jobs/view/fund-placement-singapore-investor-coverage-at-greenstone-4373562588"},
+{"firm":"Greenstone","role":"Regional Head, APAC IR (Distribution)","location":"Singapore (Dubai HQ)","type":"Active Listing","notes":"Senior","link":"https://sg.linkedin.com/jobs/view/regional-head-apac-investor-relations-distribution-at-greenstone-4371246820"},
+{"firm":"Metis Search","role":"IR Analyst, PE","location":"London","type":"Recruiter Listing","notes":"","link":"https://uk.linkedin.com/jobs/view/investor-relations-analyst-private-equity-at-metis-search-4355323427"},
+{"firm":"Metis Search","role":"Placement Agent Analyst, PE","location":"London","type":"Recruiter Listing","notes":"","link":"https://uk.linkedin.com/jobs/view/placement-agent-analyst-private-equity-at-metis-search-4355703190"},
+{"firm":"Finatal","role":"Junior IR Analyst","location":"London","type":"Recruiter Listing","notes":"Stepping stone","link":"https://uk.linkedin.com/jobs/view/junior-investor-relations-analyst-at-finatal-4373560962"},
+{"firm":"Finatal","role":"HNWI Fundraiser","location":"London","type":"Recruiter Listing","notes":"","link":"https://uk.linkedin.com/jobs/view/hnwi-fundraiser-at-finatal-4373571580"},
+{"firm":"PeakSeek","role":"Fund Placement Analyst","location":"London","type":"Active Listing","notes":"","link":"https://uk.linkedin.com/jobs/view/fund-placement-analyst-at-peakseek-4372257156"},
+{"firm":"SIG | Strategic Investments Group","role":"IR Associate","location":"London","type":"Active Listing","notes":"","link":"https://uk.linkedin.com/jobs/view/investor-relations-associate-at-sig-strategic-investments-group-4368317404"},
+{"firm":"Blackstone","role":"Private Wealth Global Strategic Partnerships Associate","location":"London","type":"Active Listing","notes":"Listed as French-speaking","link":"https://uk.linkedin.com/jobs/view/french-speaking-private-wealth-global-strategic-partnerships-associate-at-blackstone-4370723240"},
+{"firm":"Selby Jennings","role":"Senior Associate, HF IR","location":"London","type":"Recruiter Listing","notes":"","link":"https://uk.linkedin.com/jobs/view/senior-associate-hedge-fund-investor-relations-at-selby-jennings-4366328923"},
+{"firm":"Selby Jennings","role":"Boutique HF Capital Raiser","location":"London","type":"Recruiter Listing","notes":"","link":"https://uk.linkedin.com/jobs/view/boutique-hedge-fund-capital-raiser-at-selby-jennings-4366324952"},
+{"firm":"ARCHIMED","role":"IR Director","location":"Lyon, France","type":"Active Listing","notes":"Well-regarded firm","link":"https://uk.linkedin.com/jobs/view/investor-relations-director-lyon-france-at-archimed-4365263832"},
+{"firm":"Mondrian Alpha","role":"IR Associate (RE), Global HF","location":"Dublin","type":"Recruiter Listing","notes":"","link":"https://ie.linkedin.com/jobs/view/investor-relations-associate-real-estate-global-hedge-fund-dublin-at-mondrian-alpha-4360586631"},
+{"firm":"William Blair","role":"IB Analyst 1, Fund Placement","location":"London","type":"Active Listing","notes":"","link":"https://uk.linkedin.com/jobs/view/investment-banking-analyst-1-fund-placement-at-william-blair-4354023812"},
+{"firm":"William Blair","role":"IB Associate 1, Fund Placement","location":"London","type":"Active Listing","notes":"","link":"https://uk.linkedin.com/jobs/view/investment-banking-associate-1-fund-placement-at-william-blair-4354063858"},
+{"firm":"RCK Partners","role":"Partnership Manager, PE Sector","location":"London","type":"Active Listing","notes":"","link":"https://uk.linkedin.com/jobs/view/partnership-manager-private-equity-sector-at-rck-partners-4369711382"},
+{"firm":"SRC Ecosystem","role":"Head of IR, Web3 & Capital Markets","location":"London","type":"Active Listing","notes":"","link":"https://uk.linkedin.com/jobs/view/head-of-investor-relations-web3-capital-markets-at-src-ecosystem-4364488630"},
+{"firm":"Carta","role":"BD Manager, PE","location":"London","type":"Active Listing","notes":"","link":"https://uk.linkedin.com/jobs/view/business-development-manager-private-equity-at-carta-4363743731"},
+{"firm":"Carta","role":"BD Manager, VC","location":"London","type":"Active Listing","notes":"","link":"https://uk.linkedin.com/jobs/view/business-development-manager-venture-capital-at-carta-4363863797"},
+{"firm":"UCapital Asset Management","role":"Capital Market Associate","location":"London","type":"Active Listing","notes":"","link":"https://uk.linkedin.com/jobs/view/capital-market-associate-at-ucapital-asset-management-4367608153"},
+{"firm":"StepStone Group","role":"Analyst, PE Primaries/Co-Investments","location":"London","type":"Active Listing","notes":"Major alternatives allocator","link":"https://uk.linkedin.com/jobs/view/analyst-private-equity-primaries-co-investments-at-stepstone-group-4358415428"},
+{"firm":"Partners Group","role":"Associate, PE Technology","location":"London","type":"Active Listing","notes":"Investment role","link":"https://uk.linkedin.com/jobs/view/associate-private-equity-technology-vertical-at-partners-group-4359275194"},
+{"firm":"Metis Search","role":"IR Analyst, PE","location":"New York","type":"Recruiter Listing","notes":"","link":"https://www.linkedin.com/jobs/view/investor-relations-analyst-private-equity-at-metis-search-4356261326"},
+{"firm":"Reciprocal Ventures","role":"IR Associate","location":"New York","type":"Active Listing","notes":"","link":"https://www.linkedin.com/jobs/view/investor-relations-associate-at-reciprocal-ventures-4372730909"},
+{"firm":"Coda Search","role":"Head of IR Servicing","location":"New York","type":"Recruiter Listing","notes":"","link":"https://www.linkedin.com/jobs/view/head-of-investor-relations-servicing-at-coda-search-staffing-4369688013"},
+{"firm":"Willow Wealth","role":"Associate Director, Fund Selection","location":"New York","type":"Active Listing","notes":"","link":"https://www.linkedin.com/jobs/view/associate-director-fund-selection-at-willow-wealth-4333030998"},
+{"firm":"Brown Brothers Harriman","role":"Director, Investment Advisory & Client PM","location":"New York","type":"Active Listing","notes":"","link":"https://www.linkedin.com/jobs/view/director-of-investment-advisory-and-client-portfolio-management-at-brown-brothers-harriman-4325657081"},
+{"firm":"Adyen","role":"Commercial Partnerships Manager, PE & VC","location":"New York","type":"Active Listing","notes":"","link":"https://www.linkedin.com/jobs/view/commercial-partnerships-manager-private-equity-and-venture-capital-at-adyen-4369334845"},
+{"firm":"Amplify","role":"AD, Corporate Development & IR","location":"New York","type":"Active Listing","notes":"","link":"https://www.linkedin.com/jobs/view/associate-director-corporate-development-investor-relations-at-amplify-4367266631"},
+{"firm":"Bain Capital","role":"Senior Finance Associate, BDC","location":"New York","type":"Active Listing","notes":"","link":"https://www.linkedin.com/jobs/view/senior-finance-associate-business-development-company-at-bain-capital-4365312944"},
+{"firm":"Kerry Consulting","role":"Director/MD, IR, Major AM","location":"Singapore","type":"Recruiter Listing","notes":"","link":"https://sg.linkedin.com/jobs/view/director-md-investor-relations-major-asset-manager-at-kerry-consulting-4364489530"},
+{"firm":"Pantheon","role":"IR, Principal","location":"Singapore","type":"Active Listing","notes":"","link":"https://sg.linkedin.com/jobs/view/investor-relations-principal-at-pantheon-4371765924"},
+{"firm":"Selby Jennings","role":"Fund Admin & IR Specialist","location":"Singapore","type":"Recruiter Listing","notes":"","link":"https://sg.linkedin.com/jobs/view/fund-administration-and-investor-relations-specialist-at-selby-jennings-4370763214"},
+{"firm":"Selby Jennings","role":"Senior Associate / VP, IR","location":"Singapore","type":"Recruiter Listing","notes":"","link":"https://sg.linkedin.com/jobs/view/senior-associate-vp-investor-relations-at-selby-jennings-4330134851"},
+{"firm":"Citco Group","role":"AVP, IR","location":"Singapore","type":"Active Listing","notes":"","link":"https://sg.linkedin.com/jobs/view/avp-investor-relations-at-the-citco-group-limited-4348450601"},
+{"firm":"Brookfield","role":"VP, AM Private Wealth Placement AxJ","location":"Singapore","type":"Active Listing","notes":"","link":"https://sg.linkedin.com/jobs/view/vice-president-asset-management-private-wealth-placement-axj-at-brookfield-4366262729"},
+{"firm":"Trustmoore","role":"IR Officer","location":"Singapore","type":"Active Listing","notes":"","link":"https://sg.linkedin.com/jobs/view/investor-relations-officer-at-trustmoore-4363158081"},
+{"firm":"Mapletree","role":"Senior Exec/Asst Manager, Private Capital Mgmt","location":"Singapore","type":"Active Listing","notes":"12-month contract","link":"https://sg.linkedin.com/jobs/view/senior-executive-assistant-manager-private-capital-management-12-month-contract-based-in-sg-at-mapletree-4351004836"},
+{"firm":"Goldman Sachs","role":"XIG, Alternatives Capital Formation, HF Analyst","location":"Hong Kong","type":"Active Listing","notes":"","link":"https://hk.linkedin.com/jobs/view/asset-wealth-management-external-investing-group-xig-alternatives-capital-formation-hedge-fund-analyst-hong-kong-at-goldman-sachs-4371381487"},
+{"firm":"Goldman Sachs","role":"XIG, Alternatives Capital Formation, Analyst/Associate","location":"Hong Kong","type":"Active Listing","notes":"","link":"https://hk.linkedin.com/jobs/view/asset-wealth-management-external-investing-group-xig-alternatives-capital-formation-analyst-associate-hong-kong-at-goldman-sachs-4365956573"},
+{"firm":"Venture Search","role":"IR Lead, VC","location":"Hong Kong","type":"Recruiter Listing","notes":"","link":"https://hk.linkedin.com/jobs/view/investor-relations-lead-venture-capital-at-venture-search-4353856988"},
+{"firm":"Navier-Stokes Capital","role":"Senior Manager, IR","location":"Hong Kong","type":"Active Listing","notes":"","link":"https://hk.linkedin.com/jobs/view/senior-manager-of-investor-relations-at-navier-stokes-capital-management-llc-4368178217"},
+{"firm":"Jefferies","role":"Analyst, Capital Introduction","location":"Hong Kong","type":"Active Listing","notes":"","link":"https://hk.linkedin.com/jobs/view/analyst-capital-introduction-at-jefferies-4372796912"},
+{"firm":"PER","role":"IR VP, Special Sit/Credit Fund","location":"Hong Kong","type":"Recruiter Listing","notes":"","link":"https://hk.linkedin.com/jobs/view/investor-relations-vp-fast-growing-special-situations-credit-fund-hong-kong-at-per-4371134046"},
+{"firm":"Animoca Brands","role":"IR Manager","location":"Hong Kong","type":"Active Listing","notes":"","link":"https://hk.linkedin.com/jobs/view/investor-relations-manager-at-animoca-brands-4359382619"},
+{"firm":"DayOne","role":"Director, IR","location":"Hong Kong","type":"Active Listing","notes":"","link":"https://hk.linkedin.com/jobs/view/director-investor-relations-at-dayone-4337057989"},
+{"firm":"King Deux Search","role":"MD, Fundraising & IR, FO-backed AM","location":"Hong Kong","type":"Recruiter Listing","notes":"Very strong fit","link":"https://hk.linkedin.com/jobs/view/managing-director-fundraising-investor-relations-fortune-500-family-office-backed-asset-management-at-king-deux-search-and-consulting-4369046408"},
+{"firm":"y-intercept","role":"Investor Relations","location":"Hong Kong","type":"Active Listing","notes":"","link":"https://hk.linkedin.com/jobs/view/investor-relations-at-y-intercept-4367417392"},
+{"firm":"CGL Consulting","role":"Director of IR","location":"Hong Kong","type":"Recruiter Listing","notes":"","link":"https://hk.linkedin.com/jobs/view/director-of-investor-relations-at-cgl-consulting-co-ltd-4368954713"},
+{"firm":"CGL Consulting","role":"Director of IR (Fintech/Web3)","location":"Hong Kong","type":"Recruiter Listing","notes":"","link":"https://hk.linkedin.com/jobs/view/director-of-investor-relations-fintech-web3-at-cgl-consulting-co-ltd-4366573525"},
+{"firm":"Macquarie Group","role":"Analyst/Associate, Asia Wealth Client Solutions","location":"Hong Kong","type":"Active Listing","notes":"","link":"https://hk.linkedin.com/jobs/view/analyst-associate-asia-wealth-client-solutions-group-at-macquarie-group-4357493342"},
+{"firm":"KOS International","role":"Head of IR","location":"Hong Kong","type":"Active Listing","notes":"","link":"https://hk.linkedin.com/jobs/view/head-of-investor-relations-at-kos-international-limited-4361015527"},
+{"firm":"Rectrix Group","role":"Senior IR Manager","location":"Hong Kong","type":"Active Listing","notes":"","link":"https://hk.linkedin.com/jobs/view/senior-investor-relations-manager-at-rectrix-group-limited-4373536100"},
+{"firm":"Flink","role":"IR Associate","location":"Berlin","type":"Active Listing","notes":"","link":"https://de.linkedin.com/jobs/view/investor-relations-associate-m-f-d-at-flink-4372541531"},
+{"firm":"Knorr-Bremse","role":"VC Associate","location":"Munich","type":"Active Listing","notes":"","link":"https://de.linkedin.com/jobs/view/venture-capital-associate-m-w-d-at-knorr-bremse-lisieux-4357720119"},
+{"firm":"VU Venture Partners","role":"VC Investor Accelerator","location":"Berlin","type":"Active Listing","notes":"","link":"https://de.linkedin.com/jobs/view/venture-capital-investor-accelerator-at-vu-venture-partners-4360976649"},
+{"firm":"UNIQ Investments SA","role":"IR, Wealth Mgmt & Private Markets","location":"Geneva","type":"Active Listing","notes":"","link":"https://ch.linkedin.com/jobs/view/investor-relations-wealth-management-private-markets-4361439990"},
+{"firm":"Starling Bank","role":"Group IR Analyst","location":"London","type":"Active Listing","notes":"","link":"https://uk.linkedin.com/jobs/view/group-investor-relations-analyst-at-starling-4372102184"},
+{"firm":"a16z","role":"Capital Formation / IR","location":"Menlo Park / NY / London","type":"Speculative","notes":"","link":"https://a16z.com/careers"},
+{"firm":"Sequoia Capital","role":"IR / Capital Formation","location":"Menlo Park / London / SG","type":"Speculative","notes":"","link":"https://sequoiacap.com/careers"},
+{"firm":"Insight Partners","role":"Capital Formation / IR","location":"NY / London / Tel Aviv","type":"Speculative","notes":"","link":"https://insightpartners.com/careers"},
+{"firm":"Tiger Global","role":"IR / LP Relations","location":"New York","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Coatue Management","role":"IR / Capital Formation","location":"NY / London","type":"Speculative","notes":"","link":"https://coatue.com/careers"},
+{"firm":"Lightspeed Venture Partners","role":"IR / Fund Ops","location":"Menlo Park / London / SG","type":"Speculative","notes":"","link":"https://lsvp.com/careers"},
+{"firm":"Index Ventures","role":"IR / Capital Formation","location":"London / SF / Geneva","type":"Speculative","notes":"","link":"https://indexventures.com/careers"},
+{"firm":"Accel","role":"IR / Capital Formation","location":"London / Palo Alto","type":"Speculative","notes":"","link":"https://accel.com/careers"},
+{"firm":"Balderton Capital","role":"IR / Fund Ops","location":"London","type":"Speculative","notes":"","link":"https://balderton.com/careers"},
+{"firm":"Atomico","role":"IR / Capital Formation","location":"London","type":"Speculative","notes":"","link":"https://atomico.com/careers"},
+{"firm":"Northzone","role":"IR / Fund Ops","location":"London / Stockholm / Oslo / NY","type":"Speculative","notes":"","link":"https://northzone.com/careers"},
+{"firm":"EQT Ventures","role":"IR / Capital Formation","location":"Stockholm / London","type":"Speculative","notes":"","link":"https://eqtgroup.com/careers"},
+{"firm":"Lakestar","role":"IR / BD","location":"Zurich / London / Berlin","type":"Speculative","notes":"","link":"https://lakestar.com/careers"},
+{"firm":"Cherry Ventures","role":"IR / Fund Ops","location":"Berlin","type":"Speculative","notes":"","link":"https://cherry.vc/careers"},
+{"firm":"HV Capital","role":"IR / Capital Formation","location":"Munich / Berlin","type":"Speculative","notes":"","link":"https://hvcapital.com/careers"},
+{"firm":"Earlybird VC","role":"IR / Fund Ops","location":"Berlin / Munich / Istanbul","type":"Speculative","notes":"","link":"https://earlybird.com/careers"},
+{"firm":"Point Nine Capital","role":"IR","location":"Berlin","type":"Speculative","notes":"","link":"https://pointnine.com"},
+{"firm":"Molten Ventures","role":"IR / Capital Formation","location":"London","type":"Speculative","notes":"","link":"https://moltenventures.com/careers"},
+{"firm":"Octopus Ventures","role":"IR / Capital Formation","location":"London","type":"Speculative","notes":"","link":"https://octopusventures.com/careers"},
+{"firm":"LocalGlobe / Latitude","role":"IR","location":"London","type":"Speculative","notes":"","link":"https://localglobe.vc/careers"},
+{"firm":"Felix Capital","role":"IR / Fund Ops","location":"London","type":"Speculative","notes":"","link":"https://felixcap.com"},
+{"firm":"Partech Partners","role":"IR / Capital Formation","location":"Paris / SF / Berlin","type":"Speculative","notes":"","link":"https://partechpartners.com/careers"},
+{"firm":"Eurazeo","role":"IR / Capital Formation","location":"Paris / London / NY","type":"Speculative","notes":"","link":"https://eurazeo.com/careers"},
+{"firm":"Sofina","role":"IR / Capital Formation","location":"Brussels / Luxembourg","type":"Speculative","notes":"","link":"https://sofina.com/careers"},
+{"firm":"Prosus Ventures","role":"IR / Capital Formation","location":"Amsterdam","type":"Speculative","notes":"","link":"https://prosus.com/careers"},
+{"firm":"General Catalyst","role":"IR / Capital Formation","location":"SF / NY / London","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Permira","role":"IR / Capital Formation","location":"London / Dubai (DIFC)","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"CVC Capital Partners","role":"IR / Capital Formation","location":"London / Luxembourg","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Apax Partners","role":"IR / Capital Formation","location":"London","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"BC Partners","role":"IR / Capital Formation","location":"London / NY / Hamburg","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Cinven","role":"IR / Capital Formation","location":"London / Luxembourg","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Warburg Pincus","role":"IR / Capital Formation","location":"NY / London / HK / SG / Abu Dhabi","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"KKR","role":"IR / Capital Formation EMEA","location":"London / NY / Dubai coverage","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Apollo Global Management","role":"IR / Client Solutions","location":"NY / London","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Ares Management","role":"IR / Capital Formation","location":"LA / NY / London / Dubai coverage","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"TPG","role":"IR / Capital Formation","location":"SF / NY / London / SG","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Thoma Bravo","role":"IR / Capital Formation","location":"SF / Chicago / Miami / London","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Vista Equity Partners","role":"IR / Capital Formation","location":"Austin / SF / NY","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Hillhouse Capital","role":"IR","location":"HK / SG / Beijing","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"GIC","role":"Investment / IR","location":"Singapore / London / NY","type":"Speculative","notes":"","link":"https://gic.com.sg/careers"},
+{"firm":"Temasek","role":"Investment / IR","location":"Singapore / London / NY","type":"Speculative","notes":"","link":"https://temasek.com.sg/careers"},
+{"firm":"ADIA","role":"Investment / PE","location":"Abu Dhabi","type":"Speculative","notes":"","link":"https://adia.ae/careers"},
+{"firm":"Stonehage Fleming","role":"IR / Investment / BD","location":"London / Zurich / Dubai / SG","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Alvarium (Tiedemann Global)","role":"Investment / IR / BD","location":"London / Dubai / NY / Zurich","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"The Family Office (TFO)","role":"Investment / BD","location":"Bahrain / Dubai","type":"Speculative","notes":"","link":"https://tfoco.com/careers"},
+{"firm":"Mumtalakat","role":"Investment","location":"Bahrain","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Lombard Odier","role":"Private Markets","location":"Geneva / Zurich / London / Dubai / SG / HK","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Pictet","role":"Alternatives / Private Markets","location":"Geneva / London / SG / HK","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Julius Baer","role":"Alternatives / Private Markets","location":"Zurich / Dubai / SG / HK / London","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"UBS","role":"Alternatives Distribution","location":"Zurich / London / Dubai / SG / NY / HK","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Fidelity International","role":"Institutional / IR / BD","location":"London / HK / SG / Dubai coverage","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Schroders Capital","role":"IR / Capital Formation","location":"London / Zurich / SG","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Investcorp","role":"IR / Capital Formation","location":"Bahrain / NY / London / Abu Dhabi / Dubai / Riyadh / SG","type":"Speculative","notes":"","link":"https://investcorp.com/careers"},
+{"firm":"Gulf Capital","role":"IR / Capital Formation","location":"Abu Dhabi","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"The Olayan Group","role":"Investment","location":"Riyadh / Athens / London / NY","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Arcapita","role":"Investment / IR","location":"Bahrain / Dubai","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Google Ventures (GV)","role":"BD / LP Relations","location":"Menlo Park / NY / London","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Intel Capital","role":"BD / LP Relations","location":"Global","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Salesforce Ventures","role":"BD","location":"SF / London","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Microsoft M12","role":"BD / Investment","location":"SF / London","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"e& capital (Etisalat)","role":"Investment / BD","location":"Abu Dhabi / Dubai","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"STC Ventures","role":"Investment","location":"Riyadh","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Aramco Ventures","role":"Investment","location":"Dhahran / London / Houston","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Eaton Partners (Stifel)","role":"Capital Raising / Placement","location":"Rowayton / London / HK","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Campbell Lutyens","role":"Placement Agent","location":"London / NY / SG / HK","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Rede Partners","role":"Placement Agent","location":"London / NY","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Triago","role":"Placement Agent","location":"Paris / NY / Dubai","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Houlihan Lokey","role":"Capital Solutions / Fund Placement","location":"LA / NY / London / Dubai","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Lazard","role":"Private Capital Advisory","location":"NY / London / Dubai","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Evercore","role":"Private Capital Advisory","location":"NY / London","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"PJT Partners / Park Hill","role":"Fund Placement","location":"NY / London / HK","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Jefferies","role":"Private Capital Advisory","location":"NY / London / HK / Dubai","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"MVision (Natixis)","role":"Placement Agent","location":"London / NY / HK","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Nuwa Capital","role":"IR / BD","location":"Riyadh / Dubai","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"MEVP","role":"IR / BD","location":"Beirut / Dubai","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"VentureSouq","role":"IR / BD","location":"Dubai","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Flat6Labs","role":"IR / BD","location":"Abu Dhabi / Cairo / Riyadh","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"500 Global","role":"IR / MENA Fund","location":"SF / Abu Dhabi / Riyadh","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"STV","role":"IR / BD","location":"Riyadh / Dubai","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Sanabil Investments","role":"Investment","location":"Riyadh","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Saudi VC Company (SVC)","role":"Investment","location":"Riyadh","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Algebra Ventures","role":"IR / BD","location":"Cairo / Dubai","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Chimera Capital","role":"IR / Investment","location":"Abu Dhabi","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Lunate Capital","role":"IR / Investment","location":"Abu Dhabi","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Ruya Partners","role":"IR / Capital Formation","location":"Dubai","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Waha Capital","role":"IR / Investment","location":"Abu Dhabi","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Bessemer Venture Partners","role":"IR / Capital Formation","location":"SF / NY / London / Bangalore","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"NEA","role":"IR","location":"Menlo Park / DC / NY","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Greenoaks Capital","role":"IR / Fund Ops","location":"SF / NY","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Dragoneer Investment Group","role":"IR","location":"SF / NY","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"D1 Capital Partners","role":"IR","location":"New York","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Ribbit Capital","role":"IR","location":"Menlo Park","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"QED Investors","role":"IR","location":"Alexandria VA","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Headline (fka e.ventures)","role":"IR","location":"SF / Berlin / London / São Paulo","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Bridgepoint","role":"IR / Capital Formation","location":"London","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"ICG","role":"IR / Capital Formation","location":"London","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Man Group","role":"IR / Distribution","location":"London / NY / HK","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Tikehau Capital","role":"IR / Capital Formation","location":"Paris / London / SG / Dubai coverage","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Antin Infrastructure","role":"IR","location":"Paris / London / NY / SG","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Triton Partners","role":"IR","location":"Stockholm / London / Frankfurt / Amsterdam","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Nordic Capital","role":"IR","location":"Stockholm / London","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Hg Capital","role":"IR / Capital Formation","location":"London / Munich / NY","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Ardian","role":"IR / Capital Formation","location":"Paris / London / NY / SG / Dubai coverage","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"PSG Equity","role":"IR","location":"Boston / London / KC","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Valar Ventures","role":"IR","location":"New York","type":"Speculative","notes":"","link":"N/A"},
+{"firm":"Heidrick & Struggles Dubai","role":"Recruiter","location":"Dubai","type":"Recruiter Outreach","notes":"","link":"N/A"},
+{"firm":"Sheffield Haworth","role":"Recruiter","location":"London / Dubai","type":"Recruiter Outreach","notes":"","link":"N/A"},
+{"firm":"The Rift","role":"Recruiter","location":"London","type":"Recruiter Outreach","notes":"","link":"N/A"},
+{"firm":"Benchmark Search","role":"Recruiter","location":"London","type":"Recruiter Outreach","notes":"","link":"N/A"},
+{"firm":"PER","role":"Recruiter","location":"London / HK","type":"Recruiter Outreach","notes":"","link":"N/A"},
+{"firm":"Ratio International","role":"Recruiter","location":"London","type":"Recruiter Outreach","notes":"","link":"N/A"},
+{"firm":"Walker Hamill","role":"Recruiter","location":"London","type":"Recruiter Outreach","notes":"","link":"N/A"},
+{"firm":"Guildhall Agency","role":"Recruiter","location":"Dubai","type":"Recruiter Outreach","notes":"","link":"N/A"},
+{"firm":"Robert Half","role":"Recruiter","location":"Dubai","type":"Recruiter Outreach","notes":"","link":"N/A"},
+{"firm":"Michael Page","role":"Recruiter","location":"Dubai / Abu Dhabi","type":"Recruiter Outreach","notes":"","link":"N/A"}];
+
+let statusData = {};
+
+// Load status from localStorage
+function loadStatus() {
+  const saved = localStorage.getItem('jobStatuses');
+  if (saved) {
+    try {
+      statusData = JSON.parse(saved);
+    } catch(e) {
+      statusData = {};
+    }
+  }
+}
+
+function saveStatus() {
+  localStorage.setItem('jobStatuses', JSON.stringify(statusData));
+}
+
+function getJobKey(job) {
+  return `${job.firm}::${job.role}::${job.location}`;
+}
+
+function getStatus(job) {
+  const key = getJobKey(job);
+  return statusData[key] || 'Not Started';
+}
+
+function setStatus(job, status) {
+  const key = getJobKey(job);
+  statusData[key] = status;
+  saveStatus();
+  updateStats();
+}
+
+function getLocationCategory(location) {
+  if (!location) return 'Other';
+  const loc = location.toLowerCase();
+  if (loc.includes('dubai')) return 'Dubai';
+  if (loc.includes('abu dhabi')) return 'Abu Dhabi';
+  if (loc.includes('london')) return 'London';
+  if (loc.includes('new york') || loc.includes('ny ')) return 'New York';
+  if (loc.includes('singapore')) return 'Singapore';
+  if (loc.includes('hong kong')) return 'Hong Kong';
+  return 'Other';
+}
+
+function updateStats() {
+  const counts = {
+    total: jobs.length,
+    'Not Started': 0,
+    'Applied': 0,
+    'Interviewing': 0,
+    'Offer': 0,
+    'Rejected': 0
+  };
+  jobs.forEach(job => {
+    const status = getStatus(job);
+    counts[status]++;
+  });
+  document.getElementById('stat-total').textContent = counts.total;
+  document.getElementById('stat-notstarted').textContent = counts['Not Started'];
+  document.getElementById('stat-applied').textContent = counts['Applied'];
+  document.getElementById('stat-interviewing').textContent = counts['Interviewing'];
+  document.getElementById('stat-offer').textContent = counts['Offer'];
+  document.getElementById('stat-rejected').textContent = counts['Rejected'];
+}
+
+function renderJobs() {
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const statusFilter = document.getElementById('statusFilter').value;
+  const locationFilter = document.getElementById('locationFilter').value;
+  const typeFilter = document.getElementById('typeFilter').value;
+
+  const filtered = jobs.filter(job => {
+    const matchSearch = !search || job.firm.toLowerCase().includes(search);
+    const matchStatus = !statusFilter || getStatus(job) === statusFilter;
+    const matchLocation = !locationFilter || getLocationCategory(job.location) === locationFilter;
+    const matchType = !typeFilter || job.type === typeFilter;
+    return matchSearch && matchStatus && matchLocation && matchType;
+  });
+
+  const html = filtered.map(job => {
+    const status = getStatus(job);
+    const statusClass = status.toLowerCase().replace(' ', '-');
+    const typeClass = job.type.toLowerCase().replace(' ', '-');
+    const hasLink = job.link && job.link !== 'N/A';
+    
+    return `
+      <div class="job-card">
+        <div class="job-header">
+          <div class="job-main">
+            <div class="job-firm">${job.firm}</div>
+            <div class="job-role">${job.role}</div>
+            <div class="job-meta">
+              <span>${job.location || 'Various'}</span>
+              ${hasLink ? `· <a href="${job.link}" target="_blank" class="job-link">View Listing</a>` : ''}
+              · <span class="tag tag-${typeClass}">${job.type}</span>
+            </div>
+          </div>
+          <div class="job-status">
+            <select class="status-select status-${statusClass}" data-firm="${job.firm}" data-role="${job.role}" data-location="${job.location}">
+              <option value="Not Started" ${status === 'Not Started' ? 'selected' : ''}>Not Started</option>
+              <option value="Applied" ${status === 'Applied' ? 'selected' : ''}>Applied</option>
+              <option value="Interviewing" ${status === 'Interviewing' ? 'selected' : ''}>Interviewing</option>
+              <option value="Offer" ${status === 'Offer' ? 'selected' : ''}>Offer</option>
+              <option value="Rejected" ${status === 'Rejected' ? 'selected' : ''}>Rejected</option>
+            </select>
+          </div>
+        </div>
+        ${job.notes ? `<div class="job-notes">${job.notes}</div>` : ''}
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('jobList').innerHTML = html || '<div style="text-align:center;padding:40px;color:var(--muted)">No jobs match your filters</div>';
+
+  // Attach event listeners
+  document.querySelectorAll('.status-select').forEach(select => {
+    select.addEventListener('change', (e) => {
+      const firm = e.target.dataset.firm;
+      const role = e.target.dataset.role;
+      const location = e.target.dataset.location;
+      const job = jobs.find(j => j.firm === firm && j.role === role && j.location === location);
+      if (job) {
+        setStatus(job, e.target.value);
+        const statusClass = e.target.value.toLowerCase().replace(' ', '-');
+        e.target.className = `status-select status-${statusClass}`;
+      }
+    });
+  });
+}
+
+// Init
+loadStatus();
+updateStats();
+renderJobs();
+
+// Filters
+document.getElementById('searchInput').addEventListener('input', renderJobs);
+document.getElementById('statusFilter').addEventListener('change', renderJobs);
+document.getElementById('locationFilter').addEventListener('change', renderJobs);
+document.getElementById('typeFilter').addEventListener('change', renderJobs);
+</script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Task Board — Mission Control</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+<style>
+:root{--bg:#0a0a0b;--surface:#141416;--surface2:#1c1c20;--border:#2a2a30;--text:#ececf0;--muted:#7a7a85;--accent:#f0883e;--green:#34d399;--yellow:#fbbf24;--red:#f87171;--blue:#60a5fa;--purple:#a78bfa;--radius:16px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;padding:16px;-webkit-font-smoothing:antialiased}
+.container{max-width:1400px;margin:0 auto}
+.back{color:var(--muted);font-size:14px;text-decoration:none;margin-bottom:16px;display:inline-block}
+.back:hover{color:var(--text)}
+h1{font-size:26px;font-weight:700;margin-bottom:8px}
+.subtitle{color:var(--muted);font-size:14px;margin-bottom:24px}
+
+/* Add task */
+.add-task{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:24px;display:flex;gap:12px}
+.add-task input{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px;color:var(--text);font-size:14px}
+.add-task input:focus{outline:none;border-color:var(--accent)}
+.add-task button{background:var(--accent);color:var(--bg);border:none;border-radius:8px;padding:10px 20px;font-size:14px;font-weight:600;cursor:pointer}
+.add-task button:hover{opacity:0.9}
+.add-task button:active{transform:scale(0.98)}
+
+/* Board */
+.board{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+@media(max-width:900px){
+.board{grid-template-columns:1fr}
+}
+
+/* Column */
+.column{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;min-height:400px}
+.column-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border)}
+.column-title{font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;display:flex;align-items:center;gap:8px}
+.column-count{background:var(--surface2);color:var(--muted);font-size:11px;padding:2px 8px;border-radius:10px;font-weight:600}
+
+/* Cards */
+.task-list{display:flex;flex-direction:column;gap:8px}
+.task-card{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:12px;cursor:pointer;transition:all 0.15s}
+.task-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.task-card:active{transform:scale(0.98)}
+.task-text{font-size:14px;line-height:1.4;margin-bottom:8px}
+.task-footer{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.task-badge{font-size:11px;padding:3px 8px;border-radius:12px;font-weight:600}
+.badge-todo{background:rgba(248,113,113,0.12);color:var(--red)}
+.badge-progress{background:rgba(251,191,36,0.12);color:var(--yellow)}
+.badge-done{background:rgba(52,211,153,0.12);color:var(--green)}
+.task-delete{font-size:11px;color:var(--muted);text-decoration:none;padding:4px 8px}
+.task-delete:hover{color:var(--red)}
+
+/* Empty state */
+.empty{text-align:center;padding:40px 20px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="index.html" class="back">← Back to Dashboard</a>
+<h1>📌 Task Board</h1>
+<div class="subtitle">Click tasks to move them forward · Add new tasks anytime</div>
+
+<div class="add-task">
+<input type="text" id="newTaskInput" placeholder="Add a new task..." />
+<button onclick="addTask()">Add Task</button>
+</div>
+
+<div class="board">
+<div class="column">
+<div class="column-header">
+<div class="column-title">
+<span>📋</span> To Do
+</div>
+<div class="column-count" id="count-todo">0</div>
+</div>
+<div class="task-list" id="list-todo"></div>
+</div>
+
+<div class="column">
+<div class="column-header">
+<div class="column-title">
+<span>🔄</span> In Progress
+</div>
+<div class="column-count" id="count-progress">0</div>
+</div>
+<div class="task-list" id="list-progress"></div>
+</div>
+
+<div class="column">
+<div class="column-header">
+<div class="column-title">
+<span>✅</span> Done
+</div>
+<div class="column-count" id="count-done">0</div>
+</div>
+<div class="task-list" id="list-done"></div>
+</div>
+</div>
+</div>
+
+<script>
+const initialTasks = [
+  // Todo
+  {id:'t1',text:'Send outreach to Sirius, Hays, Korn Ferry',status:'todo'},
+  {id:'t2',text:'Send outreach to Arboris (CapGain launch hook!)',status:'todo'},
+  {id:'t3',text:'Apply to Goldman Sachs VP role',status:'todo'},
+  {id:'t4',text:'Publish Article 1 on X (tag @Greenstone)',status:'todo'},
+  {id:'t5',text:'Publish Article 2 on X (tag @Sirius)',status:'todo'},
+  {id:'t6',text:'Research hiring managers on LinkedIn (10 min each)',status:'todo'},
+  {id:'t7',text:'FEG follow-up (proposal sent)',status:'todo'},
+  {id:'t8',text:'Interview prep practice',status:'todo'},
+  {id:'t9',text:'Research Empyrean Sky Partners',status:'todo'},
+  {id:'t10',text:'Build recruiter relationships (PER, Selby Jennings, Fram Search)',status:'todo'},
+  // In Progress
+  {id:'p1',text:'Cold outreach message personalization',status:'progress'},
+  {id:'p2',text:'Mission Control site build',status:'progress'},
+  // Done
+  {id:'d1',text:'CVs finalized (4 versions: VC, Capital Formation, IB, FEG)',status:'done'},
+  {id:'d2',text:'LinkedIn fully optimized',status:'done'},
+  {id:'d3',text:'Tier-1 targets researched (10 companies)',status:'done'},
+  {id:'d4',text:'Tier-2 outreach messages drafted (7 targets, 25 variations)',status:'done'},
+  {id:'d5',text:'Cold outreach research & templates',status:'done'},
+  {id:'d6',text:'2 X articles written (Dubai Fund Placement + Family Office Capital Formation)',status:'done'},
+  {id:'d7',text:'TOV analysis completed',status:'done'},
+  {id:'d8',text:'Job search Google Sheet (222 jobs segmented)',status:'done'},
+  {id:'d9',text:'26 Dubai outreach emails personalized',status:'done'},
+  {id:'d10',text:'Quick Apply Guide created',status:'done'},
+  {id:'d11',text:'Cover letter templates (3 versions)',status:'done'},
+  {id:'d12',text:'Career assessment & salary research',status:'done'},
+  {id:'d13',text:'Interview prep questions (12) drafted',status:'done'},
+  {id:'d14',text:'FEG proposal & CV sent',status:'done'},
+  {id:'d15',text:'Markowski due diligence research',status:'done'},
+  {id:'d16',text:'Content strategy created',status:'done'},
+  {id:'d17',text:'Ana profile documented',status:'done'},
+  {id:'d18',text:'Search criteria defined',status:'done'},
+  {id:'d19',text:'Application tracker created',status:'done'},
+  {id:'d20',text:'Automation learnings documented',status:'done'},
+  {id:'d21',text:'Mission Control dashboard deployed to GitHub Pages',status:'done'},
+  {id:'d22',text:'All docs uploaded to GitHub Pages site',status:'done'}
+];
+
+let tasks = [];
+
+function loadTasks() {
+  const saved = localStorage.getItem('kanbanTasks');
+  if (saved) {
+    try {
+      tasks = JSON.parse(saved);
+    } catch(e) {
+      tasks = [...initialTasks];
+    }
+  } else {
+    tasks = [...initialTasks];
+  }
+}
+
+function saveTasks() {
+  localStorage.setItem('kanbanTasks', JSON.stringify(tasks));
+}
+
+function render() {
+  const todo = tasks.filter(t => t.status === 'todo');
+  const progress = tasks.filter(t => t.status === 'progress');
+  const done = tasks.filter(t => t.status === 'done');
+
+  document.getElementById('count-todo').textContent = todo.length;
+  document.getElementById('count-progress').textContent = progress.length;
+  document.getElementById('count-done').textContent = done.length;
+
+  document.getElementById('list-todo').innerHTML = todo.length ? todo.map(renderCard).join('') : '<div class="empty">No tasks</div>';
+  document.getElementById('list-progress').innerHTML = progress.length ? progress.map(renderCard).join('') : '<div class="empty">No tasks</div>';
+  document.getElementById('list-done').innerHTML = done.length ? done.map(renderCard).join('') : '<div class="empty">No tasks</div>';
+}
+
+function renderCard(task) {
+  const badgeClass = task.status === 'todo' ? 'badge-todo' : task.status === 'progress' ? 'badge-progress' : 'badge-done';
+  const badgeText = task.status === 'todo' ? 'To Do' : task.status === 'progress' ? 'In Progress' : 'Done';
+  return `
+    <div class="task-card" onclick="moveTask('${task.id}')">
+      <div class="task-text">${task.text}</div>
+      <div class="task-footer">
+        <span class="task-badge ${badgeClass}">${badgeText}</span>
+        <a href="#" class="task-delete" onclick="deleteTask(event,'${task.id}')">Delete</a>
+      </div>
+    </div>
+  `;
+}
+
+function moveTask(id) {
+  const task = tasks.find(t => t.id === id);
+  if (!task) return;
+  
+  if (task.status === 'todo') task.status = 'progress';
+  else if (task.status === 'progress') task.status = 'done';
+  else task.status = 'todo'; // cycle back
+  
+  saveTasks();
+  render();
+}
+
+function deleteTask(e, id) {
+  e.stopPropagation();
+  e.preventDefault();
+  tasks = tasks.filter(t => t.id !== id);
+  saveTasks();
+  render();
+}
+
+function addTask() {
+  const input = document.getElementById('newTaskInput');
+  const text = input.value.trim();
+  if (!text) return;
+  
+  const newTask = {
+    id: 'u' + Date.now(),
+    text: text,
+    status: 'todo'
+  };
+  tasks.push(newTask);
+  saveTasks();
+  render();
+  input.value = '';
+}
+
+// Allow Enter key to add task
+document.getElementById('newTaskInput').addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') addTask();
+});
+
+// Init
+loadTasks();
+render();
+</script>
+</body>
+</html>
