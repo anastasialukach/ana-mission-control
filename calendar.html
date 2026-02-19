@@ -286,8 +286,16 @@ function selectDate(dateStr) {
         <div class="post-text">${p.text}</div>
         <div class="post-why">💡 ${p.why}</div>
         
-        <h3>📊 Results</h3>
-        <div class="metrics-grid">
+        <h3 style="margin-top:16px">✏️ What I Actually Posted</h3>
+        <textarea id="final_${dateStr}_${i}" placeholder="Paste the final version you posted here..." 
+          style="width:100%;min-height:80px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text);font-size:13px;line-height:1.5;resize:vertical;font-family:inherit;outline:none;margin:8px 0"
+          onchange="saveFinal('${dateStr}',${i})">${saved.finalText || ''}</textarea>
+        <input type="url" id="url_${dateStr}_${i}" placeholder="Post URL (LinkedIn/X link)" 
+          style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--blue);font-size:13px;font-family:inherit;outline:none;margin-bottom:12px"
+          value="${saved.postUrl || ''}" onchange="saveFinal('${dateStr}',${i})">
+        
+        <h3>📊 Performance</h3>
+        <div class="metrics-grid" style="grid-template-columns:repeat(3,1fr)">
           <div class="metric-input">
             <label>Views</label>
             <input type="number" placeholder="—" id="views_${dateStr}_${i}" value="${saved.views || ''}" onchange="saveMetric('${dateStr}',${i})">
@@ -299,6 +307,20 @@ function selectDate(dateStr) {
           <div class="metric-input">
             <label>Comments</label>
             <input type="number" placeholder="—" id="comments_${dateStr}_${i}" value="${saved.comments || ''}" onchange="saveMetric('${dateStr}',${i})">
+          </div>
+        </div>
+        <div class="metrics-grid" style="grid-template-columns:repeat(3,1fr);margin-top:8px">
+          <div class="metric-input">
+            <label>Reposts</label>
+            <input type="number" placeholder="—" id="reposts_${dateStr}_${i}" value="${saved.reposts || ''}" onchange="saveMetric('${dateStr}',${i})">
+          </div>
+          <div class="metric-input">
+            <label>Saves</label>
+            <input type="number" placeholder="—" id="saves_${dateStr}_${i}" value="${saved.saves || ''}" onchange="saveMetric('${dateStr}',${i})">
+          </div>
+          <div class="metric-input">
+            <label>Clicks</label>
+            <input type="number" placeholder="—" id="clicks_${dateStr}_${i}" value="${saved.clicks || ''}" onchange="saveMetric('${dateStr}',${i})">
           </div>
         </div>
       </div>`;
@@ -313,15 +335,25 @@ function selectDate(dateStr) {
 }
 
 // ============ METRICS ============
+function saveFinal(dateStr, postIdx) {
+  const finalText = document.getElementById(`final_${dateStr}_${postIdx}`).value;
+  const postUrl = document.getElementById(`url_${dateStr}_${postIdx}`).value;
+  const existing = getMetrics(dateStr, postIdx);
+  existing.finalText = finalText;
+  existing.postUrl = postUrl;
+  localStorage.setItem(`metrics_${dateStr}_${postIdx}`, JSON.stringify(existing));
+}
+
 function saveMetric(dateStr, postIdx) {
-  const views = document.getElementById(`views_${dateStr}_${postIdx}`).value;
-  const likes = document.getElementById(`likes_${dateStr}_${postIdx}`).value;
-  const comments = document.getElementById(`comments_${dateStr}_${postIdx}`).value;
+  const existing = getMetrics(dateStr, postIdx);
+  existing.views = document.getElementById(`views_${dateStr}_${postIdx}`).value || '';
+  existing.likes = document.getElementById(`likes_${dateStr}_${postIdx}`).value || '';
+  existing.comments = document.getElementById(`comments_${dateStr}_${postIdx}`).value || '';
+  existing.reposts = document.getElementById(`reposts_${dateStr}_${postIdx}`).value || '';
+  existing.saves = document.getElementById(`saves_${dateStr}_${postIdx}`).value || '';
+  existing.clicks = document.getElementById(`clicks_${dateStr}_${postIdx}`).value || '';
   
-  localStorage.setItem(`metrics_${dateStr}_${postIdx}`, JSON.stringify({
-    views: views || '', likes: likes || '', comments: comments || ''
-  }));
-  
+  localStorage.setItem(`metrics_${dateStr}_${postIdx}`, JSON.stringify(existing));
   updateTotals();
 }
 

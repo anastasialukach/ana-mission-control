@@ -3,257 +3,242 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Article 1: Dubai Fund Placement Capital</title>
+<title>Why Dubai Became the Fund Placement Capital of the Middle East</title>
 <style>
 :root{--bg:#0a0a0b;--surface:#141416;--surface2:#1c1c20;--border:#2a2a30;--text:#ececf0;--muted:#7a7a85;--accent:#f0883e;--green:#34d399;--yellow:#fbbf24;--red:#f87171;--blue:#60a5fa;--radius:16px}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;padding:16px;max-width:720px;margin:0 auto;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:'Georgia','Times New Roman',serif;padding:16px;max-width:680px;margin:0 auto;-webkit-font-smoothing:antialiased}
 a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
-.back{font-size:13px;color:var(--muted);display:inline-block;margin-bottom:16px}
-h1{font-size:24px;font-weight:700;margin-bottom:4px}
-h2{font-size:18px;font-weight:700;margin:24px 0 8px}
-h3{font-size:15px;font-weight:600;margin:16px 0 6px}
-.subtitle{color:var(--muted);font-size:13px;margin-bottom:24px}
-p,li{font-size:14px;line-height:1.6}
-ul,ol{padding-left:20px;margin:8px 0}
-li{margin:4px 0}
-blockquote{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin:12px 0;font-size:14px;line-height:1.6;-webkit-user-select:all;user-select:all}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin:12px 0}
-strong{color:var(--accent)}
-hr{border:none;border-top:1px solid var(--border);margin:24px 0}
-.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
-.tag-green{background:rgba(52,211,153,0.12);color:var(--green)}
-.tag-red{background:rgba(248,113,113,0.12);color:var(--red)}
-.tag-yellow{background:rgba(251,191,36,0.12);color:var(--yellow)}
-.footer{text-align:center;color:var(--muted);font-size:11px;padding:24px 0 12px;border-top:1px solid var(--border);margin-top:24px}
+
+/* Nav */
+.nav{font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.nav a{font-size:13px;color:var(--muted)}
+.nav .tag{font-family:-apple-system,sans-serif;display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(52,211,153,0.12);color:var(--green)}
+
+/* Article Header */
+.article-header{margin-bottom:32px}
+.article-header h1{font-size:28px;line-height:1.25;font-weight:700;letter-spacing:-0.5px;margin-bottom:12px}
+.article-meta{font-family:-apple-system,sans-serif;font-size:13px;color:var(--muted);display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.article-tag{font-family:-apple-system,sans-serif;display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;background:rgba(96,165,250,0.12);color:var(--blue);margin-right:8px}
+.article-lead{font-size:18px;line-height:1.6;color:var(--muted);font-style:italic;border-left:3px solid var(--accent);padding-left:16px;margin:20px 0}
+
+/* Body */
+.article-body{line-height:1.8;font-size:17px}
+.article-body h2{font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;font-size:20px;font-weight:700;margin:36px 0 12px;color:var(--accent);letter-spacing:-0.3px}
+.article-body h3{font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;font-size:15px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin:24px 0 8px}
+.article-body p{margin:12px 0}
+.article-body ul,.article-body ol{padding-left:24px;margin:12px 0}
+.article-body li{margin:6px 0}
+
+/* Pull quote */
+.pull-quote{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin:28px 0;font-size:19px;line-height:1.5;font-style:italic;text-align:center;color:var(--accent)}
+
+/* Data card */
+.data-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:20px 0}
+.data-card .data-label{font-family:-apple-system,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:8px}
+.data-card .data-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center}
+.data-card .data-num{font-family:-apple-system,sans-serif;font-size:24px;font-weight:700;color:var(--green)}
+.data-card .data-desc{font-family:-apple-system,sans-serif;font-size:11px;color:var(--muted);margin-top:2px}
+
+/* CTA box */
+.cta-box{background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid #2a2a4a;border-radius:var(--radius);padding:24px;margin:32px 0}
+.cta-box h3{font-family:-apple-system,sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px}
+.cta-box p{font-family:-apple-system,sans-serif;font-size:14px;color:var(--muted);margin:4px 0}
+
+/* Copy button */
+.copy-wrap{position:relative;margin:24px 0}
+.copy-btn{font-family:-apple-system,sans-serif;position:absolute;top:8px;right:8px;background:var(--accent);color:#000;border:none;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;z-index:1}
+.copy-btn:hover{opacity:0.9}
+.copy-btn.copied{background:var(--green)}
+.copy-area{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;padding-top:40px;font-family:-apple-system,sans-serif;font-size:14px;line-height:1.7;white-space:pre-wrap;-webkit-user-select:all;user-select:all;max-height:400px;overflow-y:auto}
+
+/* Checklist */
+.checklist{font-family:-apple-system,sans-serif;list-style:none;padding:0;margin:16px 0}
+.checklist li{padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;display:flex;gap:10px;align-items:flex-start}
+.checklist li:last-child{border-bottom:none}
+.check-icon{flex-shrink:0;width:20px;height:20px;border:2px solid var(--border);border-radius:4px;margin-top:1px}
+
+.footer{font-family:-apple-system,sans-serif;text-align:center;color:var(--muted);font-size:11px;padding:24px 0 12px;border-top:1px solid var(--border);margin-top:32px}
 </style>
 </head>
 <body>
-<a href="index.html" class="back">← Back to Dashboard</a>
 
-<h1>📝 Article 1: Dubai Fund Placement Capital</h1>
-<div class="subtitle">Ready to copy-paste to X • ~900 words • Tag: @Greenstone Equity Partners</div>
-
-<div class="card">
-<h3>Headline Options (pick one)</h3>
-<ol>
-<li>Why Dubai Became the Fund Placement Capital of the Middle East (And Why IR Professionals Are Moving There)</li>
-<li>The Dubai Fund Placement Boom: What 5 Years of Data Reveals</li>
-<li>Why Every Major Placement Agent Now Has a Dubai Office (7 Reasons)</li>
-<li>Dubai's $250M+ Fund Placements: How the City Won the Middle East Capital Race</li>
-<li>Why Fund Placement Moved to Dubai (Hint: It's Not Just the Tax)</li>
-<li>The Greenstone Effect: How One Firm Proved Dubai is the New Fund Placement Hub</li>
-<li>7 Reasons Fund Placement Agents Are Choosing Dubai Over Singapore</li>
-</ol>
+<div class="nav">
+  <a href="content.html">← Content Hub</a>
+  <span class="tag">Ready to Publish</span>
 </div>
 
-<h2>Full Article Text</h2>
+<div class="article-header">
+  <h1>Why Dubai Became the Fund Placement Capital of the Middle East</h1>
+  <div class="article-meta">
+    <span>~900 words</span>
+    <span>·</span>
+    <span>5 min read</span>
+    <span>·</span>
+    <span>Tag: @Greenstone</span>
+  </div>
+  <div>
+    <span class="article-tag">X Article</span>
+    <span class="article-tag">LinkedIn</span>
+  </div>
+  <p class="article-lead">In September 2025, Greenstone Equity Partners got a Category 4 DFSA licence to expand in DIFC. On paper, just another regulatory approval. In reality, the latest data point in a 5-year capital migration nobody saw coming.</p>
+</div>
 
-<blockquote>
-<strong>Why Dubai Became the Fund Placement Capital of the Middle East (And Why IR Professionals Are Moving There)</strong>
+<div class="data-card">
+  <div class="data-label">DIFC by the Numbers (H1 2025)</div>
+  <div class="data-grid">
+    <div><div class="data-num">7,700</div><div class="data-desc">Active financial firms</div></div>
+    <div><div class="data-num">25%</div><div class="data-desc">YoY growth</div></div>
+    <div><div class="data-num">440+</div><div class="data-desc">Wealth & asset managers</div></div>
+  </div>
+</div>
 
-<strong>INTRO</strong>
+<div class="article-body">
+
+<h2>1. The GCC Allocator Concentration</h2>
+<h3>Nobody Talks About This</h3>
+<p>Greenstone specializes in placing capital with GCC-based allocators who commit $2M–$250M per fund. That range covers family offices ($2M–$50M), institutionals ($50M–$100M), and sovereign wealth ($100M+) — all within a 3-hour flight radius.</p>
+
+<div class="pull-quote">Would you rather fly to 12 cities across 4 continents, or meet 15 allocators in Dubai in 3 days?</div>
+
+<p>Geography became strategy. Onex Corporation's ONCAP V closed at $1.3B with Greenstone as placement agent. How many commitments came from GCC allocators within 1 timezone?</p>
+
+<h2>2. The DIFC Regulatory Advantage</h2>
+<h3>Boring But Critical</h3>
+<p>DIFC's Category 4 licence allows firms to operate as investment advisors and placement agents under UK-style Common Law. Before DIFC, placement agents flew in from Singapore, money stayed offshore, compliance spanned 3 jurisdictions. Now? One jurisdiction. Same protections as London. Better access to capital.</p>
+
+<div class="data-card">
+  <div class="data-label">The Shift</div>
+  <div class="data-grid">
+    <div><div class="data-num">440+</div><div class="data-desc">Wealth managers</div></div>
+    <div><div class="data-num">85</div><div class="data-desc">Hedge funds</div></div>
+    <div><div class="data-num">1</div><div class="data-desc">Jurisdiction</div></div>
+  </div>
+</div>
+
+<h2>3. The Family Office Migration</h2>
+<h3>This Is Accelerating</h3>
+<p>Family offices are relocating to Dubai at scale: 0% personal income tax, 10-year golden visas, GMT+4 timezone bridging Asia and Europe, English-speaking, international schools, safety.</p>
+<p>But here's what matters for placement: family offices don't just bring capital. They bring <em>networks</em>. A $500M SFO relocating to Dubai brings their entrepreneur friends (co-investors), previous VC/PE relationships, and operating company deal flow. Placement agents aren't just accessing allocators — they're accessing the network effects of relocated wealth.</p>
+
+<h2>4. The IR Talent Gap</h2>
+<h3>Opportunity for You</h3>
+<p>Dubai has the infrastructure. Dubai has the allocators. Dubai does <em>not</em> have enough IR/capital formation professionals. Most IR talent trained in NY/London. Dubai's financial ecosystem is &lt;10 years mature. Placement agents are expanding faster than talent pipelines.</p>
+
+<div class="pull-quote">If you're doing IR in London or NY and you're open to Dubai — you're in demand. The supply/demand imbalance is real.</div>
+
+<h2>5. The Timezone Math</h2>
+<h3>Underrated Advantage</h3>
+<p>Dubai (GMT+4): 9am Dubai = 6am London (early but workable) = 1pm Singapore (perfect) = 10:30am Mumbai (perfect). If you're placing capital from GCC/MENA/Asia allocators into Western funds, Dubai is the only city with workable overlap for Europe mornings AND Asia afternoons. Singapore has Asia but Europe is rough. London has Europe but Asia is brutal. Dubai splits the difference.</p>
+
+<h2>6. The Capital Shift to Private Markets</h2>
+<h3>Why Now</h3>
+<p>Global allocators are shifting from public to private markets. Pension funds increasing PE/VC allocations. Family offices going direct. Sovereign wealth diversifying. When capital shifts to privates, you need more LP relationships, more fund placement, more IR teams. Dubai positioned itself as THE hub for this shift in MEASA.</p>
+
+<h2>7. What This Means</h2>
+<p>Dubai became the fund placement capital because: GCC allocators concentrated in one region, DIFC regulatory infrastructure caught up, family offices migrated at scale, timezone bridges Asia/Europe, private markets boom needs IR talent, and network effects are compounding.</p>
+
+<div class="pull-quote">What Greenstone's DIFC expansion signals: the largest placement firm in the GCC just doubled down on Dubai. That's not a bet. That's a moat.</div>
+
+</div>
+
+<!-- Copy-paste section -->
+<hr style="margin:40px 0">
+
+<h2 style="font-family:-apple-system,sans-serif;font-size:18px;margin-bottom:16px">📋 Copy Full Article</h2>
+
+<div class="copy-wrap">
+  <button class="copy-btn" onclick="copyArticle(this)">Copy</button>
+  <div class="copy-area" id="articleText">Why Dubai Became the Fund Placement Capital of the Middle East (And Why IR Professionals Are Moving There)
 
 In September 2025, Greenstone Equity Partners got a Category 4 DFSA licence to expand operations in DIFC. On paper, it's just another regulatory approval. In reality, it's the latest data point in a 5-year capital migration that nobody saw coming.
 
-Dubai now hosts the largest concentration of fund placement firms in the MEASA region. DIFC grew 25% YoY in H1 2025 alone - from 6,160 to 7,700 active financial companies. That's not normal growth. That's a capital rush.
+Dubai now hosts the largest concentration of fund placement firms in the MEASA region. DIFC grew 25% YoY in H1 2025 alone — from 6,160 to 7,700 active financial companies. That's not normal growth. That's a capital rush.
 
-I spent 5 years doing investor relations for tech founders in Dubai. Raised $10M+ from family offices and institutional allocators across the region. This article breaks down why Dubai became the fund placement capital of the Middle East - and what it means if you're in IR, capital formation, or fundraising.
+I spent 5 years doing investor relations for tech founders in Dubai. Raised $10M+ from family offices and institutional allocators across the region. Here's why Dubai became the fund placement capital of the Middle East.
 
-<strong>1. The GCC Allocator Concentration (Nobody Talks About This)</strong>
+1. The GCC Allocator Concentration
 
-The Data:
-Greenstone specializes in placing capital with GCC-based allocators who commit $2M-$250M per fund. That range is WILD. It means:
-- Family offices ($2M-$50M)
-- Institutionals ($50M-$100M)
-- Sovereign wealth ($100M+)
+Greenstone specializes in placing capital with GCC-based allocators who commit $2M–$250M per fund. Family offices, institutionals, sovereign wealth — all within a 3-hour flight radius. When you're raising a $500M fund, would you rather fly to 12 cities across 4 continents, or meet 15 allocators in Dubai in 3 days? Geography became strategy.
 
-All sitting in the same 3-hour flight radius.
+2. The DIFC Regulatory Advantage
 
-Why It Matters:
-Traditional placement agents operate global networks. Dubai placement agents operate concentrated networks. When you're raising a $500M fund, would you rather:
-- Fly to 12 cities across 4 continents
-- Fly to Dubai and meet 15 allocators in 3 days
+DIFC's Category 4 licence allows firms to operate under UK-style Common Law. Before: placement agents flew from Singapore, money stayed offshore, compliance spanned 3 jurisdictions. Now: one jurisdiction, same protections as London, better access to capital. 440+ wealth managers, 85 hedge funds, 25% YoY growth.
 
-Geography became strategy.
+3. The Family Office Migration
 
-Real Example:
-Onex Corporation's ONCAP V closed at $1.3B with Greenstone as placement agent. How many of those commitments came from GCC allocators within 1 timezone? We don't have the breakdown, but Greenstone's entire thesis is "we're the closest to the capital."
+Family offices are relocating to Dubai at scale. 0% tax, golden visas, timezone advantage. But the real impact: they bring networks. A $500M SFO relocating brings co-investors, VC/PE relationships, and deal flow. Placement agents aren't just accessing allocators — they're accessing network effects of relocated wealth.
 
-<strong>2. The DIFC Regulatory Advantage (Boring But Critical)</strong>
+4. The IR Talent Gap
 
-What Happened:
-DIFC's Category 4 licence allows firms to operate as investment advisors and placement agents under UK-style Common Law (not UAE civil law). That sounds technical. Here's what it means in practice:
+Dubai has the infrastructure and the allocators. It doesn't have enough IR/capital formation professionals. Most IR talent trained in NY/London. Dubai's ecosystem is <10 years mature. If you're doing IR and open to Dubai — you're in demand.
 
-Before DIFC:
-- Placement agents operated from Singapore/Hong Kong
-- Flew to Dubai for meetings
-- Client money stayed offshore
-- Compliance = 3 jurisdictions
+5. The Timezone Math
 
-After DIFC:
-- Placement agents license in Dubai
-- Clients meet on-ground
-- Money flows through DIFC (same regulatory protections as London)
-- Compliance = 1 jurisdiction
+Dubai GMT+4: 9am = 6am London (workable) = 1pm Singapore (perfect) = 10:30am Mumbai (perfect). The only city with workable overlap for Europe mornings AND Asia afternoons.
 
-The regulatory arbitrage disappeared. Dubai became just as "safe" as Singapore - with better access to capital.
+6. Capital Shift to Private Markets
 
-The Numbers:
-- 440+ wealth & asset managers in DIFC (H1 2025)
-- 85 hedge funds
-- 25% YoY growth
+When capital moves to privates, you need more LP relationships, more placement, more IR teams. DIFC positioned itself as THE hub for this shift in MEASA.
 
-That's infrastructure. When regulators and allocators cluster, placement agents follow.
+7. What This Means
 
-<strong>3. The Family Office Migration (This is Accelerating)</strong>
+What Greenstone's expansion signals: the largest placement firm in the GCC just doubled down on Dubai. That's not a bet. That's a moat.
 
-The Shift:
-Family offices are relocating to Dubai at scale:
-- Tax efficiency (0% personal income tax)
-- Golden visa programs (10-year residency)
-- Timezone advantage (GMT+4 = bridges Asia/Europe)
-- Lifestyle (English-speaking, international schools, safety)
+If you're in IR/capital formation and you're not exploring Dubai, you're leaving options on the table.
 
-Why It Matters for Placement:
-Family offices don't just bring capital. They bring NETWORKS. When a $500M SFO moves to Dubai, their founder brings:
-- Entrepreneur friends (co-investors)
-- Their previous VC/PE relationships
-- Their operating company deal flow
+DM me — I'm actively exploring Director-level IR roles in Dubai and happy to share what I've learned about the ecosystem.
 
-Placement agents in Dubai aren't just accessing existing allocators - they're accessing the network effects of relocated wealth.
-
-Data Point:
-IPEM (International Private Equity Market) held their first "IPEM Future Preview" in Dubai in December 2025. The event description: "Exclusive gathering for the world's most influential private capital investors."
-
-If the world's LPs are flying TO Dubai for exclusive events, that's signal.
-
-<strong>4. The IR Talent Gap (Opportunity for You)</strong>
-
-Here's the Problem:
-Dubai has the capital infrastructure. Dubai has the allocators. Dubai does NOT have enough IR/capital formation professionals.
-
-Why the Gap Exists:
-- Most IR talent trained in NY/London
-- Dubai's financial ecosystem is <10 years old (mature)
-- Placement agents expanding faster than talent pipelines
-
-What This Means:
-If you're doing IR, capital raising, or LP relations in NY/London/Singapore and you're open to Dubai - you're in demand. The supply/demand imbalance is real.
-
-Who's Hiring:
-- Fund placement agents (Greenstone, others)
-- Family offices building in-house capital formation teams
-- PE/VC firms opening MENA offices
-- Sovereign wealth funds expanding teams
-
-All of them need people who speak "institutional allocator" and can navigate both Western LP expectations + GCC relationship dynamics.
-
-<strong>5. The Timezone Math (Underrated Advantage)</strong>
-
-Dubai is GMT+4. That means:
-- 9am Dubai = 6am London (early, but workable)
-- 9am Dubai = 1pm Singapore (perfect overlap)
-- 9am Dubai = 10:30am Mumbai (perfect)
-- 9am Dubai = 1am NYC (brutal, but...you're not targeting NYC allocators)
-
-Why This Matters:
-If you're placing capital from GCC/MENA/Asia allocators into Western funds, Dubai is the only city with workable overlap for:
-- Europe morning calls
-- Asia afternoon calls
-- Same-day execution with both regions
-
-Singapore has Asia covered but Europe is rough. London has Europe covered but Asia is brutal. Dubai splits the difference.
-
-<strong>6. The "Why Now" Factor (Capital Shift to Private Markets)</strong>
-
-Macro Trend:
-Global allocators are shifting from public to private markets:
-- Pension funds increasing PE/VC allocations
-- Family offices going direct (co-invest, secondaries)
-- Sovereign wealth diversifying away from oil/RE
-
-DIFC Report (Sept 2025):
-"Capital shift to private markets" driving growth. DIFC now has "strong cluster of private equity and venture capital" firms.
-
-Why Dubai Benefits:
-When capital shifts to privates, you need:
-- More LP relationships (not just public market brokers)
-- More fund placement (someone has to raise the capital)
-- More IR teams (someone has to manage the LPs)
-
-Dubai positioned itself as THE hub for this shift in the MEASA region. No other city came close.
-
-<strong>7. What This Means If You're in IR/Capital Formation</strong>
-
-The Opportunity:
-If you're doing LP relations, fundraising, or capital formation and you're considering Dubai:
-- Demand > supply (for now)
-- Salaries competitive with Singapore (tax-free)
-- Career trajectory: You're early to a 10-year buildout
-
-The Risk:
-Dubai is NOT for everyone:
-- Hot climate (summer = brutal)
-- Work culture still developing (less structure than London/NY)
-- Visa tied to employment (lose job = leave country, usually)
-
-My Take:
-I raised $10M+ in Dubai over 5 years. The ecosystem works. The allocators are real. The capital flows are growing. If you're in IR and you're not at least exploring Dubai, you're leaving options on the table.
-
-<strong>CONCLUSION</strong>
-
-Dubai became the fund placement capital of the Middle East because:
-1. GCC allocators concentrated in one region
-2. DIFC regulatory infrastructure caught up to Singapore/London
-3. Family offices migrated at scale
-4. Timezone bridges Asia/Europe
-5. Private markets boom needs IR talent
-6. Placement agents followed the capital
-7. Network effects compounding
-
-What Greenstone's DIFC expansion signals:
-The largest placement firm in the GCC just doubled down on Dubai. That's not a bet. That's a moat.
-
-If you're in IR/capital formation:
-- Research firms hiring in Dubai
-- Connect with placement agents on LinkedIn
-- Understand GCC allocator dynamics
-- Consider visiting (DIFC hosts tons of events)
-
-Or DM me - I'm actively exploring Director-level IR roles in Dubai and happy to share what I've learned about the ecosystem.
-</blockquote>
-
-<hr>
-
-<h2>CTA Options (pick one)</h2>
-
-<div class="card">
-<h3>Option A (Job Search Focus)</h3>
-<blockquote>"I'm currently exploring IR/capital formation roles in Dubai. If you're building teams or know firms hiring, let's connect. [Link to LinkedIn]"</blockquote>
-
-<h3>Option B (Thought Leadership Focus)</h3>
-<blockquote>"What do you think - is Dubai the new Singapore for fund placement? Drop your take in the comments."</blockquote>
-
-<h3>Option C (Network Building)</h3>
-<blockquote>"Know someone doing IR in Dubai? Tag them - curious to hear from people on the ground."</blockquote>
+#Dubai #DIFC #InvestorRelations #FundPlacement #CapitalFormation #PrivateEquity #VentureCapital</div>
 </div>
 
-<hr>
+<!-- Headline options -->
+<div style="font-family:-apple-system,sans-serif;margin-top:24px">
+<h3 style="font-size:15px;font-weight:600;margin-bottom:12px">Headline Options</h3>
+<ol style="font-size:14px;line-height:2">
+<li>Why Dubai Became the Fund Placement Capital of the Middle East</li>
+<li>The Dubai Fund Placement Boom: What 5 Years of Data Reveals</li>
+<li>Why Every Major Placement Agent Now Has a Dubai Office (7 Reasons)</li>
+<li>7 Reasons Fund Placement Agents Are Choosing Dubai Over Singapore</li>
+<li>The Greenstone Effect: How One Firm Proved Dubai is the New Fund Placement Hub</li>
+</ol>
+</div>
 
-<h2>Publishing Checklist</h2>
-<ul>
-<li>Pick headline (test 2-3 with ChatGPT for engagement prediction)</li>
-<li>Tag @Greenstone Equity Partners in intro (when mentioning their DIFC licence)</li>
-<li>Add hashtags: #Dubai #DIFC #InvestorRelations #FundPlacement #PrivateEquity #VentureCapital</li>
-<li>Post Tuesday-Thursday, 9-11am Dubai time (best engagement window)</li>
-<li>Pin comment with background: "I raised $10M for tech founders in Dubai, ex-Marsbase CEO. Now exploring IR roles in the region."</li>
-<li>Engage with comments within first 2 hours (algorithm boost)</li>
+<!-- CTA options -->
+<div class="cta-box">
+  <h3>CTA Options (pick one)</h3>
+  <p><strong style="color:var(--green)">Job Search:</strong> "I'm exploring IR/capital formation roles in Dubai. If you're building teams or know firms hiring, let's connect."</p>
+  <p><strong style="color:var(--blue)">Thought Leadership:</strong> "Is Dubai the new Singapore for fund placement? Drop your take below."</p>
+  <p><strong style="color:var(--purple)">Network:</strong> "Know someone doing IR in Dubai? Tag them — curious to hear from people on the ground."</p>
+</div>
+
+<!-- Publishing checklist -->
+<div style="font-family:-apple-system,sans-serif;margin-top:24px">
+<h3 style="font-size:15px;font-weight:600;margin-bottom:8px">📋 Publishing Checklist</h3>
+<ul class="checklist">
+  <li><div class="check-icon"></div>Pick headline (test 2-3 options)</li>
+  <li><div class="check-icon"></div>Tag @Greenstone Equity Partners in intro</li>
+  <li><div class="check-icon"></div>Add hashtags (included in copy text)</li>
+  <li><div class="check-icon"></div>Post Tue–Thu, 9–11am Dubai time</li>
+  <li><div class="check-icon"></div>Pin comment with background: "Raised $10M for tech founders in Dubai, ex-Marsbase CEO"</li>
+  <li><div class="check-icon"></div>Engage with comments within first 2 hours</li>
 </ul>
+</div>
 
 <div class="footer">
-article-1.html • Estimated views: 10K-50K (if well-timed + tagged correctly)
+  Article 1 · ~900 words · Target: 10K–50K views if well-timed + tagged · Built by Benji 🐾
 </div>
+
+<script>
+function copyArticle(btn) {
+  const text = document.getElementById('articleText').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
 
 </body>
 </html>

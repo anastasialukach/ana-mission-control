@@ -3,278 +3,239 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Article 2: Family Office Capital Formation</title>
+<title>Why Family Offices Are Building In-House Capital Formation Teams</title>
 <style>
-:root{--bg:#0a0a0b;--surface:#141416;--surface2:#1c1c20;--border:#2a2a30;--text:#ececf0;--muted:#7a7a85;--accent:#f0883e;--green:#34d399;--yellow:#fbbf24;--red:#f87171;--blue:#60a5fa;--radius:16px}
+:root{--bg:#0a0a0b;--surface:#141416;--surface2:#1c1c20;--border:#2a2a30;--text:#ececf0;--muted:#7a7a85;--accent:#f0883e;--green:#34d399;--yellow:#fbbf24;--red:#f87171;--blue:#60a5fa;--purple:#a78bfa;--radius:16px}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;padding:16px;max-width:720px;margin:0 auto;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--text);font-family:'Georgia','Times New Roman',serif;padding:16px;max-width:680px;margin:0 auto;-webkit-font-smoothing:antialiased}
 a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
-.back{font-size:13px;color:var(--muted);display:inline-block;margin-bottom:16px}
-h1{font-size:24px;font-weight:700;margin-bottom:4px}
-h2{font-size:18px;font-weight:700;margin:24px 0 8px}
-h3{font-size:15px;font-weight:600;margin:16px 0 6px}
-.subtitle{color:var(--muted);font-size:13px;margin-bottom:24px}
-p,li{font-size:14px;line-height:1.6}
-ul,ol{padding-left:20px;margin:8px 0}
-li{margin:4px 0}
-blockquote{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin:12px 0;font-size:14px;line-height:1.6;-webkit-user-select:all;user-select:all}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin:12px 0}
-strong{color:var(--accent)}
-hr{border:none;border-top:1px solid var(--border);margin:24px 0}
-.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
-.tag-green{background:rgba(52,211,153,0.12);color:var(--green)}
-.tag-red{background:rgba(248,113,113,0.12);color:var(--red)}
-.tag-yellow{background:rgba(251,191,36,0.12);color:var(--yellow)}
-.footer{text-align:center;color:var(--muted);font-size:11px;padding:24px 0 12px;border-top:1px solid var(--border);margin-top:24px}
+.nav{font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.nav a{font-size:13px;color:var(--muted)}
+.nav .tag{font-family:-apple-system,sans-serif;display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(52,211,153,0.12);color:var(--green)}
+.article-header{margin-bottom:32px}
+.article-header h1{font-size:28px;line-height:1.25;font-weight:700;letter-spacing:-0.5px;margin-bottom:12px}
+.article-meta{font-family:-apple-system,sans-serif;font-size:13px;color:var(--muted);display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px}
+.article-tag{font-family:-apple-system,sans-serif;display:inline-block;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:600;background:rgba(96,165,250,0.12);color:var(--blue);margin-right:8px}
+.article-lead{font-size:18px;line-height:1.6;color:var(--muted);font-style:italic;border-left:3px solid var(--accent);padding-left:16px;margin:20px 0}
+.article-body{line-height:1.8;font-size:17px}
+.article-body h2{font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;font-size:20px;font-weight:700;margin:36px 0 12px;color:var(--accent);letter-spacing:-0.3px}
+.article-body h3{font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;font-size:15px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin:24px 0 8px}
+.article-body p{margin:12px 0}
+.article-body ul,.article-body ol{padding-left:24px;margin:12px 0}
+.article-body li{margin:6px 0}
+.pull-quote{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin:28px 0;font-size:19px;line-height:1.5;font-style:italic;text-align:center;color:var(--accent)}
+.data-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:20px 0}
+.data-card .data-label{font-family:-apple-system,sans-serif;font-size:11px;text-transform:uppercase;letter-spacing:0.5px;color:var(--muted);margin-bottom:8px}
+.data-card .data-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;text-align:center}
+.data-card .data-num{font-family:-apple-system,sans-serif;font-size:24px;font-weight:700;color:var(--green)}
+.data-card .data-desc{font-family:-apple-system,sans-serif;font-size:11px;color:var(--muted);margin-top:2px}
+.compare{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:20px 0;display:grid;grid-template-columns:1fr 1fr;gap:16px;font-family:-apple-system,sans-serif;font-size:13px}
+.compare-col h4{font-size:12px;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px}
+.compare-col.old h4{color:var(--red)}
+.compare-col.new h4{color:var(--green)}
+.compare-col li{margin:4px 0;line-height:1.5}
+.cta-box{background:linear-gradient(135deg,#1a1a2e,#16213e);border:1px solid #2a2a4a;border-radius:var(--radius);padding:24px;margin:32px 0}
+.cta-box h3{font-family:-apple-system,sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px}
+.cta-box p{font-family:-apple-system,sans-serif;font-size:14px;color:var(--muted);margin:4px 0}
+.copy-wrap{position:relative;margin:24px 0}
+.copy-btn{font-family:-apple-system,sans-serif;position:absolute;top:8px;right:8px;background:var(--accent);color:#000;border:none;padding:6px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;z-index:1}
+.copy-btn:hover{opacity:0.9}
+.copy-btn.copied{background:var(--green)}
+.copy-area{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;padding-top:40px;font-family:-apple-system,sans-serif;font-size:14px;line-height:1.7;white-space:pre-wrap;-webkit-user-select:all;user-select:all;max-height:400px;overflow-y:auto}
+.checklist{font-family:-apple-system,sans-serif;list-style:none;padding:0;margin:16px 0}
+.checklist li{padding:10px 0;border-bottom:1px solid var(--border);font-size:14px;display:flex;gap:10px;align-items:flex-start}
+.checklist li:last-child{border-bottom:none}
+.check-icon{flex-shrink:0;width:20px;height:20px;border:2px solid var(--border);border-radius:4px;margin-top:1px}
+.footer{font-family:-apple-system,sans-serif;text-align:center;color:var(--muted);font-size:11px;padding:24px 0 12px;border-top:1px solid var(--border);margin-top:32px}
 </style>
 </head>
 <body>
-<a href="index.html" class="back">← Back to Dashboard</a>
 
-<h1>📝 Article 2: Family Office Capital Formation</h1>
-<div class="subtitle">Ready to copy-paste to X • ~850 words • Tag: @Sirius Private Office</div>
-
-<div class="card">
-<h3>Headline Options (pick one)</h3>
-<ol>
-<li>Why Family Offices Are Building In-House Capital Formation Teams (5 Reasons)</li>
-<li>Family Offices Are Hiring Ex-Consultants for Capital Formation. Here's Why.</li>
-<li>The $500M Question: Why Family Offices Stopped Outsourcing Fundraising</li>
-<li>Why Dubai Family Offices Are Poaching IR Talent from PE Firms</li>
-<li>5 Reasons Family Offices Are Building Capital Formation Teams In-House</li>
-<li>From Outsourced to In-House: Why Capital Formation Moved Inside Family Offices</li>
-<li>The Family Office Hiring Boom: What McKinsey Alumni Are Doing in Dubai</li>
-</ol>
+<div class="nav">
+  <a href="content.html">← Content Hub</a>
+  <span class="tag">Ready to Publish</span>
 </div>
 
-<h2>Full Article Text</h2>
+<div class="article-header">
+  <h1>Why Family Offices Are Building In-House Capital Formation Teams</h1>
+  <div class="article-meta">
+    <span>~850 words</span>
+    <span>·</span>
+    <span>5 min read</span>
+    <span>·</span>
+    <span>Tag: @Sirius Private Office</span>
+  </div>
+  <div>
+    <span class="article-tag">X Article</span>
+    <span class="article-tag">LinkedIn</span>
+  </div>
+  <p class="article-lead">In March 2025, CFA Institute published research on Middle East family offices with one line that caught my attention: "Hiring aggressively to boost their capabilities." That's not normal language for a financial research report.</p>
+</div>
 
-<blockquote>
-<strong>Why Family Offices Are Building In-House Capital Formation Teams (And Hiring Aggressively)</strong>
+<div class="article-body">
 
-<strong>INTRO</strong>
+<h2>1. The Economics Finally Make Sense</h2>
+
+<div class="compare">
+  <div class="compare-col old">
+    <h4>❌ Old Model (Outsourced)</h4>
+    <ul>
+      <li>$500M AUM family office</li>
+      <li>Hire placement agent at 2-3%</li>
+      <li>Raise $100M → pay $2-3M fees</li>
+    </ul>
+  </div>
+  <div class="compare-col new">
+    <h4>✅ New Model (In-House)</h4>
+    <ul>
+      <li>Hire 2-3 professionals at $200-300K</li>
+      <li>Annual cost: $600-900K</li>
+      <li>Raise $100M → $0 external fees</li>
+    </ul>
+  </div>
+</div>
+
+<p>ROI breakeven: after the first $30-40M raised. Family offices hitting $500M+ AUM are crossing this threshold. The math flipped somewhere between 2023-2024.</p>
+
+<div class="pull-quote">Sirius Private Office (Dubai) is hiring for "Director, Capital Formation." That's not a fund admin position. That's building internal capability to raise capital without external agents.</div>
+
+<h2>2. Family Offices Are Going Direct</h2>
+<p>The shift: from passive LP allocations to direct investments, co-investments alongside PE/VC funds, and secondaries. CFA Institute (Mar 2025): "More family offices are allocating capital to private equity funds, direct investments, and venture capital opportunities."</p>
+<p>When you're doing directs at scale, you need investor relations, deal flow sourcing, and capital raising for SPVs. That's not something you outsource. That's an in-house function.</p>
+
+<h2>3. The Institutionalization Wave</h2>
+<p>Middle East family offices maturing from "family manages everything" to professional management teams. From "single LP in funds" to multi-family office structures. From "invest in friends' deals" to institutional due diligence.</p>
+<p>CFA Institute: "Adopting more institutionalized governance." In practice: compliance teams, investment committees, IR reporting, and capital formation done properly.</p>
+
+<h2>4. The Consultant-to-FO Pipeline</h2>
+<p>The National (Sept 2025): "People in strategy consulting are being hired by family offices from firms like Bain, McKinsey, and BCG." Why? They speak institutional investor language, build the decks LPs expect, understand governance, and can set up processes from zero.</p>
+
+<div class="pull-quote">If you're doing IR in NY/London and open to Dubai, family offices want you. The supply/demand imbalance is real.</div>
+
+<h2>5. The "Raise External Capital" Mandate</h2>
+<p>Family offices realizing they can raise from other HNWIs, structure as multi-family offices, charge 1-1.5% management fees, and build recurring revenue. The shift: from "we manage our family's money" to "we manage multiple families' money."</p>
+<p>The National: "Those dealing with raising external capital are also sought after." That's a capital formation professional — not an analyst, not an advisor — someone who's DONE fundraising at institutional scale.</p>
+
+<h2>6. Why Dubai Specifically</h2>
+
+<div class="data-card">
+  <div class="data-label">Dubai Family Office Clustering</div>
+  <div class="data-grid">
+    <div><div class="data-num">0%</div><div class="data-desc">Personal income tax</div></div>
+    <div><div class="data-num">10yr</div><div class="data-desc">Golden visa</div></div>
+    <div><div class="data-num">100+</div><div class="data-desc">FOs at ME Summit</div></div>
+  </div>
+</div>
+
+<p>Tax migration, golden visas, DIFC infrastructure, $500M+ families clustering in one city, and network effects compounding. When 100+ FOs are in one city and all hiring similar roles, talent competition intensifies.</p>
+
+<h2>7. What This Means for You</h2>
+<p>Roles emerging: Director of Capital Formation, Head of IR, VP External Capital Raising, MD Family Office Partnerships. Compensation: $200-400K base (Dubai, tax-free) plus carry/bonuses tied to capital raised. The trade-off: smaller teams, less structure — but you're building from scratch with direct ROI impact.</p>
+
+</div>
+
+<!-- Copy section -->
+<hr style="margin:40px 0">
+<h2 style="font-family:-apple-system,sans-serif;font-size:18px;margin-bottom:16px">📋 Copy Full Article</h2>
+
+<div class="copy-wrap">
+  <button class="copy-btn" onclick="copyArticle(this)">Copy</button>
+  <div class="copy-area" id="articleText">Why Family Offices Are Building In-House Capital Formation Teams (And Hiring Aggressively)
 
 In March 2025, CFA Institute published research on Middle East family offices with one line that caught my attention: "Hiring aggressively to boost their capabilities."
 
 That's not normal language for a financial research report. "Aggressively" means something structural changed.
 
-Family offices in Dubai are no longer just allocating capital to external funds. They're building in-house capital formation teams - hiring people who used to work at:
-- PE/VC firms (IR roles)
-- Fund placement agents
-- Strategy consulting (Bain, McKinsey, BCG)
-- Investment banks (fundraising teams)
+Family offices in Dubai are no longer just allocating capital to external funds. They're building in-house capital formation teams — hiring people from PE/VC firms, placement agents, consulting firms, and investment banks.
 
-I did IR for tech founders in Dubai, worked with family offices as allocators. This article breaks down why FOs are moving capital formation in-house - and what it means if you're in fundraising, IR, or capital raising.
+I did IR for tech founders in Dubai, worked with family offices as allocators. Here's why FOs are moving capital formation in-house.
 
-<strong>1. The Economics Finally Make Sense</strong>
+1. The Economics Flipped
 
-The Old Model (Outsourced):
-- Family office has $500M AUM
-- Wants to raise external capital for co-investments
-- Hires placement agent at 2-3% of capital raised
-- Raises $100M → pays $2-3M in fees
+Old model: Hire placement agent at 2-3%. Raise $100M → pay $2-3M in fees.
+New model: Hire 2-3 professionals at $200-300K each. Annual cost: $600-900K. Raise $100M → $0 external fees.
 
-The New Model (In-House):
-- Hire 2-3 capital formation professionals at $200K-$300K each
-- Annual cost: $600K-$900K (all-in comp + overhead)
-- They raise $100M → $0 external fees
-- ROI breakeven: After first $30M-$40M raised
+ROI breakeven: first $30-40M raised. The math changed in 2023-2024.
 
-What Changed:
-Family offices hitting critical mass ($500M+ AUM) where in-house teams are cheaper than outsourcing. The math flipped somewhere between 2023-2024.
+Sirius Private Office (Dubai) is hiring for "Director, Capital Formation." That's building internal capability to raise capital without external agents.
 
-Real Example:
-Sirius Private Office (Dubai) is hiring for "Director, Capital Formation" roles. That's not a fund administrator position. That's building internal capability to raise capital without external agents.
+2. Going Direct Requires IR Capability
 
-<strong>2. Family Offices Are Going Direct (And Need IR Capability)</strong>
+Family offices shifting from passive LP allocations to direct investments, co-investments, and secondaries. When you're doing directs at scale, you need investor relations, deal flow, and capital raising. That's an in-house function.
 
-The Trend:
-Family offices shifting from passive LP allocations to:
-- Direct investments (no fund intermediary)
-- Co-investments (alongside PE/VC funds)
-- Secondaries (buying LP stakes)
+3. The Institutionalization Wave
 
-CFA Institute (Mar 2025):
-"More family offices are allocating capital to private equity funds, direct investments, and venture capital opportunities."
+CFA Institute: "Adopting more institutionalized governance." In practice: compliance, investment committees, IR reporting, capital formation done properly. They're hiring people who've seen "good IR" at institutional funds.
 
-Why This Requires IR:
-When you're doing directs/co-invests at scale, you need:
-- Investor relations (managing co-investors)
-- Deal flow (sourcing opportunities)
-- Capital raising (for SPVs or fund vehicles)
+4. The Consultant-to-FO Pipeline
 
-That's not something you outsource to a placement agent. That's an in-house function.
+The National (Sept 2025): Strategy consultants from Bain, McKinsey, and BCG are being hired by family offices. They speak LP language, build institutional-grade processes, and can set up from zero.
 
-The Talent Gap:
-Most family offices came from:
-- Real estate (property-focused)
-- Operating businesses (industrial/trading)
-- Oil wealth (passive allocations)
+5. Raising External Capital
 
-None of those backgrounds teach you how to run institutional-quality IR. So they're hiring externally.
+Family offices realizing they can raise from other HNWIs, structure as multi-family offices, and charge management fees. "Those dealing with raising external capital are also sought after."
 
-<strong>3. The "Institutionalization" Wave</strong>
+6. Why Dubai
 
-What's Happening:
-Middle East family offices maturing from:
-- "Family manages everything" → Professional management teams
-- "Single LP in funds" → Multi-family office structures
-- "Invest in friends' deals" → Institutional due diligence
+0% personal income tax. 10-year golden visas. DIFC regulatory infrastructure. 100+ family offices clustering in one city. When they're all professionalizing simultaneously, hiring waves follow.
 
-CFA Institute Language:
-"Adopting more institutionalized governance."
+7. What This Means
 
-What That Means in Practice:
-- Compliance teams
-- Investment committees
-- IR reporting (quarterly letters, investor portals)
-- Capital formation (raising external capital properly)
+Roles: Director of Capital Formation, Head of IR, VP External Capital Raising.
+Comp: $200-400K base (tax-free) + carry.
+Trade-off: You're building from scratch. Higher impact, less structure.
 
-Who Gets Hired:
-People who've seen "good IR" at institutional funds. Ex-PE/VC IR folks who can build the function from scratch.
+If you're in IR/fundraising and not exploring Dubai family offices, you're leaving options on the table.
 
-The Dubai Angle:
-Dubai family offices are competing with Singapore/London FOs for deals. To compete, they need institutional credibility. That means professional IR teams.
+DM me — I'm exploring Director-level capital formation roles at Dubai family offices.
 
-<strong>4. The Consultant-to-FO Pipeline (This is Real)</strong>
-
-The National (Sept 2025):
-"People in strategy consulting are being hired by family offices from firms like Bain & Company, McKinsey and Boston Consulting Group."
-
-Why Consultants?
-- They speak "institutional investor" language
-- They build decks/models LPs expect
-- They understand governance structures
-- They can set up processes from zero
-
-The Career Path:
-- Consultant → PE/VC firm (2-3 years) → Family office capital formation lead
-- OR: Consultant → Family office directly (if FO is sophisticated)
-
-Dubai Context:
-Cordell Partners (Dubai exec search firm) confirmed this trend. Family offices hiring externally from "different regions and sectors."
-
-That means: If you're doing IR in NY/London and open to Dubai, family offices want you.
-
-<strong>5. The "Raise External Capital" Mandate</strong>
-
-What's Driving This:
-Family offices realizing they can:
-- Raise capital from other HNWIs (friends/network)
-- Structure as multi-family office (MFO)
-- Charge management fees (1-1.5% AUM)
-- Build recurring revenue business
-
-The Shift:
-From "we manage our family's money" → "we manage multiple families' money and raise external capital."
-
-The National (Sept 2025):
-"Those dealing with raising external capital are also sought after."
-
-What This Requires:
-Someone who knows how to:
-- Build LP relationships
-- Run fundraising processes
-- Navigate regulatory (DIFC, SEC, MAS)
-- Structure fund vehicles
-
-That's a capital formation professional. Not an analyst. Not an advisor. Someone who's DONE fundraising at institutional scale.
-
-<strong>6. Why Dubai Family Offices Specifically</strong>
-
-The Factors:
-1. Tax Migration: HNW families relocating to Dubai (0% personal income tax)
-2. Golden Visas: 10-year residency = long-term commitment
-3. DIFC Infrastructure: Regulatory framework for multi-family offices
-4. Capital Concentration: $500M+ families clustering in one city
-5. Network Effects: More families = more co-invest opportunities
-
-The Result:
-Dubai has critical mass of family offices at the same time they're all professionalizing. That creates hiring waves.
-
-ME Family Office Summit:
-"More than 100 family offices from the Middle East will gather in Dubai."
-
-When 100+ FOs are in one city and they're all hiring similar roles, talent competition intensifies.
-
-<strong>7. What This Means If You're in IR/Capital Formation</strong>
-
-The Opportunity:
-If you've done:
-- LP relations at a PE/VC fund
-- Fundraising at an investment bank
-- Capital formation at a placement agent
-- IR consulting
-
-Dubai family offices are hiring for these roles RIGHT NOW.
-
-Roles I'm Seeing:
-- Director, Capital Formation
-- Head of Investor Relations
-- VP, External Capital Raising
-- Managing Director, Family Office Partnerships
-
-Compensation:
-- $200K-$400K base (Dubai, tax-free)
-- Carry/bonuses tied to capital raised
-- Sometimes equity in the MFO structure
-
-The Trade-Offs:
-- Smaller teams (you're building from scratch)
-- Less structure (you define the playbook)
-- Higher impact (your work = direct ROI)
-
-<strong>CONCLUSION</strong>
-
-Family offices are moving capital formation in-house because:
-1. Economics flipped (cheaper than outsourcing at scale)
-2. Going direct requires IR capability
-3. Institutionalization wave needs professional teams
-4. Hiring ex-consultants who speak LP language
-5. Raising external capital = recurring revenue
-6. Dubai clustering accelerating trend
-7. Talent gap = opportunity for external hires
-
-If you're in IR/fundraising:
-- Research family offices hiring in Dubai (Sirius, others)
-- Connect with exec search firms (Cordell Partners, etc.)
-- Understand multi-family office structures
-- Be ready to build, not just execute
-
-Or DM me - I'm exploring Director-level IR/capital formation roles in Dubai and happy to share what I've learned about the FO ecosystem.
-</blockquote>
-
-<hr>
-
-<h2>CTA Options (pick one)</h2>
-
-<div class="card">
-<h3>Option A (Job Search Focus)</h3>
-<blockquote>"Currently exploring capital formation roles at Dubai family offices. If you're building teams or know FOs hiring, let's connect. [LinkedIn link]"</blockquote>
-
-<h3>Option B (Thought Leadership Focus)</h3>
-<blockquote>"What's your take - should family offices keep capital formation in-house or outsource? Drop your thoughts."</blockquote>
-
-<h3>Option C (Network Building)</h3>
-<blockquote>"Know someone doing capital formation at a family office? Tag them - would love to compare notes."</blockquote>
+#FamilyOffice #Dubai #CapitalFormation #InvestorRelations #PrivateWealth #DIFC #Hiring</div>
 </div>
 
-<hr>
+<div style="font-family:-apple-system,sans-serif;margin-top:24px">
+<h3 style="font-size:15px;font-weight:600;margin-bottom:12px">Headline Options</h3>
+<ol style="font-size:14px;line-height:2">
+<li>Why Family Offices Are Building In-House Capital Formation Teams</li>
+<li>The $500M Question: Why Family Offices Stopped Outsourcing Fundraising</li>
+<li>Why Dubai Family Offices Are Poaching IR Talent from PE Firms</li>
+<li>Family Offices Are Hiring Ex-Consultants for Capital Formation. Here's Why.</li>
+<li>From Outsourced to In-House: Why Capital Formation Moved Inside Family Offices</li>
+</ol>
+</div>
 
-<h2>Publishing Checklist</h2>
-<ul>
-<li>Pick headline (test engagement)</li>
-<li>Tag @Sirius Private Office (when mentioning Director, Capital Formation role)</li>
-<li>Optional: Tag Cordell Partners or other Dubai exec search firms (if you want recruiter visibility)</li>
-<li>Hashtags: #FamilyOffice #Dubai #CapitalFormation #InvestorRelations #PrivateWealth #DIFC</li>
-<li>Post Tuesday-Thursday, 9-11am Dubai time</li>
-<li>Pin comment: "Raised $10M for tech founders in Dubai, worked with FOs as allocators. Now exploring capital formation roles in the region."</li>
-<li>Engage with comments (first 2 hours critical)</li>
+<div class="cta-box">
+  <h3>CTA Options</h3>
+  <p><strong style="color:var(--green)">Job Search:</strong> "Exploring capital formation roles at Dubai family offices. If you're building teams or know FOs hiring, let's connect."</p>
+  <p><strong style="color:var(--blue)">Thought Leadership:</strong> "Should family offices keep capital formation in-house or outsource? Drop your take."</p>
+  <p><strong style="color:var(--purple)">Network:</strong> "Know someone doing capital formation at a family office? Tag them."</p>
+</div>
+
+<div style="font-family:-apple-system,sans-serif;margin-top:24px">
+<h3 style="font-size:15px;font-weight:600;margin-bottom:8px">📋 Publishing Checklist</h3>
+<ul class="checklist">
+  <li><div class="check-icon"></div>Pick headline</li>
+  <li><div class="check-icon"></div>Tag @Sirius Private Office in intro</li>
+  <li><div class="check-icon"></div>Optional: Tag Cordell Partners (Dubai exec search)</li>
+  <li><div class="check-icon"></div>Post Tue–Thu, 9–11am Dubai</li>
+  <li><div class="check-icon"></div>Pin comment with background</li>
+  <li><div class="check-icon"></div>Engage first 2 hours</li>
 </ul>
+</div>
 
 <div class="footer">
-article-2.html • Estimated views: 8K-40K • Strategic value: Shows FO ecosystem understanding
+  Article 2 · ~850 words · Target: 8K–40K views · Tag @Sirius · Built by Benji 🐾
 </div>
+
+<script>
+function copyArticle(btn) {
+  const text = document.getElementById('articleText').innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
 
 </body>
 </html>
