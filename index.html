@@ -93,6 +93,22 @@
   .todo-text { font-size: 14px; line-height: 1.4; }
   .todo-priority { font-size: 11px; font-weight: 600; margin-top: 3px; }
 
+  /* Nav cards */
+  .nav-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    margin-bottom: 24px;
+  }
+  .nav-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px 16px; text-align: center;
+    cursor: pointer; text-decoration: none; color: inherit;
+    display: block;
+  }
+  .nav-card:hover { background: var(--surface2); border-color: var(--accent); }
+  .nav-card:active { background: var(--border); }
+  .nav-emoji { font-size: 32px; display: block; margin-bottom: 8px; }
+  .nav-title { font-size: 14px; font-weight: 600; }
+
   /* Stats row */
   .stats {
     display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
@@ -172,6 +188,9 @@
   /* Responsive */
   @media (max-width: 480px) {
     body { padding: 12px; }
+    .nav-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .nav-emoji { font-size: 28px; margin-bottom: 6px; }
+    .nav-title { font-size: 12px; }
     .stats { grid-template-columns: repeat(3, 1fr); gap: 6px; }
     .stat-card { padding: 12px 8px; }
     .stat-num { font-size: 18px; }
@@ -196,6 +215,22 @@
     Target: $140-200K total comp (Dubai, tax-free)<br>
     Focus: IR / Capital Formation / VC roles — Dubai & Abu Dhabi
   </div>
+</div>
+
+<!-- Navigation -->
+<div class="nav-grid">
+  <a href="#tier1" class="nav-card">
+    <span class="nav-emoji">💼</span>
+    <div class="nav-title">Job Search</div>
+  </a>
+  <a href="content.html" class="nav-card">
+    <span class="nav-emoji">✍️</span>
+    <div class="nav-title">Content</div>
+  </a>
+  <a href="apps.html" class="nav-card">
+    <span class="nav-emoji">⚡</span>
+    <div class="nav-title">Apps</div>
+  </a>
 </div>
 
 <!-- Key Numbers -->
@@ -292,7 +327,7 @@
 </div>
 
 <!-- Tier-1 Targets -->
-<div class="section">
+<div class="section" id="tier1">
   <div class="section-title"><span class="emoji">⭐</span> Tier-1 Targets <span class="count">10</span> <a href="tier1.html" style="font-size:12px;font-weight:400;text-transform:none;letter-spacing:0">View full list →</a></div>
   <div class="card">
     <a href="https://ae.linkedin.com/jobs/view/wealth-management-alternative-capital-markets-clients-solutions-vp-dubai-at-goldman-sachs-4329753309" target="_blank" class="card-row clickable" style="text-decoration:none;color:inherit">
@@ -566,7 +601,7 @@
 
 <!-- Content Pipeline -->
 <div class="section">
-  <div class="section-title"><span class="emoji">✍️</span> Content Pipeline</div>
+  <div class="section-title"><span class="emoji">✍️</span> Content Pipeline <a href="content.html" style="font-size:12px;font-weight:400;text-transform:none;letter-spacing:0">View all content →</a></div>
   <div class="card">
     <a href="article-1.html" style="text-decoration:none;color:inherit">
       <div class="article-card">
