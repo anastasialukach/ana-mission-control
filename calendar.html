@@ -293,10 +293,11 @@ function selectDate(dateStr) {
         <h3 style="margin-top:16px">✏️ What I Actually Posted</h3>
         <textarea id="final_${dateStr}_${i}" placeholder="Paste the final version you posted here..." 
           style="width:100%;min-height:80px;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:12px;color:var(--text);font-size:13px;line-height:1.5;resize:vertical;font-family:inherit;outline:none;margin:8px 0"
-          onchange="saveFinal('${dateStr}',${i})">${saved.finalText || ''}</textarea>
+          oninput="saveFinal('${dateStr}',${i})">${saved.finalText || ''}</textarea>
         <input type="url" id="url_${dateStr}_${i}" placeholder="Post URL (LinkedIn/X link)" 
           style="width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:10px 12px;color:var(--blue);font-size:13px;font-family:inherit;outline:none;margin-bottom:12px"
-          value="${saved.postUrl || ''}" onchange="saveFinal('${dateStr}',${i})">
+          value="${saved.postUrl || ''}" oninput="saveFinal('${dateStr}',${i})">
+        <button class="copy-btn" style="background:var(--green);margin-top:4px;margin-bottom:12px" onclick="saveFinal('${dateStr}',${i});this.innerHTML='✅ Saved!';setTimeout(()=>this.innerHTML='💾 Save',1500)">💾 Save</button>
         
         <h3>📊 Performance</h3>
         <div class="metrics-grid" style="grid-template-columns:repeat(3,1fr)">
