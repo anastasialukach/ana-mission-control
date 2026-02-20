@@ -134,11 +134,16 @@ p,li{font-size:14px;line-height:1.6}
 </div>
 
 <script>
+// ============ API CONFIG ============
+// Use same-origin API (Pages Functions) or fallback to localhost for dev
+const API_BASE = window.location.hostname === 'localhost' ? 'http://localhost:8788' : '';
+
 // ============ DATA STORE ============
 // Days data: { "2026-02-20": { news: [...], posts: [...] } }
 // Metrics stored in localStorage: metrics_2026-02-20_0 = {views, likes, comments}
 
 const DAYS_DATA = {};
+let syncIndicator = null;
 
 // Load sample data for today
 function getSampleData() {
@@ -234,7 +239,7 @@ function formatDateDisplay(dateStr) {
 }
 
 // ============ DAY DETAIL ============
-function selectDate(dateStr) {
+async function selectDate(dateStr) {
   selectedDate = dateStr;
   renderCalendar();
   
@@ -276,12 +281,17 @@ function selectDate(dateStr) {
   // Posts section
   if (data.posts && data.posts.length) {
     html += '<h2>📝 Posts for Today</h2>';
+    
+    // Load all metrics async
+    const metricsPromises = data.posts.map((p, i) => getMetrics(dateStr, i));
+    const allMetrics = await Promise.all(metricsPromises);
+    
     data.posts.forEach((p, i) => {
       const platformClass = p.platform === 'linkedin' ? 'linkedin' : 'twitter';
       const platformName = p.platform === 'linkedin' ? 'LinkedIn' : 'X / Twitter';
       
       // Load saved metrics
-      const saved = getMetrics(dateStr, i);
+      const saved = allMetrics[i];
       
       html += `<div class="post-card">
         <div class="post-platform ${platformClass}">${platformName}</div>
@@ -350,31 +360,112 @@ function copyPost(btn, idx) {
   });
 }
 
-function saveFinal(dateStr, postIdx) {
+async function saveFinal(dateStr, postIdx) {
   const finalText = document.getElementById(`final_${dateStr}_${postIdx}`).value;
   const postUrl = document.getElementById(`url_${dateStr}_${postIdx}`).value;
-  const existing = getMetrics(dateStr, postIdx);
+  const existing = await getMetrics(dateStr, postIdx);
   existing.finalText = finalText;
   existing.postUrl = postUrl;
+  
+  // Save to localStorage as backup
   localStorage.setItem(`metrics_${dateStr}_${postIdx}`, JSON.stringify(existing));
+  
+  // Save to cloud API
+  await saveToAPI(dateStr, postIdx, existing);
 }
 
-function saveMetric(dateStr, postIdx) {
-  const existing = getMetrics(dateStr, postIdx);
+async function saveMetric(dateStr, postIdx) {
+  const existing = await getMetrics(dateStr, postIdx);
   existing.views = document.getElementById(`views_${dateStr}_${postIdx}`).value || '';
   existing.likes = document.getElementById(`likes_${dateStr}_${postIdx}`).value || '';
   existing.comments = document.getElementById(`comments_${dateStr}_${postIdx}`).value || '';
   existing.reposts = document.getElementById(`reposts_${dateStr}_${postIdx}`).value || '';
   existing.saves = document.getElementById(`saves_${dateStr}_${postIdx}`).value || '';
   existing.clicks = document.getElementById(`clicks_${dateStr}_${postIdx}`).value || '';
+  existing.finalText = document.getElementById(`final_${dateStr}_${postIdx}`)?.value || existing.finalText || '';
+  existing.postUrl = document.getElementById(`url_${dateStr}_${postIdx}`)?.value || existing.postUrl || '';
   
+  // Save to localStorage as backup
   localStorage.setItem(`metrics_${dateStr}_${postIdx}`, JSON.stringify(existing));
+  
+  // Save to cloud API
+  await saveToAPI(dateStr, postIdx, existing);
   updateTotals();
 }
 
-function getMetrics(dateStr, postIdx) {
+async function getMetrics(dateStr, postIdx) {
+  // Try API first, fallback to localStorage
+  try {
+    const response = await fetch(`${API_BASE}/api/calendar/${dateStr}`);
+    if (response.ok) {
+      const data = await response.json();
+      const match = data.find(d => d.post_index === postIdx);
+      if (match) {
+        return {
+          finalText: match.final_text || '',
+          postUrl: match.post_url || '',
+          views: match.views || '',
+          likes: match.likes || '',
+          comments: match.comments || '',
+          reposts: match.reposts || '',
+          saves: match.saves || '',
+          clicks: match.clicks || ''
+        };
+      }
+    }
+  } catch (e) {
+    console.log('API fetch failed, using localStorage', e);
+  }
+  
+  // Fallback to localStorage
   const saved = localStorage.getItem(`metrics_${dateStr}_${postIdx}`);
   return saved ? JSON.parse(saved) : {};
+}
+
+async function saveToAPI(dateStr, postIdx, data) {
+  showSyncIndicator('💾 Saving...');
+  
+  try {
+    const response = await fetch(`${API_BASE}/api/calendar/${dateStr}/${postIdx}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        final_text: data.finalText || '',
+        post_url: data.postUrl || '',
+        views: parseInt(data.views) || 0,
+        likes: parseInt(data.likes) || 0,
+        comments: parseInt(data.comments) || 0,
+        reposts: parseInt(data.reposts) || 0,
+        saves: parseInt(data.saves) || 0,
+        clicks: parseInt(data.clicks) || 0
+      })
+    });
+    
+    if (response.ok) {
+      showSyncIndicator('☁️ Synced', 2000);
+    } else {
+      showSyncIndicator('⚠️ Offline', 2000);
+    }
+  } catch (e) {
+    console.log('API save failed, data saved locally', e);
+    showSyncIndicator('📱 Local only', 2000);
+  }
+}
+
+function showSyncIndicator(text, autoHide = 0) {
+  if (!syncIndicator) {
+    syncIndicator = document.createElement('div');
+    syncIndicator.style.cssText = 'position:fixed;bottom:20px;right:20px;background:var(--surface);border:1px solid var(--border);padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;z-index:9999;box-shadow:0 4px 12px rgba(0,0,0,0.3)';
+    document.body.appendChild(syncIndicator);
+  }
+  syncIndicator.textContent = text;
+  syncIndicator.style.display = 'block';
+  
+  if (autoHide) {
+    setTimeout(() => {
+      if (syncIndicator) syncIndicator.style.display = 'none';
+    }, autoHide);
+  }
 }
 
 function updateTotals() {
