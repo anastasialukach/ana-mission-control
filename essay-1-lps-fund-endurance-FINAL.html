@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LPs Don't Fund Optimism. They Fund Endurance. — Anastasia Lukach</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Playfair Display', Georgia, serif;
+            background: #fefefe;
+            color: #1a1a1a;
+            line-height: 1.8;
+            padding: 20px;
+        }
+        .container { max-width: 720px; margin: 0 auto; }
+        
+        header {
+            text-align: center;
+            padding: 40px 0 30px;
+            border-bottom: 1px solid #e0e0e0;
+            margin-bottom: 40px;
+        }
+        .brand {
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: #89CFF0;
+            margin-bottom: 10px;
+        }
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 15px;
+            color: #1a1a1a;
+        }
+        .subtitle {
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+        }
+        
+        .author-card {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 20px 0;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .author-photo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #89CFF0 0%, #4a9fd8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .author-info {
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 14px;
+        }
+        .author-name {
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+        .author-bio {
+            color: #666;
+            line-height: 1.4;
+        }
+        
+        .essay-body {
+            font-size: 19px;
+            line-height: 1.8;
+        }
+        .essay-body p {
+            margin-bottom: 28px;
+        }
+        .essay-body p:first-of-type::first-letter {
+            font-size: 64px;
+            line-height: 1;
+            float: left;
+            margin: 8px 10px 0 0;
+            color: #89CFF0;
+            font-weight: 700;
+        }
+        .essay-body strong {
+            font-weight: 700;
+            color: #1a1a1a;
+        }
+        .essay-body em {
+            font-style: italic;
+        }
+        
+        .pullquote {
+            font-size: 28px;
+            line-height: 1.4;
+            font-weight: 700;
+            color: #2a2a2a;
+            text-align: center;
+            padding: 40px 20px;
+            margin: 50px 0;
+            border-top: 3px solid #89CFF0;
+            border-bottom: 3px solid #89CFF0;
+            position: relative;
+        }
+        .pullquote::before {
+            content: '"';
+            font-size: 80px;
+            color: #89CFF0;
+            opacity: 0.3;
+            position: absolute;
+            top: 20px;
+            left: 10px;
+        }
+        
+        /* UPDATED INFOGRAPHIC STYLES - MATCHING FO15 REFERENCE */
+        .infographic {
+            width: 100%;
+            max-width: 100%;
+            background: #fff;
+            border-radius: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            color: #1a1a1a;
+            margin: 60px 0;
+            border: 1px solid #e0e0e0;
+        }
+
+        .info-header {
+            background: #89CFF0;
+            padding: 32px 40px 28px;
+            position: relative;
+        }
+
+        .info-brand {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        .info-brand-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1;
+        }
+
+        .info-brand-sub {
+            font-family: 'Inter', sans-serif;
+            font-size: 9px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        .info-brand-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 900;
+            line-height: 1;
+        }
+
+        .info-header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 8px;
+        }
+
+        .info-header-sub {
+            font-size: 13px;
+            font-weight: 500;
+            color: #1a1a1a;
+            opacity: 0.7;
+        }
+
+        .info-header-source {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 12px;
+            opacity: 0.5;
+        }
+
+        .info-stats-row {
+            display: flex;
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .info-stat-box {
+            flex: 1;
+            padding: 24px 20px;
+            border-right: 1px solid #333;
+            text-align: center;
+        }
+
+        .info-stat-box:last-child { border-right: none; }
+
+        .info-stat-number {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 32px;
+            font-weight: 500;
+            color: #89CFF0;
+            margin-bottom: 4px;
+        }
+
+        .info-stat-label {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            color: #888;
+            line-height: 1.3;
+        }
+
+        .info-content {
+            padding: 40px;
+            background: #fff;
+        }
+
+        .chart-bar-modern {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .chart-label-modern {
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            width: 60px;
+            flex-shrink: 0;
+        }
+        
+        .chart-track-modern {
+            flex: 1;
+            height: 32px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .chart-fill-modern {
+            height: 100%;
+            background: linear-gradient(90deg, #89CFF0 0%, #4a9fd8 100%);
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 12px;
+            color: white;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .info-source-note {
+            margin-top: 20px;
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            color: #666;
+            text-align: center;
+        }
+
+        .info-footer {
+            padding: 24px 40px;
+            background: #1a1a1a;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .info-footer-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .info-footer-photo {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center 15%;
+            border: 2px solid #89CFF0;
+        }
+
+        .info-footer-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .info-footer-bio {
+            font-size: 11px;
+            color: #89CFF0;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .info-footer-right {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .info-footer-divider {
+            border-right: 1px solid #333;
+            padding-right: 18px;
+            text-align: center;
+        }
+
+        .info-footer-brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #fff;
+        }
+
+        .info-footer-brand-sub {
+            font-family: 'Inter', sans-serif;
+            font-size: 8px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            color: #fff;
+            margin-top: 1px;
+        }
+
+        .info-footer-tagline {
+            font-size: 10px;
+            color: #89CFF0;
+            white-space: nowrap;
+        }
+
+        .info-footer-links {
+            font-size: 9px;
+            color: #555;
+            margin-top: 3px;
+            letter-spacing: 1px;
+        }
+        
+        .framework-box {
+            background: white;
+            border-left: 4px solid #89CFF0;
+            padding: 20px 25px;
+            margin: 30px 0;
+        }
+        .framework-title {
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #89CFF0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        .framework-text {
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #333;
+        }
+        
+        footer {
+            margin-top: 80px;
+            padding: 40px 0;
+            border-top: 1px solid #e0e0e0;
+            text-align: center;
+        }
+        .vp-logo {
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            color: #89CFF0;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .vp-tagline {
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 13px;
+            color: #666;
+            font-style: italic;
+        }
+        .share-links {
+            margin-top: 30px;
+            font-family: 'Inter', -apple-system, sans-serif;
+            font-size: 14px;
+        }
+        .share-links a {
+            color: #89CFF0;
+            text-decoration: none;
+            margin: 0 15px;
+        }
+        .share-links a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            body { padding: 15px; }
+            h1 { font-size: 28px; }
+            .essay-body { font-size: 17px; }
+            .pullquote { font-size: 22px; padding: 30px 15px; }
+            .info-header { padding: 24px 24px 20px; }
+            .info-content { padding: 24px; }
+            .info-footer { flex-direction: column; gap: 20px; align-items: flex-start; padding: 24px; }
+            .info-footer-right { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .info-footer-divider { border-right: none; padding-right: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="brand">Venture Protocol</div>
+            <h1>LPs Don't Fund Optimism. They Fund Endurance.</h1>
+            <div class="subtitle">Why the best emerging managers survive cycles — not hype</div>
+        </header>
+
+        <div class="author-card">
+            <div class="author-photo">AL</div>
+            <div class="author-info">
+                <div class="author-name">Anastasia Lukach</div>
+                <div class="author-bio">Partner, Ironcore Partners · Former CEO Marsbase ($1.1M raised, $60M+ transaction volume) · Built IR infrastructure for Yellow Capital's $10M raise · 1,000+ investor network across MENA, Asia, Europe</div>
+            </div>
+        </div>
+
+        <article class="essay-body">
+            <p>Venture capital performance persistence is one of the industry's hardest problems. Academic research shows less than 45% of top-quartile GPs stay in the top quartile across subsequent funds. The question isn't why most fail to persist—it's what the persistent ones are doing differently. Crypto VC, with its extreme boom-bust cycles, offers a compressed case study of this dynamic.</p>
+
+            <p>Crypto venture capital funding collapsed 72% from its 2021-2022 peak of $33 billion to $9.2 billion in 2023, according to Galaxy Research and Pitchbook. By 2024, it had recovered modestly to $11.3 billion — still down 66% from the bull market high. Crypto's share of global venture fundraising dropped from 12.6% in 2022 to just 3.5% in 2024.</p>
+
+            <p>The numbers tell a familiar story. Capital floods consensus narratives during bull markets. Emerging managers raise on vision and TAM charts. Investors chase momentum. Then the cycle turns, capital dries up, and most of those managers disappear.</p>
+
+            <p>But some don't.</p>
+
+            <div class="infographic">
+                <div class="info-header">
+                    <div class="info-brand">
+                        <div style="text-align:center">
+                            <div class="info-brand-name">VENTURE</div>
+                            <div class="info-brand-sub">PROTOCOL</div>
+                        </div>
+                        <div class="info-brand-logo">V.</div>
+                    </div>
+                    <div class="info-header-title">The Crypto VC Collapse</div>
+                    <div class="info-header-sub">Capital deployed to crypto/blockchain startups, showing the compression of GP performance cycles</div>
+                    <div class="info-header-source">Source: Galaxy Research · Pitchbook · Feb 2026</div>
+                </div>
+
+                <div class="info-content">
+                    <div style="margin-top: 10px;">
+                        <div class="chart-bar-modern">
+                            <div class="chart-label-modern">2021</div>
+                            <div class="chart-track-modern">
+                                <div class="chart-fill-modern" style="width: 100%;">$33.0B</div>
+                            </div>
+                        </div>
+                        <div class="chart-bar-modern">
+                            <div class="chart-label-modern">2022</div>
+                            <div class="chart-track-modern">
+                                <div class="chart-fill-modern" style="width: 91%;">$30.1B</div>
+                            </div>
+                        </div>
+                        <div class="chart-bar-modern">
+                            <div class="chart-label-modern">2023</div>
+                            <div class="chart-track-modern">
+                                <div class="chart-fill-modern" style="width: 28%;">$9.2B</div>
+                            </div>
+                        </div>
+                        <div class="chart-bar-modern">
+                            <div class="chart-label-modern">2024</div>
+                            <div class="chart-track-modern">
+                                <div class="chart-fill-modern" style="width: 34%;">$11.3B</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-source-note">
+                        Funding recovered slightly in 2024 but remains down 66% from peak · Crypto VC share of global VC fell from 12.6% (2022) to 3.5% (2024)
+                    </div>
+                </div>
+
+                <div class="info-footer">
+                    <div class="info-footer-left">
+                        <img src="ana-photo.jpg" class="info-footer-photo" alt="Anastasia Lukach">
+                        <div>
+                            <div class="info-footer-name">Anastasia Lukach</div>
+                            <div class="info-footer-bio">IR & Venture Capital · Dubai · Switzerland</div>
+                        </div>
+                    </div>
+                    <div class="info-footer-right">
+                        <div class="info-footer-divider">
+                            <div class="info-footer-brand">VENTURE</div>
+                            <div class="info-footer-brand-sub">PROTOCOL</div>
+                        </div>
+                        <div>
+                            <div class="info-footer-tagline">Protocols behind exceptional funds,<br>founders & family offices</div>
+                            <div class="info-footer-links">Podcast · Newsletter · Essays</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p>Academic research on venture capital performance persistence suggests less than 45% of top-quartile GPs remain in the top quartile across subsequent funds. A 2023 ScienceDirect study examining three decades of fundraising data found that while VC performance shows some persistence across funds raised by the same general partner, the majority of "good" managers don't stay good. An HBS working paper analyzing 20 prominent GP groups found that only 9 of 20 had more than two funds in the top two quartiles — a 45% rate the researchers described as "hardly overwhelming evidence of persistence."</p>
+
+            <p>The question, then, is not why most GPs fail to persist. It's what the persistent ones are doing differently.</p>
+
+            <div class="pullquote">
+                Ours is a livelihood dependent on successfully being able to predict the future. And in a world so dominated by fat tails, randomness and optionality, this is a very hard thing to do.
+            </div>
+
+            <p>Between September 2021 and September 2023, I built the investor relations infrastructure at Yellow Capital — pitch decks, partner presentations, outreach materials — that supported the company's $10 million raise. The role required pitching institutional investors directly, managing follow-ups, and maintaining LP communications across market cycles. From June 2024 to August 2025, as CEO of Marsbase, I raised $1.1 million from angels and institutional investors including WebWise Capital, YAY Network, NovaCyber, and Fractal, then built a 1,000+ investor network spanning 20+ family offices and 30+ HNWIs across MENA, Asia, and Europe.</p>
+
+            <p>The pattern I observed across more than 1,000 LP conversations was consistent: the investors who moved quickly were momentum players. The investors who asked about burn rates, about contingency plans if the next round failed to close, about what happens when narratives shift — those were the ones who remained engaged through downturns.</p>
+
+            <div class="infographic">
+                <div class="info-header">
+                    <div class="info-brand">
+                        <div style="text-align:center">
+                            <div class="info-brand-name">VENTURE</div>
+                            <div class="info-brand-sub">PROTOCOL</div>
+                        </div>
+                        <div class="info-brand-logo">V.</div>
+                    </div>
+                    <div class="info-header-title">The Persistence Problem</div>
+                    <div class="info-header-sub">Why most "good" GPs don't stay good across subsequent funds</div>
+                    <div class="info-header-source">Source: ScienceDirect PE/VC persistence study (2023) · HBS Working Paper (2024) · Galaxy Research</div>
+                </div>
+
+                <div class="info-stats-row">
+                    <div class="info-stat-box">
+                        <div class="info-stat-number">&lt;45%</div>
+                        <div class="info-stat-label">Top Quartile GPs<br>Stay Top Quartile</div>
+                    </div>
+                    <div class="info-stat-box">
+                        <div class="info-stat-number">3.5%</div>
+                        <div class="info-stat-label">Crypto VC Share<br>of Global VC (2024)</div>
+                    </div>
+                    <div class="info-stat-box">
+                        <div class="info-stat-number">9/20</div>
+                        <div class="info-stat-label">GPs With 2+ Funds<br>in Top 2 Quartiles</div>
+                    </div>
+                    <div class="info-stat-box">
+                        <div class="info-stat-number">72%</div>
+                        <div class="info-stat-label">Crypto VC Decline<br>(2021 Peak → 2023)</div>
+                    </div>
+                </div>
+
+                <div class="info-footer">
+                    <div class="info-footer-left">
+                        <img src="ana-photo.jpg" class="info-footer-photo" alt="Anastasia Lukach">
+                        <div>
+                            <div class="info-footer-name">Anastasia Lukach</div>
+                            <div class="info-footer-bio">IR & Venture Capital · Dubai · Switzerland</div>
+                        </div>
+                    </div>
+                    <div class="info-footer-right">
+                        <div class="info-footer-divider">
+                            <div class="info-footer-brand">VENTURE</div>
+                            <div class="info-footer-brand-sub">PROTOCOL</div>
+                        </div>
+                        <div>
+                            <div class="info-footer-tagline">Protocols behind exceptional funds,<br>founders & family offices</div>
+                            <div class="info-footer-links">Podcast · Newsletter · Essays</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p>Jordan Nel's framework for GP evaluation identifies eight core functions every venture manager must perform: source companies, pick well, win access to deals, value appropriately, construct portfolios, king-make portfolio companies, raise subsequent funds, and return capital to LPs. His observation is that rare is the GP who excels at all eight — Sequoia being the canonical exception. Most funds can do two or three fairly well and the rest only adequately.</p>
+
+            <p>But the persistent GPs — the ones who stay in the top quartile — appear to be optimizing for different factors depending on market conditions. In bull markets, when money is cheap and competition for deals is intense, winning deals matters most. GPs with distribution, strong networks, and collaborative reputations get allocations in hot rounds. In bear markets, when capital is scarce and fewer companies get marked up, picking ability becomes paramount. The stoic operators who can assess fundamentals without momentum do well when consensus breaks.</p>
+
+            <p>The challenge for emerging managers is that most raise their first fund in a bull market. They develop muscle memory for winning deals through relationships and moving fast. Then the market shifts, and the skills that drove Fund I performance become liabilities. They're optimized for an environment that no longer exists.</p>
+
+            <div class="pullquote">
+                Each emerging manager looking to raise from LPs should have a very clear raison d'être. In the same way GPs expect from their founders, they should be able to explain their clear differentiation in a sentence or two.
+            </div>
+
+            <p>Consider the pattern Nel identifies in successful GP adaptation: the best managers either cement themselves as category leaders in a specific sector — Alfred Lin and SaaS being the archetypal example — or they move strategically to new arbitrage windows before competition saturates their original edge. Hummingbird Ventures exemplifies the latter approach. The firm bet on a specific founder profile that translated across markets and sectors: from Kraken (crypto exchange, 8% of a Turkish-mandate fund for a 16.2% stake) to Peak Games (Turkish gaming, in a European-mandate fund) to BillionToOne (biotech, from an emerging markets fund). The common thread wasn't geography or sector. It was a hypothesis about which founder characteristics predicted success regardless of domain.</p>
+
+            <p>Compound VC took a different approach. Rather than betting on founder profiles, they built thesis-driven research infrastructure. Weekly team meetings analyze inflection points across sectors. Public-facing content on crypto and bio-hacking establishes thought leadership. The research creates brand with founders and generates proprietary deal flow. Whether the theses prove accurate matters less than the systematic process that lets them identify conviction early and defend it through cycles.</p>
+
+            <p>NFX productized capital more directly. They built Brieflink for pitch distribution and Signal for founder-investor matching. The software puts them in the middle of early-stage startup data flows in ways competitors can't replicate. Founders engage with NFX's tools whether or not they end up taking their capital. The data compounds. The brand strengthens. Deal flow becomes structural, not relationship-dependent.</p>
+
+            <div class="framework-box">
+                <div class="framework-title">The Endurance Framework</div>
+                <div class="framework-text">
+                    <strong>1. Identify your durable edge.</strong> Is it a specific founder profile? A research process? Proprietary data access? Software that creates lock-in? Most GPs can articulate their edge in a pitch deck. Fewer can explain why it will still exist in Fund III when competition has caught up and markets have shifted.<br><br>
+                    <strong>2. Build pre-fundraise relationships.</strong> The LPs who know your investment process, who've watched you operate through at least one down cycle, who trust your judgment independent of returns — they move quickly when you're ready. Everyone else is doing diligence from scratch.<br><br>
+                    <strong>3. Adapt or dominate.</strong> You can be a category leader who extracts value from a sector for a decade (USV and networks, Lux and frontier tech). Or you can arbitrage windows, moving early to new hunting grounds before the crowd arrives (Hummingbird across geographies, Compound across inflection points). The middle ground — staying in a saturated category without dominance — is where managers become commodity capital.<br><br>
+                    <strong>4. Demonstrate endurance, not just optimism.</strong> When you raise $1.1M from WebWise Capital, YAY Network, NovaCyber, and Fractal, you're not selling TAM or narrative. You're selling your ability to execute even if the tokenization wave takes longer than expected, even if regulation stalls, even if the next round doesn't materialize on schedule.
+                </div>
+            </div>
+
+            <p>In my current role at Ironcore Partners, where we've executed $60M+ in secondary transactions, the pattern holds. The GPs whose positions trade at premium valuations are the ones who've supported portfolio companies through at least one difficult period. The GPs whose positions trade at discounts are the ones who disappeared when companies needed bridge rounds or strategic intros or honest feedback about pivots. LPs track these patterns. Secondary markets surface them.</p>
+
+            <p>The research on manager selection bears this out. As one LP put it in Nel's framework: "The question isn't 'have they got it all figured out?' but rather 'are these people uniquely capable of figuring it out?'" That's a bet on endurance, not optimism. It's a bet that when the narrative breaks — and it always breaks — the GP will still be present, still be sharp, still be doing the work.</p>
+
+            <p>Most emerging managers optimize for the next fundraise. They chase consensus sectors. They add logos to signal social proof. They raise Fund II before companies in Fund I have weathered a real downturn. The persistent managers are optimizing for a different question: will they still be competitive in Fund IV when half their current peer set is gone?</p>
+
+            <p>This isn't pessimism. It's realism. Venture capital rewards preparation over hope. The data shows that being in the top quartile once doesn't predict staying there. The managers who persist are the ones who've built advantages that compound across cycles rather than depend on them.</p>
+
+            <div class="pullquote">
+                Tourists chase cycles. Locals build through them.
+            </div>
+
+            <p>If you're an emerging manager, the test is straightforward: strip away the current narrative. Assume your next fund closes at half your target size. Assume your anchor LP declines. Assume the market freezes for eighteen months. Can you still build a top-quartile fund? If the answer depends on momentum, you're raising on optimism. If the answer depends on your differentiated process, your category dominance, or your ability to operate lean while picking well — that's endurance.</p>
+
+            <p>LPs have watched too many managers raise on hype, deploy on FOMO, and disappear when persistence gets hard. The ones they fund are the ones who've demonstrated they can do the work whether or not the offerings are generous.</p>
+
+            <p>Because in a world dominated by fat tails and randomness, being able to predict the future matters less than being able to survive it.</p>
+        </article>
+
+        <footer>
+            <div class="vp-logo">Venture Protocol</div>
+            <div class="vp-tagline">Protocols behind exceptional funds, founders & family offices</div>
+            <div class="share-links">
+                <a href="index.html">← Mission Control</a>
+                <a href="content.html">Content Hub</a>
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
