@@ -55,6 +55,9 @@ p,li{font-size:14px;line-height:1.6}
 .post-text{font-size:14px;line-height:1.6;white-space:pre-wrap;-webkit-user-select:all;user-select:all;cursor:text;padding:12px;background:var(--surface2);border-radius:8px;margin-bottom:12px}
 .post-hook{font-size:12px;color:var(--accent);margin-bottom:8px}
 .post-why{font-size:12px;color:var(--muted);margin-bottom:12px}
+.copy-btn{background:var(--accent);color:#000;border:none;border-radius:8px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.copy-btn:active{transform:scale(0.95);opacity:0.8}
+.copy-btn.copied{background:var(--green)}
 
 /* Metrics */
 .metrics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
@@ -284,6 +287,7 @@ function selectDate(dateStr) {
         <div class="post-platform ${platformClass}">${platformName}</div>
         <div class="post-hook">Hook: ${p.hook}</div>
         <div class="post-text">${p.text}</div>
+        <button class="copy-btn" onclick="copyPost(this, ${i})">📋 Copy</button>
         <div class="post-why">💡 ${p.why}</div>
         
         <h3 style="margin-top:16px">✏️ What I Actually Posted</h3>
@@ -335,6 +339,16 @@ function selectDate(dateStr) {
 }
 
 // ============ METRICS ============
+function copyPost(btn, idx) {
+  const textEl = btn.closest('.post-card').querySelector('.post-text');
+  const text = textEl.innerText || textEl.textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.innerHTML = '✅ Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = '📋 Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
 function saveFinal(dateStr, postIdx) {
   const finalText = document.getElementById(`final_${dateStr}_${postIdx}`).value;
   const postUrl = document.getElementById(`url_${dateStr}_${postIdx}`).value;
