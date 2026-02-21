@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Live Progress — Mission Control</title>
+<meta http-equiv="refresh" content="30">
+<style>
+:root{--bg:#0a0a0b;--surface:#141416;--surface2:#1c1c20;--border:#2a2a30;--text:#ececf0;--muted:#7a7a85;--accent:#f0883e;--green:#34d399;--yellow:#fbbf24;--red:#f87171;--blue:#60a5fa;--purple:#a78bfa;--radius:16px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Inter',sans-serif;padding:16px;max-width:900px;margin:0 auto;-webkit-font-smoothing:antialiased}
+.back{font-size:13px;color:var(--muted);display:inline-block;margin-bottom:16px}
+h1{font-size:28px;font-weight:700;margin-bottom:6px}
+.subtitle{color:var(--muted);font-size:14px;margin-bottom:24px}
+.refresh-note{background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius);padding:12px 16px;margin-bottom:24px;font-size:13px;text-align:center;color:var(--muted)}
+.section{margin-bottom:32px}
+.section-title{font-size:18px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.task{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+.task-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.task-title{font-size:15px;font-weight:600}
+.task-meta{font-size:13px;color:var(--muted);line-height:1.5;margin-bottom:8px}
+.task-status{font-size:12px;padding:4px 10px;border-radius:20px;font-weight:600}
+.status-done{background:rgba(52,211,153,0.12);color:var(--green)}
+.status-progress{background:rgba(251,191,36,0.12);color:var(--yellow)}
+.status-pending{background:rgba(139,207,240,0.12);color:var(--blue)}
+.progress-bar{height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;margin-top:8px}
+.progress-fill{height:100%;background:linear-gradient(90deg,#89CFF0,#4a9fd8);transition:width 0.3s ease}
+.timestamp{font-size:11px;color:var(--muted);text-align:center;margin-top:24px;padding-top:12px;border-top:1px solid var(--border)}
+</style>
+</head>
+<body>
+
+<a href="index.html" class="back">← Back to Dashboard</a>
+
+<h1>🚀 Live Progress Tracker</h1>
+<div class="subtitle">Overnight build session — refresh this page to see updates</div>
+
+<div class="refresh-note">
+  Auto-refreshes every 30 seconds · Last updated: <strong id="timestamp">loading...</strong>
+</div>
+
+<!-- Essays Section -->
+<div class="section">
+  <div class="section-title">📝 Substack Essays (5 total)</div>
+  
+  <div class="task">
+    <div class="task-header">
+      <div class="task-title">Essay 1: LPs Don't Fund Optimism. They Fund Endurance.</div>
+      <span class="task-status status-done">✓ Done</span>
+    </div>
+    <div class="task-meta">2 embedded infographics · 2025 data · Crypto VC case study</div>
+    <a href="essay-1-lps-fund-endurance-FINAL.html" style="font-size:12px;color:#89CFF0;text-decoration:none">View essay →</a>
+  </div>
+
+  <div class="task">
+    <div class="task-header">
+      <div class="task-title">Essay 2: Why Dubai Became the LP Capital of MENA</div>
+      <span class="task-status status-done">✓ Done</span>
+    </div>
+    <div class="task-meta">3 embedded infographics · 5-year progression data · Asian/EU FO insights</div>
+    <a href="essay-2-dubai-lp-capital-FINAL.html" style="font-size:12px;color:#89CFF0;text-decoration:none">View essay →</a>
+  </div>
+
+  <div class="task">
+    <div class="task-header">
+      <div class="task-title">Essay 3: The Bottleneck Problem — Where Value Accrues in Deep Tech</div>
+      <span class="task-status status-progress">⏳ In Progress</span>
+    </div>
+    <div class="task-meta">4-5 embedded infographics · Research + data collection phase</div>
+    <div class="progress-bar"><div class="progress-fill" style="width:15%"></div></div>
+  </div>
+
+  <div class="task">
+    <div class="task-header">
+      <div class="task-title">Essay 4: Tourists vs Locals — Why Most Emerging Managers Fail</div>
+      <span class="task-status status-pending">Queued</span>
+    </div>
+    <div class="task-meta">4-5 embedded infographics · Waiting for Essay 3</div>
+  </div>
+
+  <div class="task">
+    <div class="task-header">
+      <div class="task-title">Essay 5: What 1,000 LP Calls Taught Me About Capital Formation</div>
+      <span class="task-status status-pending">Queued</span>
+    </div>
+    <div class="task-meta">4-5 embedded infographics · Waiting for Essay 4</div>
+  </div>
+</div>
+
+<!-- LinkedIn Posts Section -->
+<div class="section">
+  <div class="section-title">📱 LinkedIn Posts (3 per essay = 15 total)</div>
+  
+  <div class="task">
+    <div class="task-header">
+      <div class="task-title">LinkedIn Posts for Essay 1</div>
+      <span class="task-status status-pending">Queued</span>
+    </div>
+    <div class="task-meta">3 different hooks + PNG infographic exports · Starts after all essays done</div>
+  </div>
+
+  <div class="task">
+    <div class="task-header">
+      <div class="task-title">LinkedIn Posts for Essay 2</div>
+      <span class="task-status status-pending">Queued</span>
+    </div>
+    <div class="task-meta">3 different hooks + PNG infographic exports</div>
+  </div>
+
+  <div class="task">
+    <div class="task-header">
+      <div class="task-title">LinkedIn Posts for Essays 3, 4, 5</div>
+      <span class="task-status status-pending">Queued</span>
+    </div>
+    <div class="task-meta">9 total posts with hooks + PNG exports</div>
+  </div>
+</div>
+
+<!-- Cover Letter Section -->
+<div class="section">
+  <div class="section-title">📄 Cover Letter Document</div>
+  
+  <div class="task">
+    <div class="task-header">
+      <div class="task-title">Final Cover Letter</div>
+      <span class="task-status status-pending">Queued</span>
+    </div>
+    <div class="task-meta">Substack links · Transaction highlights · Venture motivation (from Notion) · Starts after essays + posts done</div>
+  </div>
+</div>
+
+<div class="timestamp">
+  Session started: Feb 21, 2026 — 3:45 AM Dubai · Working overnight
+</div>
+
+<script>
+document.getElementById('timestamp').textContent = new Date().toLocaleString('en-AE', {
+  timeZone: 'Asia/Dubai',
+  hour: '2-digit',
+  minute: '2-digit',
+  second: '2-digit',
+  hour12: true
+});
+</script>
+
+</body>
+</html>
